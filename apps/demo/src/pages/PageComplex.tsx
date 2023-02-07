@@ -1,0 +1,126 @@
+import React from 'react'
+import Helmet from 'react-helmet'
+import { useTranslation } from 'react-i18next'
+import Container from '@mui/material/Container'
+import Grid2 from '@mui/material/Unstable_Grid2'
+import { ps, useProgress } from 'react-progress-state'
+import { useAppApi } from '../lib/useAppApi'
+import { config } from '../config'
+import LinearProgress from '@mui/material/LinearProgress'
+import Alert from '@mui/material/Alert'
+import AlertTitle from '@mui/material/AlertTitle'
+import IcRefresh from '@mui/icons-material/Refresh'
+import { IconButtonProgress } from '@ui-controls/progress/IconButtonProgress'
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
+import Box from '@mui/material/Box'
+import { ViewerFromText } from '@content-ui/md-mui/Viewer'
+
+export const PageComplex: React.ComponentType = () => {
+    const {t} = useTranslation('translation')
+    const [content, setContent] = React.useState<string>('')
+    const [contentList, setContentList] = React.useState<{ files: { name: string }[] } | undefined>(undefined)
+    const [contentDetails, setContentDetails] = React.useState<any | undefined>(undefined)
+    const [loading, setLoading, startLoading] = useProgress()
+    const [loadingDetails, setLoadingDetails, startLoadingDetails] = useProgress()
+    const fetch = useAppApi()
+
+    const load = React.useCallback(() => {
+        const pid = startLoading()
+        fetch<{ files: { name: string }[] }>(config.API_HOST + '/contents')
+            .then((r) => {
+                const isPid = setLoading(ps.done, undefined, pid)
+                if(!isPid) return
+                setContentList(r.data)
+            })
+            .catch((e) => {
+                const isPid = setLoading(ps.error, e, pid)
+                if(!isPid) return
+            })
+    }, [fetch, setContentList, startLoading, setLoading])
+
+    const loadDetails = React.useCallback((contentId: string) => {
+        const pid = startLoadingDetails()
+        fetch<{}>(config.API_HOST + '/contents/' + contentId)
+            .then((r) => {
+                const isPid = setLoadingDetails(ps.done, undefined, pid)
+                if(!isPid) return
+                setContentDetails(r.data)
+            })
+            .catch((e) => {
+                const isPid = setLoadingDetails(ps.error, e, pid)
+                if(!isPid) return
+            })
+    }, [fetch, setContentDetails, startLoadingDetails, setLoadingDetails])
+
+    React.useEffect(() => {
+        load()
+    }, [load])
+
+    React.useEffect(() => {
+        if(!content) return
+        loadDetails(content)
+    }, [loadDetails, content])
+
+    return <>
+        <Helmet>
+            <title>{t('brand')} · Content-UI</title>
+        </Helmet>
+
+        <Container maxWidth={'lg'} fixed>
+            <Box mt={1}>
+                <Grid2 container spacing={2}>
+                    <Grid2 xs={12} sx={{display: 'flex'}}>
+                        <FormControl fullWidth size={'small'} sx={{mr: 1}}>
+                            <InputLabel id="content-selector">Content</InputLabel>
+                            <Select
+                                label={'Content'} size={'small'}
+                                labelId="content-selector"
+                                id="content-selector-v"
+                                value={content}
+                                onChange={(e) => setContent(e.target.value)}
+                            >
+                                {contentList?.files.map(file =>
+                                    <MenuItem value={file.name} key={file.name}>{file.name}</MenuItem>,
+                                )}
+                            </Select>
+                        </FormControl>
+                        <IconButtonProgress
+                            tooltip={'Refresh'}
+                            progress={loading.progress}
+                            onClick={() => {
+                                load()
+                                if(!content) return
+                                loadDetails(content)
+                            }}
+                        >
+                            <IcRefresh/>
+                        </IconButtonProgress>
+                    </Grid2>
+
+                    {loading.progress === ps.start || loadingDetails.progress === ps.start ?
+                        <LinearProgress/> : null}
+
+                    {loading.progress === ps.error ?
+                        <Grid2 xs={12}>
+                            <Alert severity={'error'}>
+                                <AlertTitle>Failed to load content list.</AlertTitle>
+                            </Alert>
+                        </Grid2> : null}
+                    {content && loadingDetails.progress === ps.error ?
+                        <Grid2 xs={12}>
+                            <Alert severity={'error'}>
+                                <AlertTitle>Failed to load content details for <code>{content}</code>.</AlertTitle>
+                            </Alert>
+                        </Grid2> : null}
+
+                    {contentDetails?.file ?
+                        <Grid2 xs={12}>
+                            <ViewerFromText
+                                textValue={contentDetails.file}
+                            />
+                        </Grid2> : null}
+                </Grid2>
+            </Box>
+        </Container>
+    </>
+}

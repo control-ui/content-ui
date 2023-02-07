@@ -1,0 +1,21 @@
+{
+    "short_name": "Demo",
+    "name": "Demo",
+    "icons": [
+        {
+            "src": "favicons/android-chrome-192x192.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "favicons/android-chrome-512x512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ],
+    "start_url": "/?utm_source=a2hs",
+    "scope": "/",
+    "display": "standalone",
+    "theme_color": "#010203",
+    "background_color": "#010203"
+}

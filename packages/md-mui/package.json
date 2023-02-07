@@ -1,0 +1,46 @@
+{
+    "name": "@content-ui/md-mui",
+    "version": "0.0.1",
+    "description": "",
+    "author": {
+        "name": "bemit",
+        "url": "https://bemit.codes"
+    },
+    "contributors": [
+        {
+            "name": "Michael Becker",
+            "url": "https://i-am-digital.eu"
+        }
+    ],
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/control-ui/content-ui.git",
+        "directory": "packages/md-mui"
+    },
+    "dependencies": {
+        "react-router-dom": "^6.3.0",
+        "@tactic-ui/react": "~0.0.2",
+        "@content-ui/react": "*",
+        "@content-ui/md": "*"
+    },
+    "peerDependencies": {
+        "@mui/icons-material": "^5.10",
+        "@mui/material": "^5.1",
+        "react-progress-state": "~0.2.6",
+        "@ui-schema/kit-codemirror": "~0.1.0-alpha.1",
+        "react": "^17.0 || ^18.0",
+        "react-dom": "^17.0 || ^18.0"
+    },
+    "devDependencies": {
+        "@mui/icons-material": "^5.10",
+        "@mui/material": "^5.1",
+        "react-progress-state": "~0.2.6",
+        "@ui-schema/kit-codemirror": "~0.1.0-alpha.1",
+        "react": "^17.0 || ^18.0",
+        "react-dom": "^17.0 || ^18.0"
+    },
+    "publishConfig": {
+        "access": "public"
+    }
+}

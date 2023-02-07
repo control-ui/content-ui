@@ -1,0 +1,48 @@
+{
+    "name": "@content-ui/input",
+    "version": "0.0.1",
+    "description": "",
+    "author": {
+        "name": "bemit",
+        "url": "https://bemit.codes"
+    },
+    "contributors": [
+        {
+            "name": "Michael Becker",
+            "url": "https://i-am-digital.eu"
+        }
+    ],
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/control-ui/content-ui.git",
+        "directory": "packages/input"
+    },
+    "peerDependencies": {
+        "@mui/icons-material": "^5.10",
+        "@mui/material": "^5.1",
+        "@ui-schema/kit-codemirror": "~0.1.0-alpha.1",
+        "react-progress-state": "~0.2.6",
+        "@ui-controls/progress": "~0.0.3",
+        "@content-ui/react": "*",
+        "@content-ui/md-mui": "*",
+        "react": "^17.0 || ^18.0",
+        "react-dom": "^17.0 || ^18.0",
+        "@codemirror/state": "^6.0.0"
+    },
+    "devDependencies": {
+        "@mui/icons-material": "^5.10",
+        "@mui/material": "^5.1",
+        "@ui-schema/kit-codemirror": "~0.1.0-alpha.1",
+        "react-progress-state": "~0.2.6",
+        "@ui-controls/progress": "~0.0.3",
+        "@content-ui/react": "*",
+        "@content-ui/md-mui": "*",
+        "react": "^17.0 || ^18.0",
+        "react-dom": "^17.0 || ^18.0",
+        "@codemirror/state": "^6.0.0"
+    },
+    "publishConfig": {
+        "access": "public"
+    }
+}

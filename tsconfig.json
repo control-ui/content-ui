@@ -1,0 +1,61 @@
+{
+    "compilerOptions": {
+        "target": "ESNext",
+        "useDefineForClassFields": true,
+        "lib": [
+            "DOM",
+            "DOM.Iterable",
+            "ESNext"
+        ],
+        "allowJs": false,
+        "skipLibCheck": true,
+        "esModuleInterop": false,
+        "allowSyntheticDefaultImports": true,
+        "strict": true,
+        "noImplicitAny": false,
+        "forceConsistentCasingInFileNames": true,
+        "module": "ESNext",
+        "moduleResolution": "Node",
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "noEmit": true,
+        "jsx": "react-jsx"
+    },
+    "paths": {
+        "@content-ui/input": [
+            "packages/input"
+        ],
+        "@content-ui/input/*": [
+            "packages/input/*"
+        ],
+        "@content-ui/md": [
+            "packages/md"
+        ],
+        "@content-ui/md/*": [
+            "packages/md/*"
+        ],
+        "@content-ui/md-mui": [
+            "packages/md-mui"
+        ],
+        "@content-ui/md-mui/*": [
+            "packages/md-mui/*"
+        ],
+        "@content-ui/react": [
+            "packages/react"
+        ],
+        "@content-ui/react/*": [
+            "packages/react/*"
+        ],
+        "@content-ui/struct": [
+            "packages/struct"
+        ],
+        "@content-ui/struct/*": [
+            "packages/struct/*"
+        ]
+    },
+    "include": [
+        "apps/demo/src",
+        "server/feed/src",
+        "packages"
+    ]
+}
