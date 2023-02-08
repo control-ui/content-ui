@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="theme-color" content="#000000"/>
+    <meta name="description" content=""/>
+    <base href="<%= htmlWebpackPlugin.options.publicPath %>">
+    <link rel="manifest" href="<%= htmlWebpackPlugin.options.publicPath %>manifest.json"/>
+    <link rel="icon" type="image/png" sizes="192x192" href="<%= htmlWebpackPlugin.options.publicPath %>favicons/android-chrome-192x192.png"/>
+    <link rel="icon" type="image/png" sizes="512x512" href="<%= htmlWebpackPlugin.options.publicPath %>favicons/android-chrome-512x512.png"/>
+    <title>Demo loading...</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: Helvetica, Verdana, sans-serif
+        }
+
+        #root {
+            overflow: auto;
+            height: 100%;
+            display: flex;
+            flex-direction: column
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            overflow: auto;
+        }
+
+        a {
+            outline: none;
+        }
+
+        @font-face {
+            font-family: 'Roboto Slab';
+            font-style: normal;
+            font-weight: 400;
+            src: url('fonts/roboto-slab-v16-latin-regular.eot');
+            src: local(''), url('fonts/roboto-slab-v16-latin-regular.eot?#iefix') format('embedded-opentype'), url('fonts/roboto-slab-v16-latin-regular.woff2') format('woff2'), url('fonts/roboto-slab-v16-latin-regular.woff') format('woff'), url('fonts/roboto-slab-v16-latin-regular.ttf') format('truetype'), url('fonts/roboto-slab-v16-latin-regular.svg#RobotoSlab') format('svg')
+        }
+
+        @font-face {
+            font-family: 'Roboto Slab';
+            font-style: normal;
+            font-weight: 700;
+            src: url('fonts/roboto-slab-v16-latin-700.eot');
+            src: local(''), url('fonts/roboto-slab-v16-latin-700.eot?#iefix') format('embedded-opentype'), url('fonts/roboto-slab-v16-latin-700.woff2') format('woff2'), url('fonts/roboto-slab-v16-latin-700.woff') format('woff'), url('fonts/roboto-slab-v16-latin-700.ttf') format('truetype'), url('fonts/roboto-slab-v16-latin-700.svg#RobotoSlab') format('svg')
+        }
+
+        /* fira-code-regular - latin */
+        @font-face {
+            font-family: 'Fira Code';
+            font-style: normal;
+            font-weight: 400;
+            src: url('fonts/fira-code-v21-latin-regular.eot'); /* IE9 Compat Modes */
+            src: local(''),
+            url('fonts/fira-code-v21-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */ url('fonts/fira-code-v21-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */ url('fonts/fira-code-v21-latin-regular.woff') format('woff'), /* Modern Browsers */ url('fonts/fira-code-v21-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */ url('fonts/fira-code-v21-latin-regular.svg#FiraCode') format('svg'); /* Legacy iOS */
+        }
+
+        /* fira-code-600 - latin */
+        @font-face {
+            font-family: 'Fira Code';
+            font-style: normal;
+            font-weight: 600;
+            src: url('fonts/fira-code-v21-latin-600.eot'); /* IE9 Compat Modes */
+            src: local(''),
+            url('fonts/fira-code-v21-latin-600.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */ url('fonts/fira-code-v21-latin-600.woff2') format('woff2'), /* Super Modern Browsers */ url('fonts/fira-code-v21-latin-600.woff') format('woff'), /* Modern Browsers */ url('fonts/fira-code-v21-latin-600.ttf') format('truetype'), /* Safari, Android, iOS */ url('fonts/fira-code-v21-latin-600.svg#FiraCode') format('svg'); /* Legacy iOS */
+        }
+
+        .cm-line {
+            font-family: "Fira Code", "SF Mono", "Segoe UI Mono", Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, Courier, monospace;
+            font-size: 0.875em;
+        }
+
+        .react-flow__attribution {
+            background: transparent !important;
+        }
+
+        .react-flow__handle {
+            opacity: 0.25;
+            transition: 0.25s ease-in opacity;
+            z-index: -1;
+        }
+
+        .react-flow__node:hover .react-flow__handle {
+            opacity: 1;
+            z-index: 1;
+        }
+
+        .recharts-legend-item:hover {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<noscript>You need to enable JavaScript to run this app.</noscript>
+<div id="root"></div>
+</body>
+</html>

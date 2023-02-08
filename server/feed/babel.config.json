@@ -1,0 +1,45 @@
+{
+    "presets": [
+        "@babel/preset-typescript"
+    ],
+    "plugins": [
+    ],
+    "ignore": [
+    ],
+    "env": {
+        "cjs": {
+            "presets": [
+                "@babel/preset-env",
+                "@babel/preset-typescript"
+            ]
+        },
+        "test": {
+            "presets": [
+                "@babel/preset-env",
+                "@babel/preset-typescript"
+            ]
+        },
+        "node": {
+            "presets": [
+                [
+                    "@babel/preset-env",
+                    {
+                        "targets": {
+                            "node": "16"
+                        },
+                        "modules": false
+                    }
+                ],
+                [
+                    "@babel/preset-typescript",
+                    {
+                        "targets": {
+                            "node": "16"
+                        },
+                        "modules": false
+                    }
+                ]
+            ]
+        }
+    }
+}
