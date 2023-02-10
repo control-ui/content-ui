@@ -10,15 +10,14 @@ export const LeafBlockquote: React.FC<ContentLeafProps> = ({child, selected}) =>
         component={'blockquote'}
         ref={bRef}
         sx={{
-            mt: 1,
-            mb: 2,
+            mt: 1.5,
+            mb: 1.5,
             pt: 1,
-            pb: 0.5,
+            pb: 1,
             pl: 1.5,
             mr: 1,
             ml: 0,
             borderLeftColor: 'divider',
-            // borderLeftColor: 'primary.main',
             borderLeftWidth: 4,
             borderLeftStyle: 'solid',
         }}

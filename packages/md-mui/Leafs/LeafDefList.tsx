@@ -12,7 +12,7 @@ export const LeafDefList: React.FC<ContentLeafProps> = ({child}) => {
         component={'dl'}
         sx={{
             mt: dense ? 0.5 : 1.5,
-            mb: dense ? 0.5 : 2,
+            mb: dense ? 0.5 : 1.5,
         }}
     >
         {child.type === 'defList' ? <BaseLeafContent child={child}/> : null}
