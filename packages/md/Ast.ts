@@ -1,5 +1,6 @@
 import { Content, Heading, Literal, Parent, PhrasingContent, Root } from 'mdast'
 import { Literal as UnistLiteral, Node } from 'unist'
+import { DefListNode, DefListDescriptionNode, DefListTermNode } from 'mdast-util-definition-list'
 
 export interface Underline extends Parent {
     type: 'underline'
@@ -25,7 +26,7 @@ export interface TocListItem extends Parent, UnistLiteral {
     value: TocHNode
 }
 
-export type CustomMdAstContent = Content | Underline | Insert | TocListItem
+export type CustomMdAstContent = Content | Underline | Insert | TocListItem | DefListNode | DefListTermNode | DefListDescriptionNode
 export type CustomMdAstNodes = CustomMdAstContent | Root
 
 export type MdAstGeneric = Node | Parent | Literal

@@ -1,4 +1,11 @@
-import { LeafBr, LeafDelete, LeafEmphasis, LeafHtml, LeafInsert, LeafStrong, LeafText, LeafThematicBreak, LeafUnderline } from '@content-ui/md-mui/Leafs/HTMLLeafs'
+import {
+    LeafStrong, LeafText, LeafBr,
+    LeafEmphasis, LeafUnderline,
+    LeafThematicBreak,
+    LeafDelete, LeafInsert, LeafMark,
+    LeafSuper, LeafSub,
+    LeafHtml,
+} from '@content-ui/md-mui/Leafs/HTMLLeafs'
 import { LeafH, LeafLink, LeafP } from '@content-ui/md-mui/Leafs/LeafTypo'
 import { LeafList, LeafListItem } from '@content-ui/md-mui/Leafs/LeafList'
 import { LeafCode, LeafCodeInline } from '@content-ui/md-mui/Leafs/LeafCode'
@@ -10,6 +17,7 @@ import { LeafTocListItem } from '@content-ui/md-mui/Leafs/LeafToc'
 import { LeafImage } from '@content-ui/md-mui/Leafs/LeafImage'
 import { LeafsRenderMapping, defineLeafsProvider } from '@tactic-ui/react/LeafsProvider'
 import { contentLeafEngine, contentLeafsContext, ContentLeafComponents, ContentLeafsNodeSpec } from '@content-ui/react/ContentLeaf'
+import { LeafDefList, LeafDefListDescription, LeafDefListTerm } from '@content-ui/md-mui/Leafs/LeafDefList'
 
 const leafs: ContentLeafsNodeSpec = {
     break: LeafBr,
@@ -20,6 +28,9 @@ const leafs: ContentLeafsNodeSpec = {
     underline: LeafUnderline,
     delete: LeafDelete,
     insert: LeafInsert,
+    mark: LeafMark,
+    sub: LeafSub,
+    super: LeafSuper,
     heading: LeafH,
     paragraph: LeafP,
     html: LeafHtml,
@@ -38,6 +49,9 @@ const leafs: ContentLeafsNodeSpec = {
     tableRow: LeafTableRow,
     tableCell: LeafTableCell,
     tocListItem: LeafTocListItem,
+    defList: LeafDefList,
+    defListTerm: LeafDefListTerm,
+    defListDescription: LeafDefListDescription,
     // @ts-ignore
     definition: null,
     // @ts-ignore

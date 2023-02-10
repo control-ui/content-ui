@@ -2,7 +2,7 @@ import React from 'react'
 import { VFile } from 'vfile'
 import { ProgressStateWithContext, ps, useProgress } from 'react-progress-state'
 import { Root } from 'mdast'
-import { ContentParser } from '@content-ui/md/parser/ContentParser'
+import { ContentParser, ContentParserType } from '@content-ui/md/parser/ContentParser'
 import { parseTo } from '@content-ui/md/parser/ParseTo'
 
 export interface EditorSelectionPosition {
@@ -52,6 +52,7 @@ export const useContent = (
     parseDelay: number = 0,
     forceAfter: number = 0,
     runState: number = -1,// `== -1` automatic, `== 0` off, `> 0` on each increment
+    parser: ContentParserType = ContentParser,
 ): WithContent => {
     const [processing, setProcessing, startProcessing, resetProcessing] = useProgress()
     const [v, setV] = React.useState<number>(0)
@@ -71,7 +72,7 @@ export const useContent = (
         nextParser.current = () => {
             const pid = startProcessing()
             return () => {
-                parseTo(textValue, ContentParser)
+                parseTo(textValue, parser)
                     .then((parsed) => {
                         const isPid = setProcessing(ps.done, undefined, pid)
                         if(!isPid) return
@@ -89,7 +90,7 @@ export const useContent = (
         if(runState === -1) {
             setV(v => v + 1)
         }
-    }, [textValue, setProcessing, startProcessing, runState, resetProcessing])
+    }, [textValue, setProcessing, startProcessing, resetProcessing, runState, parser])
 
     React.useEffect(() => {
         if(runState >= 0) {

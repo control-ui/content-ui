@@ -34,14 +34,14 @@ The HTML specification is maintained by the W3C.
 
 ### Definition List
 
-First Termss
+First Term
 : This is the definition of the first term.
 
 Second Term
 : This is one definition of the second term.
 : This is another definition of the second term.
 
-Hello knj khaslopj n khj lol lo lo lj k kniuv jhb jvsmano
+Lorem ipsum dolor sit amet consectutor adipisci.
 
 ### Strike through & Inserted
 
@@ -49,13 +49,11 @@ Hello knj khaslopj n khj lol lo lo lj k kniuv jhb jvsmano
 
 ~~The world is flat.~~ We now know that the world is ++round++
 
-#### Inserta
-
-dlknf;l
-
 ### Mark
 
 ==marked==
+
+Line with ==something marked== in the middle.
 
 ### Sub- & super
 
