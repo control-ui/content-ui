@@ -12,6 +12,7 @@ Adjusted to Typescript and used as based for similar plugins:
 
 - `remarkSubSuper` to support `~`/`^` `<sub`/`<sup`
 - `remarkInsert` to support `++`/`~~` `<ins`/`<del`
+- `remarkUnderline` to support `__` `<u`
 - `remarkMark` to support `==` `<mark`
 
 © 2023 bemit UG (haftungsbeschränkt)

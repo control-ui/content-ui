@@ -14,6 +14,7 @@ import { Root } from 'mdast'
 import { remarkInsert } from '@content-ui/md/plugins/remarkInsert'
 import { remarkMark } from '@content-ui/md/plugins/remarkMark'
 import { remarkSubSuper } from '@content-ui/md/plugins/remarkSubSuper'
+import { remarkUnderline } from '@content-ui/md/plugins/remarkUnderline'
 
 export const parserFromMarkDown = (parser: Processor<any, any, any, string>) => parser
     .use(remarkParse)
@@ -29,6 +30,7 @@ export const parserInMarkDown = (parser: Processor<any, any, any, string>) => pa
         singleTilde: false,
     })
     .use(remarkInsert)
+    .use(remarkUnderline)
     .use(remarkMark)
     .use(remarkSubSuper)
     .use(remarkDefinitionList)
