@@ -4,7 +4,7 @@
 
 This is some [markdown](https://github.github.com/gfm/) supported `CodeMirror` input widget field for **UI-Schema**.
 
-Supporting ~nested highlighting~ features thanks to **CodeMirror**.
+Supporting *nested highlighting* features thanks to **CodeMirror**.
 
 > MD Editor should handle @elbakerino tags sometime.
 

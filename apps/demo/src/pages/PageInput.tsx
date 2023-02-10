@@ -3,7 +3,7 @@ import Helmet from 'react-helmet'
 import { useTranslation } from 'react-i18next'
 import Grid2 from '@mui/material/Unstable_Grid2'
 import { ContentInput } from '@content-ui/input/ContentInput'
-import { CustomCodeMirror } from '../components/CustomCodeMirror'
+import { CustomCodeMirror, getHighlight } from '../components/CustomCodeMirror'
 import Box from '@mui/material/Box'
 import { Viewer } from '@content-ui/md-mui/Viewer'
 import { SettingsProvider } from '@content-ui/react/LeafSettings'
@@ -40,7 +40,7 @@ export const PageInput: React.ComponentType = () => {
     const [value, setValue] = React.useState(md)
     const {
         textValue,
-        handleOnChange, extensions,
+        handleOnChange,
         editorSelection,
         bigSize, autoProcess, setAutoProcess,
     } = useContentEditor(
@@ -58,6 +58,15 @@ export const PageInput: React.ComponentType = () => {
         0,
         autoProcess,
     )
+    console.log('root', root)
+
+    const extensions = React.useMemo(() => {
+        const highlight = getHighlight('md')
+        return [
+            ...(highlight ? [highlight] : []),
+        ]
+    }, [])
+
     return <>
         <Helmet>
             <title>{t('brand')} · Content-UI</title>

@@ -13,6 +13,14 @@
 - [@content-ui/struct](https://www.npmjs.com/package/@content-ui/struct) [![MIT license](https://img.shields.io/npm/l/@content-ui/struct?style=flat-square)](https://github.com/control-ui/content-ui/blob/main/LICENSE) [![npm (scoped)](https://img.shields.io/npm/v/@content-ui/struct?style=flat-square)](https://www.npmjs.com/package/@content-ui/struct)
     - structural content analyzer and information aggregation
 
+```shell
+npm i -S @content-ui/md @content-ui/react @content-ui/md-mui @content-ui/input
+# peer-dependencies:
+npm i -S @tactic-ui/react @mui/material @mui/icons-material react-progress-state @ui-controls/progress
+# peer-dependencies for CodeMirror
+npm i -S @ui-schema/kit-codemirror @codemirror/state .. todo ..
+```
+
 ## License
 
 This project is distributed as **free software** under the **MIT License**, see [License](https://github.com/control-ui/content-ui/blob/main/LICENSE).

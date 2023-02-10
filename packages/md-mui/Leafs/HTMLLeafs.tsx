@@ -32,4 +32,13 @@ export const LeafDelete: React.FC<ContentLeafProps & WithMdAstChild> = ({child})
 export const LeafInsert: React.FC<ContentLeafProps & WithMdAstChild> = ({child}) =>
     'children' in child ? <ins><BaseLeafContent child={child}/></ins> : null
 
+export const LeafSub: React.FC<ContentLeafProps & WithMdAstChild> = ({child}) =>
+    'children' in child ? <sub><BaseLeafContent child={child}/></sub> : null
+
+export const LeafSuper: React.FC<ContentLeafProps & WithMdAstChild> = ({child}) =>
+    'children' in child ? <sup><BaseLeafContent child={child}/></sup> : null
+
+export const LeafMark: React.FC<ContentLeafProps & WithMdAstChild> = ({child}) =>
+    'children' in child ? <Box component={'mark'} sx={{backgroundColor: 'info.light'}} px={0.25} py={0}><BaseLeafContent child={child}/></Box> : null
+
 export const LeafThematicBreak: React.FC<ContentLeafProps> = () => <Box component={'hr'} sx={{borderColor: 'divider', borderStyle: 'solid'}} my={0.5}/>

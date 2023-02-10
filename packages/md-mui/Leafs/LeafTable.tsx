@@ -28,8 +28,7 @@ export const LeafTable: React.FC<ContentLeafProps> = ({child}) => {
 export const LeafTableRow: React.FC<ContentLeafProps> = ({child, selected}) => {
     const rRef = useLeafFollower<HTMLTableRowElement>(selected)
     return <TableRow ref={rRef}>
-        {child.type === 'tableRow' ?
-            <BaseLeafContent child={child}/> : null}
+        {child.type === 'tableRow' ? <BaseLeafContent child={child}/> : null}
     </TableRow>
 }
 
@@ -44,7 +43,6 @@ export const LeafTableCell: React.FC<ContentLeafProps> = ({child, selected}) => 
             boxShadow: selected ? palette.mode === 'dark' ? '-8px 0px 0px 0px rgba(5, 115, 115, 0.11)' : '-8px 0px 0px 0px rgba(206, 230, 228, 0.31)' : undefined,
         }}
     >
-        {child.type === 'tableCell' ?
-            <BaseLeafContent child={child}/> : null}
+        {child.type === 'tableCell' ? <BaseLeafContent child={child}/> : null}
     </TableCell>
 }
