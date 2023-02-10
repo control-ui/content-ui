@@ -7,6 +7,7 @@ import { ps } from 'react-progress-state'
 import LinearProgress from '@mui/material/LinearProgress'
 import { ContentFileProvider } from '@content-ui/react/ContentFileProvider'
 import { Renderer } from '@content-ui/md-mui/Renderer'
+import { ContentParserType } from '@content-ui/md/parser/ContentParser'
 
 export interface ViewerProps {
     keepMounted?: boolean
@@ -73,15 +74,16 @@ export const Viewer: React.ComponentType<ViewerProps> = (
 
 export interface ViewerFromTextProps extends ViewerProps {
     textValue: string
+    parser?: ContentParserType
 }
 
 export const ViewerFromText: React.ComponentType<ViewerFromTextProps> = (
     {
         textValue, keepMounted,
-        editorSelection,
+        editorSelection, parser,
     },
 ) => {
-    const {root, file, processing} = useContent(textValue)
+    const {root, file, processing} = useContent(textValue, undefined, undefined, undefined, parser)
 
     const needsProcessing = (processing.progress === ps.none || processing.progress === ps.start)
     return <ContentFileProvider
