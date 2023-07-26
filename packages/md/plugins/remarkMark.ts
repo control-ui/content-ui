@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ok as assert } from 'uvu/assert'
 import { splice } from 'micromark-util-chunked'
 import { classifyCharacter } from 'micromark-util-classify-character'

@@ -6,7 +6,7 @@ import IcUnchecked from '@mui/icons-material/CheckBoxOutlineBlank'
 import { BaseLeafContent } from '@content-ui/md-mui/Leafs/BaseLeafContent'
 import { ContentLeafProps } from '@content-ui/react/ContentLeaf'
 
-export const LeafList: React.FC<ContentLeafProps> = ({child}) => {
+export const LeafList: React.FC<ContentLeafProps<'list'>> = ({child}) => {
     const component = child.type === 'list' && child.ordered ? 'ol' : 'ul'
     const dense = 'dense' in child && child.dense
     const inList = 'inList' in child && child.inList

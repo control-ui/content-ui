@@ -1,3 +1,4 @@
+import { contentUIDecorators, ContentLeafsProvider } from '@content-ui/react/ContentLeaf'
 import React from 'react'
 import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles'
 import { DndProvider } from 'react-dnd'
@@ -22,7 +23,6 @@ import { ProgressControlProvider } from 'react-progress-state'
 import { UIApiProvider } from '@ui-schema/ui-schema/UIApi'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
-import { LeafsMarkdownProvider } from '@content-ui/md-mui/LeafsMarkdown'
 import { contentUIMapping } from './components/ContentUI'
 
 const themes = customTheme()
@@ -115,13 +115,13 @@ export const App: React.ComponentType<{}> = () => {
                         >
                             <LocalizationProvider dateAdapter={AdapterMoment}>
                                 <UIMetaProvider t={browserT} widgets={customWidgets}>
-                                    <LeafsMarkdownProvider components={contentUIMapping.components}>
+                                    <ContentLeafsProvider deco={contentUIDecorators} render={contentUIMapping}>
                                         <ProgressControlProvider>
                                             <DndProvider backend={HTML5Backend}>
                                                 <Layout/>
                                             </DndProvider>
                                         </ProgressControlProvider>
-                                    </LeafsMarkdownProvider>
+                                    </ContentLeafsProvider>
                                 </UIMetaProvider>
                             </LocalizationProvider>
                         </UIApiProvider>

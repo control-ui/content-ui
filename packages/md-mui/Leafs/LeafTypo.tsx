@@ -17,12 +17,12 @@ import { flattenText } from '@content-ui/md/flattenText'
 import { textToId } from '@content-ui/md/textToId'
 import { WithMdAstChild } from '@content-ui/md/Ast'
 
-export const LeafP: React.FC<ContentLeafProps & WithMdAstChild & { selected?: boolean }> = ({child, selected, isLast}) => {
+export const LeafP: React.FC<ContentLeafProps & WithMdAstChild & { selected?: boolean, dense?: boolean }> = ({child, selected, dense, isLast}) => {
     const {palette} = useTheme()
     const pRef = useLeafFollower<HTMLParagraphElement>(selected)
     return <Typography
         gutterBottom={!isLast}
-        //variant={dense ? 'body2' : 'body1'}
+        variant={dense ? 'body2' : 'body1'}
         component={'p'} ref={pRef}
         style={{
             backgroundColor: selected ? palette.mode === 'dark' ? 'rgba(5, 115, 115, 0.11)' : 'rgba(206, 230, 228, 0.31)' : undefined,
@@ -39,6 +39,7 @@ export const LeafH: React.FC<ContentLeafProps & WithMdAstChild & { selected?: bo
         headlineLinkable,
         headlineSelectable, headlineSelectableOnHover,
         headlineOffset,
+        // todo: with the tui@0.0.3 it is injected in the renderer and thus should be moved to props
     } = useSettings()
     const hRef = useLeafFollower<HTMLHeadingElement>(selected)
     const [copied, setCopied] = React.useState(false)

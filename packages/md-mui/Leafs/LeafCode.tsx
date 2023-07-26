@@ -8,7 +8,7 @@ import { TypographyWithExtras } from '@content-ui/md-mui/MuiComponents/Theme'
 export const LeafCode: React.FC<ContentLeafProps> = ({child, selected}) => {
     const code = child.type === 'code' ? child : undefined
     const cRef = useLeafFollower<HTMLDivElement>(selected)
-    const {components} = useContentLeafs()
+    const {render: {components}} = useContentLeafs()
 
     return <Box mt={1} mb={2} ref={cRef}>
         <components.CodeMirror
