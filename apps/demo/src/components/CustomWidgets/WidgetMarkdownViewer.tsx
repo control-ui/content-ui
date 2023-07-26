@@ -1,3 +1,4 @@
+import { UIMetaReadContextType } from '@ui-schema/ui-schema/UIMetaReadContext/UIMetaReadContext'
 import React from 'react'
 import { TransTitle, WidgetProps, WithScalarValue } from '@ui-schema/ui-schema'
 import Box from '@mui/material/Box'
@@ -6,14 +7,14 @@ import { ValidityHelperText } from '@ui-schema/ds-material/Component/LocaleHelpe
 import { ViewerFromText } from '@content-ui/md-mui/Viewer'
 import { SettingsProvider } from '@content-ui/react/LeafSettings'
 
-export const WidgetMarkdownViewer: React.ComponentType<WidgetProps & WithScalarValue> = (
+export const WidgetMarkdownViewer: React.ComponentType<WidgetProps & WithScalarValue & UIMetaReadContextType> = (
     {
-        storeKeys, schema, value,
+        storeKeys, schema, value, readActive, readDense,
         valid, required, errors, showValidity,
     },
 ) => {
-
     const hideTitle = schema?.getIn(['view', 'hideTitle'])
+    const dense = schema?.getIn(['view', 'dense']) as boolean
     const readOnly = schema?.get('readOnly')
 
     return <>
@@ -29,6 +30,7 @@ export const WidgetMarkdownViewer: React.ComponentType<WidgetProps & WithScalarV
 
         <SettingsProvider
             headlineOffset={1}
+            dense={dense || (readActive && readDense)}
         >
             <ViewerFromText
                 // storeKeys={storeKeys}

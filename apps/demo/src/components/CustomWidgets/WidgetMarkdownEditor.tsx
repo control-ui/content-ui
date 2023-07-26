@@ -1,3 +1,4 @@
+import { UIMetaReadContextType } from '@ui-schema/ui-schema/UIMetaReadContext'
 import React from 'react'
 import { TransTitle, WidgetProps, WithScalarValue } from '@ui-schema/ui-schema'
 import { SettingsProvider } from '@content-ui/react/LeafSettings'
@@ -15,10 +16,11 @@ import { useContentEditor } from '@content-ui/react/useContentEditor'
 import { useContent } from '@content-ui/react/useContent'
 import { ContentFileProvider } from '@content-ui/react/ContentFileProvider'
 
-export const WidgetMarkdownEditor: React.ComponentType<WidgetProps & WithScalarValue & { readOnly?: boolean }> = (
+export const WidgetMarkdownEditor: React.ComponentType<WidgetProps & WithScalarValue & { readOnly?: boolean } & UIMetaReadContextType> = (
     {
         storeKeys, schema, value,
-        valid, required, showValidity, readOnly,
+        valid, required, showValidity,
+        readActive, readDense, readOnly,
         onChange,
     },
 ) => {
@@ -57,8 +59,8 @@ export const WidgetMarkdownEditor: React.ComponentType<WidgetProps & WithScalarV
             ...(highlight ? [highlight] : []),
         ]
     }, [])
-
     const hideTitle = schema?.getIn(['view', 'hideTitle'])
+    const dense = schema?.getIn(['view', 'dense']) as boolean
 
     return <>
         <SettingsProvider
@@ -66,6 +68,7 @@ export const WidgetMarkdownEditor: React.ComponentType<WidgetProps & WithScalarV
             headlineLinkable
             headlineSelectable headlineSelectableOnHover
             headlineOffset={1}
+            dense={dense || (readActive && readDense)}
         >
             <Box mb={0.5} style={{display: 'flex', alignItems: 'center'}}>
                 <FormLabel error={(!valid && showValidity)} style={{marginRight: 'auto'}}>

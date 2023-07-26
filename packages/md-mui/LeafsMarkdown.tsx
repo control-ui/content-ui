@@ -15,11 +15,11 @@ import { LeafTable, LeafTableCell, LeafTableRow } from '@content-ui/md-mui/Leafs
 import { LeafYaml } from '@content-ui/md-mui/Leafs/LeafYaml'
 import { LeafTocListItem } from '@content-ui/md-mui/Leafs/LeafToc'
 import { LeafImage } from '@content-ui/md-mui/Leafs/LeafImage'
-import { LeafsRenderMapping, defineLeafsProvider } from '@tactic-ui/react/LeafsProvider'
-import { contentLeafEngine, contentLeafsContext, ContentLeafComponents, ContentLeafsNodeSpec } from '@content-ui/react/ContentLeaf'
+import { ContentLeafComponents, ContentLeafsNodeMapping } from '@content-ui/react/ContentLeaf'
 import { LeafDefList, LeafDefListDescription, LeafDefListTerm } from '@content-ui/md-mui/Leafs/LeafDefList'
+import { LeafsRenderMapping } from '@tactic-ui/react/LeafsEngine'
 
-const leafs: ContentLeafsNodeSpec = {
+const leafs: ContentLeafsNodeMapping = {
     break: LeafBr,
     thematicBreak: LeafThematicBreak,
     text: LeafText,
@@ -60,10 +60,9 @@ const leafs: ContentLeafsNodeSpec = {
     linkReference: null,
 }
 
-export const customRenderMapping: LeafsRenderMapping<ContentLeafsNodeSpec, ContentLeafComponents> = {
+export const renderMapping: LeafsRenderMapping<ContentLeafsNodeMapping, ContentLeafComponents> = {
     leafs: leafs,
     // @ts-ignore
     components: {},
 }
 
-export const LeafsMarkdownProvider = defineLeafsProvider(contentLeafsContext, contentLeafEngine, customRenderMapping)

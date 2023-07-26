@@ -3,7 +3,7 @@ import { Heading, ListItem, Root } from 'mdast'
 import { RouterMuiLink } from '@content-ui/md-mui/MuiComponents/MuiNavLink'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
-import { ContentLeaf, ContentLeafProps } from '@content-ui/react/ContentLeaf'
+import { ContentLeaf, ContentLeafProps, ContentLeafPropsMapping } from '@content-ui/react/ContentLeaf'
 import { EditorSelection } from '@content-ui/react/useContent'
 import { useSettings } from '@content-ui/react/LeafSettings'
 import { flattenText } from '@content-ui/md/flattenText'
@@ -15,6 +15,7 @@ import { TocHNode, WithMdAstChild } from '@content-ui/md/Ast'
 export const LeafTocListItem: React.FC<ContentLeafProps & WithMdAstChild & { textVariant?: 'body1' | 'body2' | 'caption' }> = ({child, textVariant}) => {
     const {smallList, showLines, editorSelection, onClick} = useToc()
     const c = child.type === 'tocListItem' ? child : undefined
+    // todo: with the tui@0.0.3 it is injected in the renderer and thus should be moved to props
     const {headlineLinkable} = useSettings()
     const {typography} = useTheme<Theme & { typography: TypographyWithExtras }>()
     const [focus, setFocus] = React.useState(false)
@@ -91,7 +92,7 @@ export const LeafTocList: React.FC<{
             ),
         }
     })
-    return <ContentLeaf
+    return <ContentLeaf<ContentLeafPropsMapping, ContentLeafPropsMapping['list'] & { child: { dense?: boolean } }>
         elem={'list'}
         child={{
             type: 'list',

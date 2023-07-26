@@ -33,6 +33,17 @@ Some note with some content.
 - [ ] task 3
 - list end
 
+## More Content
+
+With even more sentences, words and other things.
+
+| Time | Name |
+| ---- | ---- |
+| 8am  | Morning |
+| 12am | Noon |
+| 6pm  | Evening |
+| 10pm | Night |
+
 `
 
 export const PageInput: React.ComponentType = () => {
@@ -85,7 +96,7 @@ export const PageInput: React.ComponentType = () => {
                     headlineSelectableOnHover
                 >
                     <Grid2 container spacing={2} sx={{overflow: 'auto'}}>
-                        <Grid2 xs={12} md={6} sx={{overflow: 'auto', maxHeight: {md: '100%'}}}>
+                        <Grid2 xs={12} md={6} sx={{overflow: 'auto', scrollbarWidth: 'thin', maxHeight: {md: '100%'}}}>
                             <ContentInput
                                 CodeMirror={CustomCodeMirror}
                                 onChange={handleOnChange}
@@ -102,6 +113,7 @@ export const PageInput: React.ComponentType = () => {
                             xs={12} md={6}
                             sx={{
                                 overflowY: 'auto',
+                                scrollbarWidth: 'thin',
                                 maxHeight: {md: '100%'},
                                 // viewer with bigger paddings for headline buttons
                                 px: {md: 2, lg: 3},

@@ -29,14 +29,14 @@ export interface ViewerProps {
     pl?: number
 }
 
-export const Viewer: React.ComponentType<ViewerProps> = (
+export const Viewer = <P extends ViewerProps>(
     {
         keepMounted,
         editorSelection,
         needsProcessing,
         ...props
-    },
-) => {
+    }: P,
+): React.ReactNode => {
     const contentRoot = React.useRef<HTMLDivElement | null>(null)
     const location = useLocation()
     const {root} = useContentContext()
@@ -64,6 +64,7 @@ export const Viewer: React.ComponentType<ViewerProps> = (
                 // handleTocClick={}
                 editorSelection={editorSelection}
             /> : null}
+        {/* todo: strict `none`/`start` distinction allows better UX when no-auto-process but previewing */}
         {needsProcessing && (!keepMounted || !isReady) ?
             <Box>
                 <LinearProgress/>
@@ -83,7 +84,7 @@ export const ViewerFromText: React.ComponentType<ViewerFromTextProps> = (
         editorSelection, parser,
     },
 ) => {
-    const {root, file, processing} = useContent(textValue, undefined, undefined, undefined, parser)
+    const {root, file, processing} = useContent(textValue, undefined, undefined, -1, parser)
 
     const needsProcessing = (processing.progress === ps.none || processing.progress === ps.start)
     return <ContentFileProvider
