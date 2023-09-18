@@ -19,7 +19,6 @@ export const BaseLeafContent = <P extends { selected?: boolean } = { selected?: 
     const length = child.children.length
     return child.children
         .map((childNext, i) =>
-            // @ts-ignore
             <ContentLeaf
                 key={i}
                 elem={childNext.type}

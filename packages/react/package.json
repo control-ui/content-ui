@@ -1,6 +1,6 @@
 {
     "name": "@content-ui/react",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "description": "",
     "author": {
         "name": "bemit",
@@ -18,8 +18,9 @@
         "url": "https://github.com/control-ui/content-ui.git",
         "directory": "packages/react"
     },
+    "type": "module",
     "dependencies": {
-        "@tactic-ui/react": "~0.0.3",
+        "@tactic-ui/react": "~0.0.5",
         "vfile": "^5.3.6"
     },
     "peerDependencies": {

@@ -2,7 +2,8 @@ import React from 'react'
 import Box from '@mui/material/Box'
 import { ContentLeafProps, useContentLeafs } from '@content-ui/react/ContentLeaf'
 import { useLeafFollower } from '@content-ui/react/useLeafFollower'
-import { Theme, useTheme } from '@mui/material/styles'
+import useTheme from '@mui/material/styles/useTheme'
+import type { Theme } from '@mui/material/styles'
 import { TypographyWithExtras } from '@content-ui/md-mui/MuiComponents/Theme'
 
 export const LeafCode: React.FC<ContentLeafProps> = ({child, selected}) => {

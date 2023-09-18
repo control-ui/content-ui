@@ -1,5 +1,6 @@
 /coverage
 /build
+/build-2
 /dist
 
 # env variables

@@ -25,6 +25,8 @@ npm i -S @ui-schema/kit-codemirror @codemirror/state .. todo ..
 
 > all packages are ESM-only, those with the `ESM` flag work in browser and NodeJS (v18+) and do not rely on ReactJS
 
+See [WidgetMarkdownEditor.tsx](./apps/demo/src/components/CustomWidgets/WidgetMarkdownEditor.tsx) for an example [UI-Schema widget](https://ui-schema.bemit.codes) with Markdown editor, linting and preview.
+
 ## Development
 
 Clone repository, then install all NodeJS deps:

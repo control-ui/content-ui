@@ -39,6 +39,9 @@ export default {
     },
     resolve: {
         extensions: ['.tsx', '.ts', '.js', '.jsx'],
+        extensionAlias: {
+            '.js': ['.ts', '.js', '.tsx', '.jsx'],
+        },
         modules: [
             // path.join(baseDir, 'src'),
             'node_modules',

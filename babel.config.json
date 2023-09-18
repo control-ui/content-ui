@@ -6,7 +6,12 @@
                 "modules": false
             }
         ],
-        "@babel/preset-react",
+        [
+            "@babel/preset-react",
+            {
+                "runtime": "automatic"
+            }
+        ],
         "@babel/preset-typescript"
     ],
     "plugins": [
@@ -14,13 +19,13 @@
     "env": {
         "cjs": {
             "presets": [
+                "@babel/preset-env",
                 [
-                    "@babel/preset-env",
+                    "@babel/preset-react",
                     {
-                        "modules": false
+                        "runtime": "automatic"
                     }
                 ],
-                "@babel/preset-react",
                 "@babel/preset-typescript"
             ]
         },
@@ -32,7 +37,12 @@
                         "modules": false
                     }
                 ],
-                "@babel/preset-react",
+                [
+                    "@babel/preset-react",
+                    {
+                        "runtime": "automatic"
+                    }
+                ],
                 "@babel/preset-typescript"
             ]
         },

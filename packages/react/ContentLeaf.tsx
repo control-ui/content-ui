@@ -3,7 +3,7 @@ import {
     defineLeafEngine, ReactLeafsNodeSpec,
 } from '@tactic-ui/react/LeafsEngine'
 import React from 'react'
-import { DecoratorNextFn, DecoratorProps, DecoratorPropsNext, ReactDeco } from '@tactic-ui/react/Deco'
+import { DecoratorProps, DecoratorPropsNext, ReactDeco } from '@tactic-ui/react/Deco'
 import { EditorSelection } from '@content-ui/react/useContent'
 import { CodeMirrorComponentProps } from '@ui-schema/kit-codemirror/CodeMirror'
 import { CustomMdAstContent } from '@content-ui/md/Ast'
@@ -72,11 +72,11 @@ const {
 export const ContentLeafsProvider = LeafsProvider
 export const useContentLeafs = useLeafs
 
-export type ContentLeafInjected = 'next' | keyof LeafsEngine<any, any, any, any>
+export type ContentLeafInjected = 'decoIndex' | 'next' | keyof LeafsEngine<any, any, any, any>
 
 export function ContentLeaf<
     TLeafDataMapping extends ContentLeafPropsMapping,
-    TLeafData extends TLeafDataMapping[keyof TLeafDataMapping],
+    TLeafData extends TLeafDataMapping[keyof TLeafDataMapping] & {},
     TDeco extends ReactDeco<{}, {}> = ReactDeco<{}, {}>,
     TComponents extends ContentLeafComponents = ContentLeafComponents,
     TRenderMapping extends LeafsRenderMapping<ReactLeafsNodeSpec<TLeafDataMapping>, TComponents> = LeafsRenderMapping<ReactLeafsNodeSpec<TLeafDataMapping>, TComponents>,
@@ -90,15 +90,13 @@ export function ContentLeaf<
         throw new Error('This LeafNode requires decorators, maybe missed `deco` at the `LeafsProvider`?')
     }
     const settings = useSettings()
-    const started = React.useRef<DecoratorNextFn<{ [k in ContentLeafInjected]: any }> | null>(null)
-    started.current = deco.start()
-    const next = React.useCallback(() => (started.current as NonNullable<typeof started.current>)(), [])
-    const Next = next()
+    const Next = deco.next(0)
     // todo: `Next` can not be typed in any way i've found, thus here no error will be shown
     return <Next
         {...props}
         {...settings}
-        next={next}
+        next={deco.next}
+        decoIndex={0}
         render={render}
         deco={deco}
     />

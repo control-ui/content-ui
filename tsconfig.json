@@ -1,6 +1,8 @@
 {
     "compilerOptions": {
         "target": "ESNext",
+        "module": "ESNext",
+        "moduleResolution": "Node",
         "useDefineForClassFields": true,
         "lib": [
             "DOM",
@@ -14,8 +16,6 @@
         "strict": true,
         "noImplicitAny": false,
         "forceConsistentCasingInFileNames": true,
-        "module": "ESNext",
-        "moduleResolution": "Node",
         "resolveJsonModule": true,
         "isolatedModules": true,
         "noEmit": true,
