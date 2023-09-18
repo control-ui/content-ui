@@ -1,6 +1,6 @@
 {
     "name": "@content-ui/md-mui",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "description": "",
     "author": {
         "name": "bemit",
@@ -18,9 +18,10 @@
         "url": "https://github.com/control-ui/content-ui.git",
         "directory": "packages/md-mui"
     },
+    "type": "module",
     "dependencies": {
         "react-router-dom": "^6.3.0",
-        "@tactic-ui/react": "~0.0.3",
+        "@tactic-ui/react": "~0.0.5",
         "@content-ui/react": "*",
         "@content-ui/md": "*"
     },

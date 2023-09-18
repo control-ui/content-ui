@@ -7,17 +7,20 @@
         "dev-build-init": "mkdirp build",
         "dev": "echo // > build/server.js && npm run watch-babel",
         "prestart-dev": "npm run clean && npm run dev-build-init",
-        "start-dev": "echo // > build/server.js && concurrently --kill-others \"npm:watch-babel\" \"npm:watch-server\"",
+        "start-dev": "echo // > build/server.js && concurrently --kill-others \"npm:watch-server-ts\"",
         "start": "node --no-deprecation --unhandled-rejections=strict server.js",
         "predev": "npm run clean && npm run dev-build-init",
         "watch-babel": "cross-env NODE_ENV=development concurrently --kill-others \"npm run babel -- -w\"",
         "watch-server": "cross-env PORT=4222 NODE_ENV=development NODE_OPTIONS=\"--experimental-vm-modules --no-deprecation --unhandled-rejections=strict\" nodemon -w ./build ./build/server.js",
-        "prebuild": "npm run clean && npm run lint",
+        "watch-server-webpack": "cross-env PORT=4222 NODE_ENV=development NODE_OPTIONS=\"--experimental-vm-modules --no-deprecation --unhandled-rejections=strict\" nodemon -w ./build-2 ./build-2/server.js",
+        "watch-server-ts": "cross-env PORT=4222 NODE_ENV=development NODE_OPTIONS=\"--experimental-vm-modules --no-deprecation --unhandled-rejections=strict\" nodemon -w ./build -w ../../packages --exec 'node --experimental-specifier-resolution=node --loader ts-node/esm' src/server.ts",
+        "prebuild": "npm run clean && npm run lint && npm run tsc",
         "build": "cross-env NODE_ENV=node npm run babel && npm run cp-packages-json",
         "lint": "cross-env NODE_ENV=test NODE_OPTIONS=\"--experimental-vm-modules --unhandled-rejections=strict\" eslint -c=.eslintrc 'src/**/*.ts'",
+        "tsc": "tsc --project tsconfig.json --noEmit",
         "test": "cross-env NODE_ENV=test NODE_OPTIONS=\"--experimental-vm-modules --unhandled-rejections=strict\" jest --passWithNoTests",
         "tdd": "cross-env NODE_ENV=development npm test -- --watchAll --watchman --coverage=false",
-        "babel": "cross-env NODE_ENV=node babel src -d build --extensions \".ts,.js\" --copy-files",
+        "babel": "cross-env NODE_ENV=node babel src -d build --extensions \".ts,.js,.tsx,.jsx\" --copy-files",
         "clean": "rimraf build"
     },
     "dependencies": {
@@ -28,6 +31,15 @@
         "concurrently": "^7.6.0",
         "cross-env": "^7.0.3",
         "nodemon": "^2.0.20",
-        "rimraf": "^4.1.2"
+        "rimraf": "^4.1.2",
+        "ts-node": "^10.9.1"
+    },
+    "nodemonConfig": {
+        "ignore": [
+            "**/node_modules/**"
+        ],
+        "ext": "js,ts,tsx,jsx,json",
+        "delay": 120,
+        "signal": "SIGTERM"
     }
 }

@@ -7,7 +7,7 @@ import TableRow from '@mui/material/TableRow'
 import TableCell from '@mui/material/TableCell'
 import { TableCellProps } from '@mui/material/TableCell/TableCell'
 import TableBody from '@mui/material/TableBody'
-import { useTheme } from '@mui/material/styles'
+import useTheme from '@mui/material/styles/useTheme'
 import { ContentLeafProps } from '@content-ui/react/ContentLeaf'
 import { useLeafFollower } from '@content-ui/react/useLeafFollower'
 

@@ -41,7 +41,7 @@ import { yaml } from '@codemirror/legacy-modes/mode/yaml'
 import { YAMLFrontMatter, Footnote, Mark, Hashtag, Mention, Insert } from './lezerMarkdown'
 import { useCodeMirror, useEditorClasses, useExtension } from '@ui-schema/kit-codemirror'
 import { MuiCodeMirrorStyleProps } from '@ui-schema/material-code'
-import { useTheme } from '@mui/material/styles'
+import useTheme from '@mui/material/styles/useTheme'
 
 export const getHighlight = (lang: string | undefined): Extension | undefined => {
     switch(lang?.toLowerCase()) {
