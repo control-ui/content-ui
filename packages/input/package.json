@@ -1,6 +1,6 @@
 {
     "name": "@content-ui/input",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "",
     "author": {
         "name": "bemit",
@@ -18,7 +18,6 @@
         "url": "https://github.com/control-ui/content-ui.git",
         "directory": "packages/input"
     },
-    "type": "module",
     "peerDependencies": {
         "@mui/icons-material": "^5.10",
         "@mui/material": "^5.1",
