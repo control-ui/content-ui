@@ -47,7 +47,9 @@ export default {
             'node_modules',
         ],
         alias: {
-            // react: path.join(baseDir, 'node_modules', 'react'),
+            // note: strict esm in some, not in others, works in monorepo only with aliasing the strict ones
+            '@content-ui/react': path.resolve(baseDir, '../../', 'packages', 'react'),
+            '@content-ui/md': path.resolve(baseDir, '../../', 'packages', 'md'),
         },
     },
     target: 'web',

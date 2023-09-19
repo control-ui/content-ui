@@ -7,7 +7,7 @@ import { DecoratorProps, DecoratorPropsNext, ReactDeco } from '@tactic-ui/react/
 import { EditorSelection } from '@content-ui/react/useContent'
 import { CodeMirrorComponentProps } from '@ui-schema/kit-codemirror/CodeMirror'
 import { CustomMdAstContent } from '@content-ui/md/Ast'
-import { useSettings } from './LeafSettings'
+import { useSettings } from '@content-ui/react/LeafSettings'
 
 export interface ContentLeafPayload {
     elem: string

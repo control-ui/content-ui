@@ -1,6 +1,6 @@
 {
     "name": "@content-ui/react",
-    "version": "0.0.5",
+    "version": "0.0.6",
     "description": "",
     "author": {
         "name": "bemit",
@@ -17,6 +17,41 @@
         "type": "git",
         "url": "https://github.com/control-ui/content-ui.git",
         "directory": "packages/react"
+    },
+    "type": "module",
+    "exports": {
+        "./Utils/copyToClipboard": {
+            "import": "./Utils/copyToClipboard.js",
+            "types": "./Utils/copyToClipboard.d.ts"
+        },
+        "./ContentFileProvider": {
+            "import": "./ContentFileProvider.js",
+            "types": "./ContentFileProvider.d.ts"
+        },
+        "./ContentLeaf": {
+            "import": "./ContentLeaf.js",
+            "types": "./ContentLeaf.d.ts"
+        },
+        "./isLeafSelected": {
+            "import": "./isLeafSelected.js",
+            "types": "./isLeafSelected.d.ts"
+        },
+        "./LeafSettings": {
+            "import": "./LeafSettings.js",
+            "types": "./LeafSettings.d.ts"
+        },
+        "./useContent": {
+            "import": "./useContent.js",
+            "types": "./useContent.d.ts"
+        },
+        "./useContentEditor": {
+            "import": "./useContentEditor.js",
+            "types": "./useContentEditor.d.ts"
+        },
+        "./useLeafFollower": {
+            "import": "./useLeafFollower.js",
+            "types": "./useLeafFollower.d.ts"
+        }
     },
     "dependencies": {
         "@tactic-ui/react": "~0.0.5",
