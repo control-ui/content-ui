@@ -1,6 +1,6 @@
 {
     "name": "@content-ui/md",
-    "version": "0.0.5",
+    "version": "0.0.6",
     "description": "",
     "author": {
         "name": "bemit",
@@ -17,6 +17,65 @@
         "type": "git",
         "url": "https://github.com/control-ui/content-ui.git",
         "directory": "packages/md"
+    },
+    "type": "module",
+    "exports": {
+        "./parser/ContentParser": {
+            "import": "./parser/ContentParser.js",
+            "types": "./parser/ContentParser.d.ts"
+        },
+        "./parser/HTMLParser": {
+            "import": "./parser/HTMLParser.js",
+            "types": "./parser/HTMLParser.d.ts"
+        },
+        "./parser/ParseTo": {
+            "import": "./parser/ParseTo.js",
+            "types": "./parser/ParseTo.d.ts"
+        },
+        "./plugins/remarkInsert": {
+            "import": "./plugins/remarkInsert.js",
+            "types": "./plugins/remarkInsert.d.ts"
+        },
+        "./plugins/remarkMark": {
+            "import": "./plugins/remarkMark.js",
+            "types": "./plugins/remarkMark.d.ts"
+        },
+        "./plugins/remarkSubSuper": {
+            "import": "./plugins/remarkSubSuper.js",
+            "types": "./plugins/remarkSubSuper.d.ts"
+        },
+        "./plugins/remarkUnderline": {
+            "import": "./plugins/remarkUnderline.js",
+            "types": "./plugins/remarkUnderline.d.ts"
+        },
+        "./Ast": {
+            "import": "./Ast.js",
+            "types": "./Ast.d.ts"
+        },
+        "./diffLines": {
+            "import": "./diffLines.js",
+            "types": "./diffLines.d.ts"
+        },
+        "./diffLinesList": {
+            "import": "./diffLinesList.js",
+            "types": "./diffLinesList.d.ts"
+        },
+        "./diffText": {
+            "import": "./diffText.js",
+            "types": "./diffText.d.ts"
+        },
+        "./flattenText": {
+            "import": "./flattenText.js",
+            "types": "./flattenText.d.ts"
+        },
+        "./textTo": {
+            "import": "./textTo.js",
+            "types": "./textTo.d.ts"
+        },
+        "./textToId": {
+            "import": "./textToId.js",
+            "types": "./textToId.d.ts"
+        }
     },
     "dependencies": {
         "rehype-parse": "^8.0.4",

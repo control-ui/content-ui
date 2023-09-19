@@ -3,7 +3,7 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import useTheme from '@mui/material/styles/useTheme'
 import { ContentLeafProps } from '@content-ui/react/ContentLeaf'
-import { BaseLeafContent } from './BaseLeafContent'
+import { BaseLeafContent } from '@content-ui/md-mui/Leafs/BaseLeafContent'
 import { useLeafFollower } from '@content-ui/react/useLeafFollower'
 
 export const LeafDefList: React.FC<ContentLeafProps> = ({child}) => {
