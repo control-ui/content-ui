@@ -52,20 +52,12 @@
                     "@babel/preset-env",
                     {
                         "targets": {
-                            "node": "16"
+                            "node": "18"
                         },
                         "modules": false
                     }
                 ],
-                [
-                    "@babel/preset-typescript",
-                    {
-                        "targets": {
-                            "node": "16"
-                        },
-                        "modules": false
-                    }
-                ]
+                "@babel/preset-typescript"
             ]
         }
     }
