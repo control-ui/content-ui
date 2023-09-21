@@ -1,6 +1,6 @@
 {
     "name": "@content-ui/react",
-    "version": "0.0.6",
+    "version": "0.0.7",
     "description": "",
     "author": {
         "name": "bemit",
@@ -59,13 +59,13 @@
     },
     "peerDependencies": {
         "@content-ui/md": "*",
-        "react-progress-state": "~0.2.6",
+        "react-progress-state": "~0.2.6 || ~0.3.1",
         "react": "^17.0 || ^18.0",
         "react-dom": "^17.0 || ^18.0"
     },
     "devDependencies": {
         "@content-ui/md": "*",
-        "react-progress-state": "~0.2.6",
+        "react-progress-state": "~0.3.1",
         "react": "^17.0 || ^18.0",
         "react-dom": "^17.0 || ^18.0"
     },
