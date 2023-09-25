@@ -1,9 +1,10 @@
+import { createLeafContext, defineLeafEngine } from '@tactic-ui/react/LeafsContext'
 import {
     LeafsRenderMapping, LeafsEngine,
-    defineLeafEngine, ReactLeafsNodeSpec,
+    ReactLeafsNodeSpec,
 } from '@tactic-ui/react/LeafsEngine'
 import React from 'react'
-import { DecoratorProps, DecoratorPropsNext, ReactDeco } from '@tactic-ui/react/Deco'
+import { DecoratorProps, DecoratorPropsNext, ReactBaseDecorator, ReactDeco } from '@tactic-ui/react/Deco'
 import { EditorSelection } from '@content-ui/react/useContent'
 import { CodeMirrorComponentProps } from '@ui-schema/kit-codemirror/CodeMirror'
 import { CustomMdAstContent } from '@content-ui/md/Ast'
@@ -31,18 +32,18 @@ export type ContentLeafComponents = {
 export type ContentLeafProps<S extends keyof ContentLeafPropsMapping = keyof ContentLeafPropsMapping> = ContentLeafPropsMapping[S]
 
 export type ContentRendererProps = {
-    render: LeafsRenderMapping<ReactLeafsNodeSpec<{ [k: string]: {} }>, {}>
+    renderMap: LeafsRenderMapping<ReactLeafsNodeSpec<{ [k: string]: {} }>, {}>
     elem: string
 }
 
 export function ContentRenderer<P extends DecoratorPropsNext>(
     {
-        render,
+        renderMap,
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         next,
         ...p
     }: P & ContentRendererProps): React.ReactElement<P> {
-    const leafs = render.leafs
+    const leafs = renderMap.leafs
     if(!leafs[p.elem]) {
         throw new Error('No LeafNode found for ' + p.elem)
     }
@@ -61,13 +62,15 @@ export const contentUIDecorators = new ReactDeco<
 >()
     .use(ContentRenderer)
 
+export const contentLeafsContext = createLeafContext<
+    ContentLeafPropsMapping, ContentLeafComponents,
+    ReactDeco<{}, {}>,
+    LeafsRenderMapping<ReactLeafsNodeSpec<ContentLeafPropsMapping>, ContentLeafComponents>
+>()
+
 const {
     LeafsProvider, useLeafs,
-} = defineLeafEngine<
-    ContentLeafPropsMapping, ContentLeafComponents,
-    LeafsRenderMapping<ReactLeafsNodeSpec<ContentLeafPropsMapping>, ContentLeafComponents>,
-    ReactDeco<{}, {}>
->()
+} = defineLeafEngine(contentLeafsContext)
 
 export const ContentLeafsProvider = LeafsProvider
 export const useContentLeafs = useLeafs
@@ -85,19 +88,19 @@ export function ContentLeaf<
 >(
     props: Omit<TProps, ContentLeafInjected>,
 ): React.JSX.Element | null {
-    const {render, deco} = useLeafs<TLeafDataMapping, TComponents, TRenderMapping, TDeco>()
+    const {renderMap, deco} = useLeafs<TLeafDataMapping, TComponents, TDeco, TRenderMapping>()
     if(!deco) {
         throw new Error('This LeafNode requires decorators, maybe missed `deco` at the `LeafsProvider`?')
     }
     const settings = useSettings()
-    const Next = deco.next(0)
+    const Next = deco.next(0) as ReactBaseDecorator<DecoratorPropsNext & { [k in ContentLeafInjected]: any }>
     // todo: `Next` can not be typed in any way i've found, thus here no error will be shown
     return <Next
         {...props}
         {...settings}
         next={deco.next}
         decoIndex={0}
-        render={render}
+        renderMap={renderMap}
         deco={deco}
     />
 }

@@ -54,7 +54,7 @@
         }
     },
     "dependencies": {
-        "@tactic-ui/react": "~0.0.5",
+        "@tactic-ui/react": "~0.0.8",
         "vfile": "^5.3.6"
     },
     "peerDependencies": {

@@ -11,7 +11,7 @@ import { ContentLeafProps, useContentLeafs } from '@content-ui/react/ContentLeaf
 export const LeafYaml: React.FC<ContentLeafProps> = ({child}) => {
     const [showData, setShowData] = React.useState(false)
     const yml = child.type === 'yaml' ? child : undefined
-    const {render: {components}} = useContentLeafs()
+    const {renderMap: {components}} = useContentLeafs()
 
     const parsedData = React.useMemo(() => {
         if(!yml || ((yml.value?.trim() || '') === '')) return undefined

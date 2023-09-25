@@ -115,7 +115,7 @@ export const App: React.ComponentType<{}> = () => {
                         >
                             <LocalizationProvider dateAdapter={AdapterMoment}>
                                 <UIMetaProvider t={browserT} widgets={customWidgets}>
-                                    <ContentLeafsProvider deco={contentUIDecorators} render={contentUIMapping}>
+                                    <ContentLeafsProvider deco={contentUIDecorators} renderMap={contentUIMapping}>
                                         <ProgressControlProvider>
                                             <DndProvider backend={HTML5Backend}>
                                                 <Layout/>

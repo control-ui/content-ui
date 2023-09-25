@@ -17,7 +17,7 @@ This is **rendered static on server**.
         const ast = await parseTo(md, ContentParser)
         const html = renderToStaticMarkup(
             <StaticRouter location={req.url}>
-                <ContentLeafsProvider deco={contentUIDecorators} render={contentUIMapping}>
+                <ContentLeafsProvider deco={contentUIDecorators} renderMap={contentUIMapping}>
                     <ContentFileProvider
                         root={ast.root}
                         file={ast.file}

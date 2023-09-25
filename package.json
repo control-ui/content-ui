@@ -48,7 +48,7 @@
         "@mui/lab": "^5.0.0-alpha.80",
         "@mui/material": "^5.1",
         "@mui/x-date-pickers": "^5.0.16",
-        "@tactic-ui/react": "~0.0.5",
+        "@tactic-ui/react": "~0.0.8",
         "@ui-controls/progress": "~0.0.4",
         "@ui-schema/dictionary": "~0.0.11",
         "@ui-schema/ds-material": "~0.4.1",
