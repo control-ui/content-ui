@@ -1,4 +1,4 @@
-import { createLeafContext, defineLeafEngine } from '@tactic-ui/react/LeafsContext'
+import { createLeafsContext, defineLeafsContext } from '@tactic-ui/react/LeafsContext'
 import {
     LeafsRenderMapping, LeafsEngine,
     ReactLeafsNodeSpec,
@@ -32,7 +32,7 @@ export type ContentLeafComponents = {
 export type ContentLeafProps<S extends keyof ContentLeafPropsMapping = keyof ContentLeafPropsMapping> = ContentLeafPropsMapping[S]
 
 export type ContentRendererProps = {
-    renderMap: LeafsRenderMapping<ReactLeafsNodeSpec<{ [k: string]: {} }>, {}>
+    renderMap: LeafsRenderMapping<ReactLeafsNodeSpec<{ [k: string]: {} }>, {}, { type: string }>
     elem: string
 }
 
@@ -62,18 +62,16 @@ export const contentUIDecorators = new ReactDeco<
 >()
     .use(ContentRenderer)
 
-export const contentLeafsContext = createLeafContext<
+export const contentLeafsContext = createLeafsContext<
     ContentLeafPropsMapping, ContentLeafComponents,
     ReactDeco<{}, {}>,
-    LeafsRenderMapping<ReactLeafsNodeSpec<ContentLeafPropsMapping>, ContentLeafComponents>
+    LeafsRenderMapping<ReactLeafsNodeSpec<ContentLeafPropsMapping>, ContentLeafComponents, { type: string }>
 >()
 
-const {
-    LeafsProvider, useLeafs,
-} = defineLeafEngine(contentLeafsContext)
-
-export const ContentLeafsProvider = LeafsProvider
-export const useContentLeafs = useLeafs
+export const {
+    LeafsProvider: ContentLeafsProvider,
+    useLeafs: useContentLeafs,
+} = defineLeafsContext(contentLeafsContext)
 
 export type ContentLeafInjected = 'decoIndex' | 'next' | keyof LeafsEngine<any, any, any, any>
 
@@ -82,15 +80,15 @@ export function ContentLeaf<
     TLeafData extends TLeafDataMapping[keyof TLeafDataMapping] & {},
     TDeco extends ReactDeco<{}, {}> = ReactDeco<{}, {}>,
     TComponents extends ContentLeafComponents = ContentLeafComponents,
-    TRenderMapping extends LeafsRenderMapping<ReactLeafsNodeSpec<TLeafDataMapping>, TComponents> = LeafsRenderMapping<ReactLeafsNodeSpec<TLeafDataMapping>, TComponents>,
+    TRenderMapping extends LeafsRenderMapping<ReactLeafsNodeSpec<TLeafDataMapping>, TComponents, { type: string }> = LeafsRenderMapping<ReactLeafsNodeSpec<TLeafDataMapping>, TComponents, { type: string }>,
     // todo: TProps not only need to support removing injected, but also allowing overriding
     TProps extends DecoratorProps<TLeafData, TDeco> = DecoratorProps<TLeafData, TDeco>,
 >(
     props: Omit<TProps, ContentLeafInjected>,
 ): React.JSX.Element | null {
-    const {renderMap, deco} = useLeafs<TLeafDataMapping, TComponents, TDeco, TRenderMapping>()
+    const {renderMap, deco} = useContentLeafs<TLeafDataMapping, TComponents, TDeco, TRenderMapping>()
     if(!deco) {
-        throw new Error('This LeafNode requires decorators, maybe missed `deco` at the `LeafsProvider`?')
+        throw new Error('This LeafNode requires decorators, maybe missed `deco` at the `ContentLeafsProvider`?')
     }
     const settings = useSettings()
     const Next = deco.next(0) as ReactBaseDecorator<DecoratorPropsNext & { [k in ContentLeafInjected]: any }>

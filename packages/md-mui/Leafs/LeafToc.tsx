@@ -16,7 +16,7 @@ import { TocHNode, WithMdAstChild } from '@content-ui/md/Ast'
 export const LeafTocListItem: React.FC<ContentLeafProps & WithMdAstChild & { textVariant?: 'body1' | 'body2' | 'caption' }> = ({child, textVariant}) => {
     const {smallList, showLines, editorSelection, onClick} = useToc()
     const c = child.type === 'tocListItem' ? child : undefined
-    // todo: with the tui@0.0.3 it is injected in the renderer and thus should be moved to props
+    // todo: is injected in `ContentLeaf`, move to props
     const {headlineLinkable} = useSettings()
     const {typography} = useTheme<Theme & { typography: TypographyWithExtras }>()
     const [focus, setFocus] = React.useState(false)

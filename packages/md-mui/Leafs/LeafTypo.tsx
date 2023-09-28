@@ -39,7 +39,7 @@ export const LeafH: React.FC<ContentLeafProps & WithMdAstChild & { selected?: bo
         headlineLinkable,
         headlineSelectable, headlineSelectableOnHover,
         headlineOffset,
-        // todo: with the tui@0.0.3 it is injected in the renderer and thus should be moved to props
+        // todo: is injected in `ContentLeaf`, move to props
     } = useSettings()
     const hRef = useLeafFollower<HTMLHeadingElement>(selected)
     const [copied, setCopied] = React.useState(false)

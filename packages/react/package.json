@@ -1,6 +1,6 @@
 {
     "name": "@content-ui/react",
-    "version": "0.0.7",
+    "version": "0.0.8",
     "description": "",
     "author": {
         "name": "bemit",
@@ -54,7 +54,7 @@
         }
     },
     "dependencies": {
-        "@tactic-ui/react": "~0.0.8",
+        "@tactic-ui/react": "~0.0.10",
         "vfile": "^5.3.6"
     },
     "peerDependencies": {

@@ -23,6 +23,8 @@ npm i -S @tactic-ui/react @mui/material @mui/icons-material react-progress-state
 npm i -S @ui-schema/kit-codemirror @codemirror/state .. todo ..
 ```
 
+> tactic-ui is experimental, if you encounter errors try the exact version of `@tactic-ui/react` [in this package.json](./packages/react/package.json)
+
 > all packages are ESM-only, those with the `ESM` flag support strict-ESM for browser + NodeJS
 
 See [WidgetMarkdownEditor.tsx](./apps/demo/src/components/CustomWidgets/WidgetMarkdownEditor.tsx) for an example [UI-Schema widget](https://ui-schema.bemit.codes) with Markdown editor, linting and preview.

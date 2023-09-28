@@ -1,6 +1,6 @@
 {
     "name": "@content-ui/md-mui",
-    "version": "0.0.7",
+    "version": "0.0.8",
     "description": "",
     "author": {
         "name": "bemit",
@@ -20,7 +20,7 @@
     },
     "dependencies": {
         "react-router-dom": "^6.3.0",
-        "@tactic-ui/react": "~0.0.8",
+        "@tactic-ui/react": "~0.0.10",
         "@content-ui/react": "*",
         "@content-ui/md": "*"
     },

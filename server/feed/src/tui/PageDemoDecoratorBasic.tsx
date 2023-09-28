@@ -1,6 +1,6 @@
 import React from 'react'
 import { ReactDeco, DecoratorProps, DecoratorPropsNext, DecoratorNextFn } from '@tactic-ui/react/Deco'
-import { createLeafContext, defineLeafEngine } from '@tactic-ui/react/LeafsContext'
+import { createLeafsContext, defineLeafsContext } from '@tactic-ui/react/LeafsContext'
 import { GenericLeafsDataSpec, LeafsEngine, LeafsRenderMapping, ReactLeafsNodeSpec } from '@tactic-ui/react/LeafsEngine'
 import { CustomLeafDataSpec, CustomLeafDataType, CustomLeafPropsSpec, CustomLeafPropsWithValue, DemoDecoratorProps, DemoDecorator1ResultProps } from './leafs.js'
 
@@ -30,14 +30,14 @@ type CustomComponents = {}
 type CustomLeafsRenderMapping<
     TLeafsMapping extends {} = {},
     TComponentsMapping extends {} = {}
-> = LeafsRenderMapping<TLeafsMapping, TComponentsMapping>
+> = LeafsRenderMapping<TLeafsMapping, TComponentsMapping, { type: string }>
 
-const context = createLeafContext<
+const context = createLeafsContext<
     GenericLeafsDataSpec, CustomComponents,
     ReactDeco<{}, {}>,
-    LeafsRenderMapping<ReactLeafsNodeSpec<GenericLeafsDataSpec>, CustomComponents>
+    LeafsRenderMapping<ReactLeafsNodeSpec<GenericLeafsDataSpec>, CustomComponents, { type: string }>
 >()
-const {LeafsProvider, useLeafs} = defineLeafEngine(context)
+const {LeafsProvider, useLeafs} = defineLeafsContext(context)
 
 // 👉 5.2. Create a custom LeafNode which maps the properties, decorators and handles the rendering
 
@@ -164,6 +164,7 @@ const leafs: CustomLeafsNodeSpec = {
 const renderMap: CustomLeafsRenderMapping<CustomLeafsNodeSpec, CustomComponents> = {
     leafs: leafs,
     components: {},
+    matchLeaf: (p, l) => l[p.type],
 }
 
 //
