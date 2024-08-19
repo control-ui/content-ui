@@ -3,7 +3,6 @@ import { VFile } from 'vfile'
 import { ProgressStateWithContext, ps, useProgress } from 'react-progress-state'
 import { Root } from 'mdast'
 import { ContentParser, ContentParserType } from '@content-ui/md/parser/ContentParser'
-import { parseTo } from '@content-ui/md/parser/ParseTo'
 
 export interface EditorSelectionPosition {
     start: number
@@ -72,7 +71,24 @@ export const useContent = (
         nextParser.current = () => {
             const pid = startProcessing()
             return () => {
-                parseTo(textValue, parser)
+                const file = new VFile(textValue)
+                const ast = parser.parse(file)
+                const isPid = setProcessing(ps.start, undefined, pid)
+                if(!isPid) return
+                setAstValue({
+                    file: file,
+                    root: ast,
+                })
+
+                parser
+                    .run(ast, file)
+                    .then((root) => {
+                        return {
+                            root: root,
+                            file: file,
+                            toString: () => parser.stringify(root, file) as string,
+                        }
+                    })
                     .then((parsed) => {
                         const isPid = setProcessing(ps.done, undefined, pid)
                         if(!isPid) return

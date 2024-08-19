@@ -21,13 +21,14 @@ export const BaseLeafContent = <P extends { selected?: boolean } = { selected?: 
         .map((childNext, i) =>
             <ContentLeaf
                 key={i}
+                {...p as unknown as P}
                 elem={childNext.type}
                 child={childNext}
                 // todo: why also checking here if selected? shouldn't be the hook-usage and then pass-down be enough?
+                // todo: add support for multiple selections, e.g. multiple lines with unselected lines in between
                 selected={selected || isLeafSelected(childNext.position, editorSelection?.startLine, editorSelection?.endLine)}
                 isFirst={i === 0}
                 isLast={i === length - 1}
-                {...p as unknown as P}
             />,
         ) as unknown as React.ReactElement
 }

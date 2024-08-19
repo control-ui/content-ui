@@ -10,12 +10,15 @@ export const LeafCode: React.FC<ContentLeafProps> = ({child, selected}) => {
     const code = child.type === 'code' ? child : undefined
     const cRef = useLeafFollower<HTMLDivElement>(selected)
     const {renderMap: {components}} = useContentLeafs()
+    if(child.type !== 'code') return null
 
     return <Box mt={1} mb={2} ref={cRef}>
-        <components.CodeMirror
-            value={child.type === 'code' ? child.value : ''}
-            lang={code?.lang || undefined}
-        />
+        {components.CodeMirror ?
+            <components.CodeMirror
+                value={child.value}
+                lang={code?.lang || undefined}
+            /> :
+            <pre><code>{child.value}</code></pre>}
     </Box>
 }
 

@@ -15,9 +15,8 @@ import { LeafTable, LeafTableCell, LeafTableRow } from '@content-ui/md-mui/Leafs
 import { LeafYaml } from '@content-ui/md-mui/Leafs/LeafYaml'
 import { LeafTocListItem } from '@content-ui/md-mui/Leafs/LeafToc'
 import { LeafImage } from '@content-ui/md-mui/Leafs/LeafImage'
-import { ContentLeafComponents, ContentLeafsNodeMapping } from '@content-ui/react/ContentLeaf'
+import { ContentLeafComponents, ContentLeafsNodeMapping, LeafsRenderMapping } from '@content-ui/react/ContentLeaf'
 import { LeafDefList, LeafDefListDescription, LeafDefListTerm } from '@content-ui/md-mui/Leafs/LeafDefList'
-import { LeafsRenderMapping } from '@tactic-ui/react/LeafsEngine'
 
 const leafs: ContentLeafsNodeMapping = {
     break: LeafBr,
@@ -60,9 +59,9 @@ const leafs: ContentLeafsNodeMapping = {
     linkReference: null,
 }
 
-export const renderMapping: LeafsRenderMapping<ContentLeafsNodeMapping, ContentLeafComponents> = {
+export const renderMapping: LeafsRenderMapping<ContentLeafsNodeMapping, ContentLeafComponents, { type: string }> = {
     leafs: leafs,
-    // @ts-ignore
     components: {},
+    matchLeaf: (p, l) => l[p.type],
 }
 

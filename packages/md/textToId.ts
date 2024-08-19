@@ -1,8 +1,7 @@
 export const textToId =
-    (text: string, replace: RegExp = /[[\],:!?&.\\/\s|]/g): string =>
+    (text: string): string =>
         text
-            .replace(replace, '-')
-            .replace(/^\d*\.*/, '')
-            .replace(/--/g, '-')
-            .replace(/^--/, '')
             .toLowerCase()
+            .replace(/[^\w:.-]+/g, '-')
+            .replace(/^\d*\.*/, '') // remove `1.`/`2.` at the headline start
+            .replace(/^-+/, '-') // remove maybe generated leading hyphens

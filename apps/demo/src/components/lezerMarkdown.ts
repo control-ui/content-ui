@@ -1,6 +1,6 @@
-/**!
- * copied from https://github.com/erykwalder/lezer-markdown-obsidian/tree/main/src
- * @todo license/published check
+/**
+ * Copied and adjusted, https://github.com/erykwalder/lezer-markdown-obsidian/blob/6223674c535addf0fa60c8a04e3ebf5fd8aa3d7e/src/extensions.ts
+ * @licence MIT 2023 Eric Rykwalder, see file LICENSE_LEZER-MD.md
  */
 import { Input } from '@lezer/common'
 import {

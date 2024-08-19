@@ -1,14 +1,56 @@
-import { createLeafsContext, defineLeafsContext } from '@tactic-ui/react/LeafsContext'
-import {
-    LeafsRenderMapping, LeafsEngine,
-    ReactLeafsNodeSpec,
-} from '@tactic-ui/react/LeafsEngine'
 import React from 'react'
-import { DecoratorProps, DecoratorPropsNext, ReactBaseDecorator, ReactDeco } from '@tactic-ui/react/Deco'
 import { EditorSelection } from '@content-ui/react/useContent'
 import { CodeMirrorComponentProps } from '@ui-schema/kit-codemirror/CodeMirror'
 import { CustomMdAstContent } from '@content-ui/md/Ast'
 import { useSettings } from '@content-ui/react/LeafSettings'
+import { DecoratorProps, DecoratorPropsNext, ReactBaseDecorator, ReactDeco } from './EngineDecorator'
+
+export type GenericLeafsDataSpec<D extends {} = {}> = {
+    [k: string]: D
+}
+
+export interface LeafsRenderMapping<TLeafsMapping extends {} = {}, TComponentsMapping extends {} = {},
+    /**
+     * The match params should be wider than the params each leaf expects,
+     * to improve portability of matcher to work with similar leafs,
+     * as mostly the matcher should work for more leafs than initially known.
+     *
+     * @example
+     *  if some leaf param is:      `{ type: 'headline' | 'input' }`
+     *  the match params should be: `{ type: string }`
+     */
+    TMatchParams extends {} = {},
+    /**
+     * @experimental
+     */
+    TMatchResult = any,
+    /**
+     * @experimental
+     */
+    THooks extends {} = {}> {
+    components: TComponentsMapping
+    leafs: TLeafsMapping
+    /**
+     * Responsible to match leafs of this mapping.
+     */
+    matchLeaf: <P extends TMatchParams>(params: P, leafs: TLeafsMapping) => TMatchResult
+    children?: never
+    hooks?: THooks
+}
+
+/**
+ * A wider `React.ComponentType`, as the remapping had a lot of issues when `React.ComponentType` was used internally, somehow not reproducible here or in others with React18.
+ * But in ui-schema with the latest React 18 setup, `React.ComponentType` won't work without the `React.ComponentClass<P>`
+ */
+export type ReactLeafDefaultNodeType<P = {}> = React.ComponentClass<P> | ((props: P, context?: any) => React.ReactNode)
+export type ReactLeafsNodeSpec<LDS extends GenericLeafsDataSpec> = {
+    [K in keyof LDS]: ReactLeafDefaultNodeType<NonNullable<LDS[K]>>;
+}
+
+export interface LeafsEngine<TLeafsDataMapping extends GenericLeafsDataSpec, TComponents extends {}, TDeco extends ReactDeco<{}, {}, {}>, TRender extends LeafsRenderMapping<ReactLeafsNodeSpec<TLeafsDataMapping>, TComponents>> {
+    renderMap: TRender
+    deco?: TDeco
+}
 
 export interface ContentLeafPayload {
     elem: string
@@ -27,7 +69,7 @@ export type ContentLeafPropsMapping = {
 export type ContentLeafsNodeMapping = ReactLeafsNodeSpec<ContentLeafPropsMapping>
 
 export type ContentLeafComponents = {
-    CodeMirror: React.ComponentType<CodeMirrorComponentProps & { lang?: string }>
+    CodeMirror?: React.ComponentType<CodeMirrorComponentProps & { lang?: string }>
 }
 export type ContentLeafProps<S extends keyof ContentLeafPropsMapping = keyof ContentLeafPropsMapping> = ContentLeafPropsMapping[S]
 
@@ -62,16 +104,46 @@ export const contentUIDecorators = new ReactDeco<
 >()
     .use(ContentRenderer)
 
-export const contentLeafsContext = createLeafsContext<
-    ContentLeafPropsMapping, ContentLeafComponents,
-    ReactDeco<{}, {}>,
-    LeafsRenderMapping<ReactLeafsNodeSpec<ContentLeafPropsMapping>, ContentLeafComponents, { type: string }>
->()
+export const contentLeafsContext: React.Context<
+    LeafsEngine<
+        ContentLeafPropsMapping,
+        ContentLeafComponents,
+        ReactDeco<{}, {}>,
+        LeafsRenderMapping<ReactLeafsNodeSpec<ContentLeafPropsMapping>, ContentLeafComponents, { type: string }>
+    >
+> = React.createContext(undefined as any)
 
-export const {
-    LeafsProvider: ContentLeafsProvider,
-    useLeafs: useContentLeafs,
-} = defineLeafsContext(contentLeafsContext)
+export const useContentLeafs = <
+    TLeafsDataMapping2 extends ContentLeafPropsMapping = ContentLeafPropsMapping,
+    TComponents2 extends ContentLeafComponents = ContentLeafComponents,
+    TDeco2 extends ReactDeco<{}, {}> = ReactDeco<{}, {}>,
+    TRender2 extends LeafsRenderMapping<ReactLeafsNodeSpec<TLeafsDataMapping2>, TComponents2> = LeafsRenderMapping<ReactLeafsNodeSpec<TLeafsDataMapping2>, TComponents2>,
+>() => {
+    return React.useContext<LeafsEngine<TLeafsDataMapping2, TComponents2, TDeco2, TRender2>>(
+        contentLeafsContext as unknown as React.Context<LeafsEngine<TLeafsDataMapping2, TComponents2, TDeco2, TRender2>>,
+    )
+}
+
+export function ContentLeafsProvider<
+    TLeafsDataMapping2 extends ContentLeafPropsMapping = ContentLeafPropsMapping,
+    TComponents2 extends ContentLeafComponents = ContentLeafComponents,
+    TDeco2 extends ReactDeco<{}, {}> = ReactDeco<{}, {}>,
+    TRender2 extends LeafsRenderMapping<ReactLeafsNodeSpec<TLeafsDataMapping2>, TComponents2> = LeafsRenderMapping<ReactLeafsNodeSpec<TLeafsDataMapping2>, TComponents2>,
+    // todo: integrate a typing which validates that the provided deco-result-props are compatible with props of `TRender2['leafs']`
+>(
+    {
+        children,
+        deco, renderMap,
+    }: React.PropsWithChildren<LeafsEngine<TLeafsDataMapping2, TComponents2, TDeco2, TRender2>>,
+) {
+    const ctx = React.useMemo((): LeafsEngine<ContentLeafPropsMapping, ContentLeafComponents, ReactDeco<{}, {}, {}>, LeafsRenderMapping<ReactLeafsNodeSpec<ContentLeafPropsMapping>, ContentLeafComponents, {}, any, {}>> => ({
+        deco: deco,
+        renderMap: renderMap as LeafsRenderMapping<ReactLeafsNodeSpec<ContentLeafPropsMapping>, ContentLeafComponents, {}, any, {}>,
+    }), [deco, renderMap])
+
+    const LeafsContextProvider = contentLeafsContext.Provider
+    return <LeafsContextProvider value={ctx}>{children}</LeafsContextProvider>
+}
 
 export type ContentLeafInjected = 'decoIndex' | 'next' | keyof LeafsEngine<any, any, any, any>
 

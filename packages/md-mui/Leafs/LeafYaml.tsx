@@ -23,6 +23,8 @@ export const LeafYaml: React.FC<ContentLeafProps> = ({child}) => {
         }
     }, [yml])
 
+    if(!yml) return null
+
     return <Box mt={1} mb={2}>
         <Button
             startIcon={showData ? <IcViewOff/> : <IcView/>}
@@ -33,10 +35,12 @@ export const LeafYaml: React.FC<ContentLeafProps> = ({child}) => {
 
         <Collapse in={showData} mountOnEnter>
             <Box mt={1}>
-                <components.CodeMirror
-                    value={yml ? yml.value : ''}
-                    lang={'yaml'}
-                />
+                {components.CodeMirror ?
+                    <components.CodeMirror
+                        value={yml.value}
+                        lang={'yaml'}
+                    /> :
+                    <pre><code>{yml.value}</code></pre>}
             </Box>
         </Collapse>
     </Box>

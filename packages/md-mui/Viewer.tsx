@@ -82,6 +82,7 @@ export const ViewerFromText: React.ComponentType<ViewerFromTextProps> = (
     {
         textValue, keepMounted,
         editorSelection, parser,
+        ...props
     },
 ) => {
     const {root, file, processing} = useContent(textValue, undefined, undefined, -1, parser)
@@ -95,6 +96,7 @@ export const ViewerFromText: React.ComponentType<ViewerFromTextProps> = (
             editorSelection={editorSelection}
             keepMounted={keepMounted}
             needsProcessing={needsProcessing}
+            {...props}
         />
     </ContentFileProvider>
 }
