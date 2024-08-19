@@ -18,12 +18,12 @@
 ```shell
 npm i -S @content-ui/md @content-ui/react @content-ui/md-mui @content-ui/input
 # peer-dependencies:
-npm i -S @tactic-ui/react @mui/material @mui/icons-material react-progress-state @ui-controls/progress
+npm i -S @mui/material @mui/icons-material
+# peer-dependencies for /input:
+npm i -S react-progress-state @ui-controls/progress
 # peer-dependencies for CodeMirror
 npm i -S @ui-schema/kit-codemirror @codemirror/state .. todo ..
 ```
-
-> tactic-ui is experimental, if you encounter errors try the exact version of `@tactic-ui/react` [in this package.json](./packages/react/package.json)
 
 > all packages are ESM-only, those with the `ESM` flag support strict-ESM for browser + NodeJS
 

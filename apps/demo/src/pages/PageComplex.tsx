@@ -117,6 +117,8 @@ export const PageComplex: React.ComponentType = () => {
                         <Grid2 xs={12}>
                             <ViewerFromText
                                 textValue={contentDetails.file}
+                                parseDelay={0}
+                                onMount
                             />
                         </Grid2> : null}
                 </Grid2>

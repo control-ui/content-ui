@@ -24,8 +24,8 @@ This is **rendered static on server**.
                     >
                         <Viewer
                             editorSelection={undefined}
-                            keepMounted
-                            needsProcessing={false}
+                            outdated={false}
+                            processing={'success'}
                         />
                     </ContentFileProvider>
                 </ContentLeafsProvider>

@@ -10,7 +10,6 @@ import { SettingsProvider } from '@content-ui/react/LeafSettings'
 import { useContentEditor } from '@content-ui/react/useContentEditor'
 import { useContent } from '@content-ui/react/useContent'
 import { ContentFileProvider } from '@content-ui/react/ContentFileProvider'
-import { ps } from 'react-progress-state'
 
 const md = `# About a Note
 
@@ -58,18 +57,18 @@ export const PageInput: React.ComponentType = () => {
         typeof value === 'string' ? value : '',
         setValue,
     )
-    const {processing, root, file} = useContent(
+    const {processing, outdated, root, file} = useContent({
         textValue,
         // for direct preview, the parseDelay should be as low as possible,
         // with disabled preview it's better to use `600` for less unnecessary processing
-        textValue.length > 10000 ? 460 :
-            textValue.length > 1200 ? 160 :
-                textValue.length > 3500 ? 280 :
-                    0,
-        0,
+        parseDelay:
+            textValue.length > 10000 ? 460 :
+                textValue.length > 1200 ? 160 :
+                    textValue.length > 3500 ? 280 :
+                        40,
         autoProcess,
-    )
-    console.log('root', root)
+        onMount: true,
+    })
 
     const extensions = React.useMemo(() => {
         const highlight = getHighlight('md')
@@ -104,9 +103,9 @@ export const PageInput: React.ComponentType = () => {
                                 textValue={textValue}
                                 bigSize={bigSize}
                                 processing={processing}
+                                outdated={outdated}
                                 autoProcess={autoProcess}
                                 setAutoProcess={setAutoProcess}
-                                valid
                             />
                         </Grid2>
                         <Grid2
@@ -120,9 +119,9 @@ export const PageInput: React.ComponentType = () => {
                             }}
                         >
                             <Viewer
-                                needsProcessing={(processing.progress === ps.none || processing.progress === ps.start)}
+                                outdated={outdated}
+                                processing={processing}
                                 editorSelection={editorSelection}
-                                keepMounted
                             />
                         </Grid2>
                     </Grid2>

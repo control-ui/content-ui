@@ -35,6 +35,7 @@ export const WidgetMarkdownViewer: React.ComponentType<WidgetProps & WithScalarV
             <ViewerFromText
                 // storeKeys={storeKeys}
                 textValue={typeof value === 'string' ? value : ''}
+                onMount
             />
         </SettingsProvider>
 
