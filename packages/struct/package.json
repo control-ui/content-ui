@@ -18,9 +18,26 @@
         "url": "https://github.com/control-ui/content-ui.git",
         "directory": "packages/struct"
     },
+    "type": "module",
+    "exports": {
+        "./Ast": {
+            "import": "./Ast.js",
+            "types": "./Ast.d.ts"
+        },
+        "./flattenText": {
+            "import": "./flattenText.js",
+            "types": "./flattenText.d.ts"
+        },
+        "./textToId": {
+            "import": "./textToId.js",
+            "types": "./textToId.d.ts"
+        }
+    },
     "peerDependencies": {
+        "@types/mdast": "^4.0.0"
     },
     "devDependencies": {
+        "@types/mdast": "^4.0.0"
     },
     "publishConfig": {
         "access": "public"

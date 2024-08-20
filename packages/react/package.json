@@ -54,15 +54,15 @@
         }
     },
     "dependencies": {
-        "vfile": "^5.3.6"
+        "vfile": "^6.0.2"
     },
     "peerDependencies": {
-        "@content-ui/md": "*",
+        "@types/mdast": "^4.0.0",
         "react": "^17.0 || ^18.0",
         "react-dom": "^17.0 || ^18.0"
     },
     "devDependencies": {
-        "@content-ui/md": "*",
+        "@types/mdast": "^4.0.0",
         "react": "^17.0 || ^18.0",
         "react-dom": "^17.0 || ^18.0"
     },

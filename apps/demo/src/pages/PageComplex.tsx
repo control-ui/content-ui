@@ -1,3 +1,4 @@
+import { ContentParser } from '@content-ui/md/parser/ContentParser'
 import React from 'react'
 import Helmet from 'react-helmet'
 import { useTranslation } from 'react-i18next'
@@ -116,6 +117,7 @@ export const PageComplex: React.ComponentType = () => {
                     {contentDetails?.file ?
                         <Grid2 xs={12}>
                             <ViewerFromText
+                                processor={ContentParser}
                                 textValue={contentDetails.file}
                                 parseDelay={0}
                                 onMount

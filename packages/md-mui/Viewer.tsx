@@ -1,12 +1,11 @@
 import React from 'react'
 import Box from '@mui/material/Box'
-import { EditorSelection, useContent, useContentContext, WithContent } from '@content-ui/react/useContent'
+import { ContentProcessor, EditorSelection, useContent, useContentContext, WithContent } from '@content-ui/react/useContent'
 import Typography from '@mui/material/Typography'
 import { useLocation } from 'react-router-dom'
 import LinearProgress from '@mui/material/LinearProgress'
 import { ContentFileProvider } from '@content-ui/react/ContentFileProvider'
 import { Renderer } from '@content-ui/md-mui/Renderer'
-import { ContentParserType } from '@content-ui/md/parser/ContentParser'
 
 export interface ViewerProps {
     editorSelection?: EditorSelection
@@ -70,7 +69,7 @@ export const Viewer = <P extends ViewerProps>(
 
 export interface ViewerFromTextProps extends Omit<ViewerProps, 'processing' | 'outdated'> {
     textValue: string
-    parser?: ContentParserType
+    processor: ContentProcessor
     parseDelay?: number
     onMount?: boolean
 }
@@ -78,7 +77,7 @@ export interface ViewerFromTextProps extends Omit<ViewerProps, 'processing' | 'o
 export const ViewerFromText: React.ComponentType<ViewerFromTextProps> = (
     {
         textValue,
-        editorSelection, parser,
+        editorSelection, processor,
         parseDelay,
         onMount = false,
         ...props
@@ -86,7 +85,7 @@ export const ViewerFromText: React.ComponentType<ViewerFromTextProps> = (
 ) => {
     const {root, file, processing, outdated} = useContent({
         textValue,
-        parser,
+        processor: processor,
         parseDelay,
         onMount,
     })

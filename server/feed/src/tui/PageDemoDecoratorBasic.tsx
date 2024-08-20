@@ -25,7 +25,7 @@ export const Typo: React.FC<React.PropsWithChildren<{
 //
 // 👉 5.1. Create a custom render engine out of the parts
 
-type CustomLeafsNodeSpec = ReactLeafsNodeSpec<CustomLeafPropsSpec>
+type CustomLeafsNodeSpec = ReactLeafsNodeSpec<Required<CustomLeafPropsSpec>>
 type CustomComponents = {}
 type CustomLeafsRenderMapping<
     TLeafsMapping extends {} = {},
@@ -194,7 +194,7 @@ export const DemoAutomatic: React.FC = () => {
     //       i think it is impossible to further guarantee deco+leafs are compatible
     //       - except maybe with a check using further generics on `LeafsProvider`
     return <div className={'flex flex-column'}>
-        <LeafsProvider<CustomLeafPropsSpec>
+        <LeafsProvider<Required<CustomLeafPropsSpec>>
             deco={deco}
             renderMap={renderMap}
         >

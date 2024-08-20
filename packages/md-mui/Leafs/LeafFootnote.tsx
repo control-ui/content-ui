@@ -1,5 +1,4 @@
 import React from 'react'
-import Box from '@mui/material/Box'
 import { FootnoteReference } from 'mdast'
 import { BaseLeafContent } from '@content-ui/md-mui/Leafs/BaseLeafContent'
 import { RouterMuiLink } from '@content-ui/md-mui/MuiComponents/MuiNavLink'
@@ -12,27 +11,6 @@ import { TypographyWithExtras } from '@content-ui/md-mui/MuiComponents/Theme'
 
 const userContentPrefix = 'user-content-'
 export const footnoteContainerId = 'footnote-label'
-
-export const LeafFootnote: React.FC<ContentLeafProps> = ({child}) => {
-    return <Box
-        component={'div'}
-        sx={{
-            mt: 1,
-            mb: 2,
-            pt: 1,
-            pb: 0.5,
-            pl: 1.5,
-            mr: 1,
-            ml: 0,
-            borderLeftColor: 'divider',
-            // borderLeftColor: 'primary.main',
-            borderLeftWidth: 4,
-            borderLeftStyle: 'solid',
-        }}
-    >
-        {child.type === 'footnote' ? <BaseLeafContent child={child}/> : null}
-    </Box>
-}
 
 export const LeafFootnoteDefinition: React.FC<ContentLeafProps> = ({child}) => {
     const c = child.type === 'footnoteDefinition' ? child : undefined

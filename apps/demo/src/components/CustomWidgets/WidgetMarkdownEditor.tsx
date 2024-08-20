@@ -1,3 +1,4 @@
+import { ContentParser } from '@content-ui/md/parser/ContentParser'
 import { UIMetaReadContextType } from '@ui-schema/ui-schema/UIMetaReadContext'
 import React from 'react'
 import { TransTitle, WidgetProps, WithScalarValue } from '@ui-schema/ui-schema'
@@ -56,6 +57,7 @@ export const WidgetMarkdownEditor: React.ComponentType<WidgetProps & WithScalarV
         parseDelay: textValue.length > 10000 ? 460 : 280,
         autoProcess,
         onMount: true,
+        processor: ContentParser,
     })
 
     const warnings = file?.messages.length

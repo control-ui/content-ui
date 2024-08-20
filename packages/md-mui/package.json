@@ -19,14 +19,14 @@
         "directory": "packages/md-mui"
     },
     "dependencies": {
-        "react-router-dom": "^6.3.0",
-        "@content-ui/react": "*",
-        "@content-ui/md": "*"
+        "react-router-dom": "^6.3.0"
     },
     "peerDependencies": {
         "@mui/icons-material": "^5.10",
         "@mui/material": "^5.1",
         "@ui-schema/kit-codemirror": "~0.1.0-alpha.1",
+        "@content-ui/react": "*",
+        "@content-ui/struct": "*",
         "react": "^17.0 || ^18.0",
         "react-dom": "^17.0 || ^18.0"
     },
@@ -34,6 +34,8 @@
         "@mui/icons-material": "^5.10",
         "@mui/material": "^5.1",
         "@ui-schema/kit-codemirror": "~0.1.0-alpha.1",
+        "@content-ui/react": "*",
+        "@content-ui/struct": "*",
         "react": "^17.0 || ^18.0",
         "react-dom": "^17.0 || ^18.0"
     },

@@ -1,3 +1,4 @@
+import { ContentParser } from '@content-ui/md/parser/ContentParser'
 import React from 'react'
 import Helmet from 'react-helmet'
 import { useTranslation } from 'react-i18next'
@@ -68,6 +69,7 @@ export const PageInput: React.ComponentType = () => {
                         40,
         autoProcess,
         onMount: true,
+        processor: ContentParser,
     })
 
     const extensions = React.useMemo(() => {

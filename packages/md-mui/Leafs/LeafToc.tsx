@@ -6,16 +6,17 @@ import Box from '@mui/material/Box'
 import { ContentLeaf, ContentLeafProps, ContentLeafPropsMapping } from '@content-ui/react/ContentLeaf'
 import { EditorSelection } from '@content-ui/react/useContent'
 import { useSettings } from '@content-ui/react/LeafSettings'
-import { flattenText } from '@content-ui/md/flattenText'
-import { textToId } from '@content-ui/md/textToId'
+import { flattenText } from '@content-ui/struct/flattenText'
+import { textToId } from '@content-ui/struct/textToId'
 import useTheme from '@mui/material/styles/useTheme'
 import type { Theme } from '@mui/material/styles'
 import { TypographyWithExtras } from '@content-ui/md-mui/MuiComponents/Theme'
-import { TocHNode, WithMdAstChild } from '@content-ui/md/Ast'
+import { TocHNode, TocListItem, WithMdAstChild } from '@content-ui/struct/Ast'
 
-export const LeafTocListItem: React.FC<ContentLeafProps & WithMdAstChild & { textVariant?: 'body1' | 'body2' | 'caption' }> = ({child, textVariant}) => {
+export const LeafTocListItem: React.FC<ContentLeafProps & WithMdAstChild<TocListItem> & { textVariant?: 'body1' | 'body2' | 'caption' }> = ({child, textVariant}) => {
+    const c = child as TocListItem
     const {smallList, showLines, editorSelection, onClick} = useToc()
-    const c = child.type === 'tocListItem' ? child : undefined
+    // const c = child.type === 'tocListItem' ? child : undefined
     // todo: is injected in `ContentLeaf`, move to props
     const {headlineLinkable} = useSettings()
     const {typography} = useTheme<Theme & { typography: TypographyWithExtras }>()

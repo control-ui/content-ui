@@ -1,7 +1,7 @@
 import React, { useCallback, useRef, useState } from 'react'
+import { Processor } from 'unified'
 import { VFile } from 'vfile'
 import { Root } from 'mdast'
-import { ContentParser, ContentParserType } from '@content-ui/md/parser/ContentParser'
 
 export interface EditorSelectionPosition {
     start: number
@@ -39,6 +39,8 @@ export const ContentSelectionContext = React.createContext<EditorSelection | und
 
 export const useContentSelection = () => React.useContext(ContentSelectionContext)
 
+export type ContentProcessor = Processor<Root, Root, Root, Root, string>
+
 export interface WithContent {
     file: VFile | undefined
     root: Root | undefined
@@ -52,13 +54,13 @@ export const useContent = (
         parseDelay = 100,
         forceAfter = 0,
         autoProcess = -1,
-        parser = ContentParser,
+        processor,
         onMount = false,
     }: {
         textValue: string | undefined
         parseDelay?: number
         forceAfter?: number
-        parser?: ContentParserType
+        processor: ContentProcessor
         onMount?: boolean
         /**
          * `-1` automatic,
@@ -73,7 +75,7 @@ export const useContent = (
             if(typeof textValue === 'string' || typeof textValue === 'undefined' || textValue === null) {
                 const file = new VFile(textValue || '')
                 try {
-                    const ast = parser.runSync(parser.parse(file), file)
+                    const ast = processor.runSync(processor.parse(file), file)
                     return {
                         file: file,
                         root: ast,
@@ -102,7 +104,7 @@ export const useContent = (
 
     const processText = useCallback((abort?: AbortSignal) => {
         const file = new VFile(textValue)
-        const ast = parser.parse(file)
+        const ast = processor.parse(file)
 
         if(abort?.aborted) return
 
@@ -116,7 +118,7 @@ export const useContent = (
         // which skips the `processing` state rendering
         // and with it some button state indicators
         window.setTimeout(() => {
-            parser
+            processor
                 .run(ast, file)
                 .then((root) => {
                     if(abort?.aborted) return
@@ -141,7 +143,7 @@ export const useContent = (
                     })
                 })
         }, 0)
-    }, [parser, textValue])
+    }, [processor, textValue])
 
     const timer2 = useRef<number | undefined>(undefined)
     const mountedRef = useRef(false)
@@ -161,7 +163,7 @@ export const useContent = (
 
         if(typeof textValue !== 'string' || !textValue) {
             const file = new VFile('')
-            const ast = parser.parse(file)
+            const ast = processor.parse(file)
             setContentState({
                 file: file,
                 root: ast,
@@ -208,7 +210,7 @@ export const useContent = (
             window.clearTimeout(timer)
             abort.abort()
         }
-    }, [processText, textValue, onMount, parser, autoProcess])
+    }, [processText, textValue, onMount, processor, autoProcess])
 
     return {
         ...contentState,

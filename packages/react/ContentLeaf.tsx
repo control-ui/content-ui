@@ -1,7 +1,7 @@
+import { RootContent } from 'mdast'
 import React from 'react'
 import { EditorSelection } from '@content-ui/react/useContent'
 import { CodeMirrorComponentProps } from '@ui-schema/kit-codemirror/CodeMirror'
-import { CustomMdAstContent } from '@content-ui/md/Ast'
 import { useSettings } from '@content-ui/react/LeafSettings'
 import { DecoratorProps, DecoratorPropsNext, ReactBaseDecorator, ReactDeco } from './EngineDecorator'
 
@@ -62,8 +62,15 @@ export interface ContentLeafPayload {
     isLast?: boolean
 }
 
+type MdAstNodes = RootContent
+
+/**
+ * @todo make generic and easy to add further mdast types
+ */
 export type ContentLeafPropsMapping = {
-    [K in CustomMdAstContent['type']]: { elem: K, child: CustomMdAstContent } & ContentLeafPayload
+    // [K in CustomMdAstContent['type']]: { elem: K, child: CustomMdAstContent } & ContentLeafPayload
+    // [K in Content['type']]: { elem: K, child: Content extends { type: K } ? Extract<Content, { type: K }> : never } & ContentLeafPayload
+    [K in MdAstNodes['type']]: { elem: K, child: Extract<MdAstNodes, { type: K }> } & ContentLeafPayload
 }
 
 export type ContentLeafsNodeMapping = ReactLeafsNodeSpec<ContentLeafPropsMapping>

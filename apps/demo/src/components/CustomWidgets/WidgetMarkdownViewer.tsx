@@ -1,3 +1,4 @@
+import { ContentParser } from '@content-ui/md/parser/ContentParser'
 import { UIMetaReadContextType } from '@ui-schema/ui-schema/UIMetaReadContext/UIMetaReadContext'
 import React from 'react'
 import { TransTitle, WidgetProps, WithScalarValue } from '@ui-schema/ui-schema'
@@ -34,6 +35,7 @@ export const WidgetMarkdownViewer: React.ComponentType<WidgetProps & WithScalarV
         >
             <ViewerFromText
                 // storeKeys={storeKeys}
+                processor={ContentParser}
                 textValue={typeof value === 'string' ? value : ''}
                 onMount
             />

@@ -1,13 +1,8 @@
 // @ts-nocheck
-import { ok as assert } from 'uvu/assert'
 import { splice } from 'micromark-util-chunked'
 import { classifyCharacter } from 'micromark-util-classify-character'
 import { resolveAll } from 'micromark-util-resolve-all'
-import { codes } from 'micromark-util-symbol/codes'
-import { constants } from 'micromark-util-symbol/constants'
-import { types } from 'micromark-util-symbol/types'
-import { containerPhrasing } from 'mdast-util-to-markdown/lib/util/container-phrasing.js'
-import { track } from 'mdast-util-to-markdown/lib/util/track.js'
+import { constants, codes, types } from 'micromark-util-symbol'
 import { Extension } from 'micromark-util-types'
 import { Resolver } from 'micromark-util-types'
 import { Tokenizer } from 'micromark-util-types'
@@ -134,7 +129,7 @@ function mdSubSup(): Extension {
         return start
 
         function start(...[code]: Parameters<State>): ReturnType<State> {
-            assert(code === codes.tilde || code === codes.caret, 'expected `~|^`')
+            // assert(code === codes.tilde || code === codes.caret, 'expected `~|^`')
 
             if(
                 previous === code &&
@@ -214,11 +209,11 @@ export const subToMarkdown: ToMarkdownExtension & { handlers: Partial<Handlers &
     handlers: {sub: handleSub},
 }
 
-function handleSub(...[node, , context, safeOptions]: Parameters<ToMarkdownHandle>): ReturnType<ToMarkdownHandle> {
-    const tracker = track(safeOptions)
-    const exit = context.enter('sub' as ConstructName)
+function handleSub(...[node, , state, info]: Parameters<ToMarkdownHandle>): ReturnType<ToMarkdownHandle> {
+    const tracker = state.createTracker(info)
+    const exit = state.enter('sub' as ConstructName)
     let value = tracker.move('~')
-    value += containerPhrasing(node, context, {
+    value += state.containerPhrasing(node, state, {
         ...tracker.current(),
         before: value,
         after: '~',
