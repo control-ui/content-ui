@@ -5,7 +5,7 @@ import { BaseLeafContent } from '@content-ui/md-mui/Leafs/BaseLeafContent'
 import Link from '@mui/material/Link'
 import IcLink from '@mui/icons-material/Link'
 import IcOpenIn from '@mui/icons-material/OpenInNew'
-import { RouterMuiLink } from '@content-ui/md-mui/MuiComponents/MuiNavLink'
+import { MuiLink } from '@content-ui/md-mui/MuiComponents/MuiLink'
 import { useNavigate } from 'react-router-dom'
 import Box from '@mui/material/Box'
 import useTheme from '@mui/material/styles/useTheme'
@@ -146,7 +146,10 @@ export const LeafLink: React.FC<ContentLeafProps & WithMdAstChild> = ({child}) =
 
     // todo: support custom base-urls which, if same as currently open, will use react-router
     // todo: support custom base-urls which will always open in the same window, but not using react-router
-    if(child.url.startsWith('http://') || child.url.startsWith('https://') || child.url.startsWith('ftp://') || child.url.startsWith('ftps://')) {
+    if(
+        !child.url.startsWith(window.location.protocol + '//' + window.location.host)
+        && (child.url.startsWith('http://') || child.url.startsWith('https://') || child.url.startsWith('ftp://') || child.url.startsWith('ftps://'))
+    ) {
         return <Link href={child.url} target={'_blank'} rel={'noreferrer noopener'}>
             <BaseLeafContent child={child}/>
             <small style={{paddingLeft: 3}}><IcOpenIn fontSize={'inherit'} color={'inherit'} style={{verticalAlign: 'middle', opacity: 0.625}}/></small>
@@ -160,7 +163,7 @@ export const LeafLink: React.FC<ContentLeafProps & WithMdAstChild> = ({child}) =
         </Link>
     }
 
-    return <RouterMuiLink href={child.url}>
+    return <MuiLink href={child.url}>
         <BaseLeafContent child={child}/>
-    </RouterMuiLink>
+    </MuiLink>
 }

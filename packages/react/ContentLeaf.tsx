@@ -3,7 +3,7 @@ import React from 'react'
 import { EditorSelection } from '@content-ui/react/useContent'
 import { CodeMirrorComponentProps } from '@ui-schema/kit-codemirror/CodeMirror'
 import { useSettings } from '@content-ui/react/LeafSettings'
-import { DecoratorProps, DecoratorPropsNext, ReactBaseDecorator, ReactDeco } from './EngineDecorator'
+import { DecoratorProps, DecoratorPropsNext, ReactBaseDecorator, ReactDeco } from '@content-ui/react/EngineDecorator'
 
 export type GenericLeafsDataSpec<D extends {} = {}> = {
     [k: string]: D

@@ -1,7 +1,7 @@
 import React from 'react'
 import { FootnoteReference } from 'mdast'
 import { BaseLeafContent } from '@content-ui/md-mui/Leafs/BaseLeafContent'
-import { RouterMuiLink } from '@content-ui/md-mui/MuiComponents/MuiNavLink'
+import { MuiLink } from '@content-ui/md-mui/MuiComponents/MuiLink'
 import IcGoTo from '@mui/icons-material/SubdirectoryArrowLeft'
 import Typography from '@mui/material/Typography'
 import { ContentLeafProps } from '@content-ui/react/ContentLeaf'
@@ -33,7 +33,7 @@ export const LeafFootnoteDefinition: React.FC<ContentLeafProps> = ({child}) => {
                 {child.type === 'footnoteDefinition' ? <BaseLeafContent child={child}/> : null}
             </div>
 
-            <RouterMuiLink
+            <MuiLink
                 href={'#' + userContentPrefix + 'fnref-' + c?.identifier}
                 aria-label={'Back to content'}
                 sx={{
@@ -42,13 +42,13 @@ export const LeafFootnoteDefinition: React.FC<ContentLeafProps> = ({child}) => {
                 }}
             >
                 <small style={{paddingLeft: 3, display: 'flex'}}><IcGoTo fontSize={'small'} color={'inherit'} style={{verticalAlign: 'middle', opacity: 0.625}}/></small>
-            </RouterMuiLink>
+            </MuiLink>
         </div>
     </Typography>
 }
 
 export const LeafFootnoteReference: React.FC<ContentLeafProps> = ({child}) => {
-    return <RouterMuiLink
+    return <MuiLink
         href={'#' + userContentPrefix + 'fn-' + (child as FootnoteReference).identifier}
         id={userContentPrefix + 'fnref-' + (child as FootnoteReference).identifier}
         aria-describedby={footnoteContainerId}// todo: validate the aria selector
@@ -58,6 +58,6 @@ export const LeafFootnoteReference: React.FC<ContentLeafProps> = ({child}) => {
         }}
     >
         <sup>{child.type === 'footnoteReference' ? '[' + child.label + ']' : '*'}</sup>
-    </RouterMuiLink>
+    </MuiLink>
 }
 

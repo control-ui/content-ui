@@ -118,6 +118,7 @@ export const PageInput: React.ComponentType = () => {
                                 maxHeight: {md: '100%'},
                                 // viewer with bigger paddings for headline buttons
                                 px: {md: 2, lg: 3},
+                                backgroundColor: 'background.paper',
                             }}
                         >
                             <Viewer

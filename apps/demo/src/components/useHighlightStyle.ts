@@ -17,8 +17,8 @@ export const useHighlightStyle = (): HighlightStyle => {
             fontWeight: 'bold',
         },
         {
-            tag: tags.meta,
-            color: palette.mode === 'dark' ? '#43978b' : '#2a719b',
+            tag: [tags.meta],
+            color: palette.mode === 'dark' ? '#57b1a8' : '#008074',
         },
         {
             tag: tags.emphasis,
@@ -34,15 +34,22 @@ export const useHighlightStyle = (): HighlightStyle => {
         },
         {
             tag: tags.keyword,
-            color: palette.mode === 'dark' ? '#f746ec' : '#8e0b99',
+            color: palette.mode === 'dark' ? '#d55d9b' : '#c232ab',
         },
         {
-            tag: [tags.atom, tags.bool, tags.url, tags.contentSeparator, tags.labelName],
-            color: palette.mode === 'dark' ? '#978ed3' : '#121cb1',
+            tag: [tags.atom, tags.bool, tags.null, tags.url, tags.contentSeparator, tags.labelName],
+            // tags.operator,
+            color: palette.mode === 'dark' ? '#b167e4' : '#851cce',
         },
         {
-            tag: [tags.literal, tags.inserted],
-            color: palette.mode === 'dark' ? '#2da273' : '#116644',
+            tag: [tags.literal], // numbers in json+yaml
+            // tag: [tags.literal, tags.inserted],
+            color: palette.mode === 'dark' ? '#73a3ce' : '#125f77',
+        },
+        {
+            tag: [tags.inserted],
+            // tag: [tags.literal, tags.inserted],
+            color: palette.mode === 'dark' ? '#1a9544' : '#068248',
         },
         {
             tag: [tags.deleted],
@@ -54,19 +61,25 @@ export const useHighlightStyle = (): HighlightStyle => {
         },
         {
             tag: [tags.bracket],
-            color: palette.mode === 'dark' ? '#4b88d7' : '#0d64d5',
+            color: palette.mode === 'dark' ? '#608bb1' : '#22758f',
         },
         {
             tag: [tags.string],
-            color: palette.mode === 'dark' ? '#83ca69' : '#08822c',
+            color: palette.mode === 'dark' ? '#83ca69' : '#067326',
         },
         {
             tag: [tags.regexp, tags.escape, tags.special(tags.string)],
-            color: '#ee4400',
+            color: palette.mode === 'dark' ? '#ec7242' : '#ee4400',
         },
         {
-            tag: tags.definition(tags.variableName),
-            color: palette.mode === 'dark' ? '#5279ec' : '#255fb9',
+            tag: [
+                tags.definition(tags.variableName),
+                // e.g. sass-vars
+                tags.special(tags.variableName),
+                tags.variableName,
+                tags.attributeName,
+            ],
+            color: palette.mode === 'dark' ? '#6789ec' : '#1a3ab9',
         },
         {
             tag: tags.local(tags.variableName),
@@ -74,27 +87,45 @@ export const useHighlightStyle = (): HighlightStyle => {
         },
         {
             tag: [tags.typeName, tags.namespace],
-            color: palette.mode === 'dark' ? '#ec4837' : '#b7382b',
+            color: palette.mode === 'dark' ? '#41aea4' : '#008074',
+            // color: palette.mode === 'dark' ? '#ec4837' : '#b7382b',
         },
         {
             tag: tags.className,
-            color: '#116677',
+            // color: '#116677',
+            color: palette.mode === 'dark' ? '#388c83' : '#207e75',
         },
         {
-            tag: [tags.special(tags.variableName), tags.macroName],
+            tag: [tags.macroName],
             color: '#225566',
         },
-        {
+        /*{
             tag: tags.definition(tags.propertyName),
             color: '#0000cc',
-        },
+        },*/
         {
-            tag: tags.comment,
+            tag: [
+                tags.comment,
+                // tags.blockComment,
+            ],
             color: palette.mode === 'dark' ? '#738284' : '#6b7677',
+            // backgroundColor: palette.mode === 'dark' ? '#738284' : '#6b7677',
         },
+        // {
+        //     tag: [
+        //         tags.blockComment,
+        //     ],
+        //     opacity: 0.75,
+        //     '&:hover, &:active, &:focus': {
+        //         opacity: 1,
+        //     },
+        //     // backgroundColor: palette.mode === 'dark' ? '#1f2626' : '#e1ebec',
+        //     // display: 'block',
+        // },
         {
             tag: tags.invalid,
-            color: '#ff0000',
+            color: palette.error.main,
+            // color: '#ff0000',
         },
     ]), [palette])
 }

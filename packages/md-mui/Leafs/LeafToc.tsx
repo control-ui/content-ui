@@ -1,6 +1,6 @@
 import React from 'react'
 import { Heading, ListItem, Root } from 'mdast'
-import { RouterMuiLink } from '@content-ui/md-mui/MuiComponents/MuiNavLink'
+import { MuiLink } from '@content-ui/md-mui/MuiComponents/MuiLink'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import { ContentLeaf, ContentLeafProps, ContentLeafPropsMapping } from '@content-ui/react/ContentLeaf'
@@ -28,7 +28,7 @@ export const LeafTocListItem: React.FC<ContentLeafProps & WithMdAstChild<TocList
     return c ? <Typography component={'li'} variant={textVariant || (smallList ? 'body2' : 'body1')} sx={{pl: 0.5}}>
         <Box style={{display: 'inline-flex'}}>
             {headlineLinkable ?
-                <RouterMuiLink
+                <MuiLink
                     href={'#' + textToId(c?.value.flatText.join(''))}
                     color={selectedByLine ? 'primary' : 'inherit'}
                     underline={'hover'}
@@ -42,7 +42,7 @@ export const LeafTocListItem: React.FC<ContentLeafProps & WithMdAstChild<TocList
                     onBlur={() => setFocus(false)}
                 >
                     {c.value.flatText.join('')}
-                </RouterMuiLink> :
+                </MuiLink> :
                 <Typography>
                     {c.value.flatText.join('')}
                 </Typography>}

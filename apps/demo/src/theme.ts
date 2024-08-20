@@ -115,8 +115,8 @@ export const customTheme = (): {
                 main: '#bd90e0',
             },
             background: {
-                paper: '#04252f',
-                default: '#001820',
+                paper: '#04212a',
+                default: '#011217',
             },
             text: {
                 primary: '#c6c4c4',

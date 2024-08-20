@@ -2,6 +2,11 @@ export const textToId =
     (text: string): string =>
         text
             .toLowerCase()
+            // replace any non-word characters (except `:` `.` `-`) with a hyphen
             .replace(/[^\w:.-]+/g, '-')
-            .replace(/^\d*\.*/, '') // remove `1.`/`2.` at the headline start
-            .replace(/^-+/, '-') // remove maybe generated leading hyphens
+            // remove maybe generated leading hyphens, including numbers
+            .replace(/^[-\d]+/, '')
+            // replace multiple hyphens with a single one
+            .replace(/-+/g, '-')
+            // trim any trailing hyphens
+            .replace(/-$/, '')

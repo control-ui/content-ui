@@ -1,4 +1,5 @@
 import { ContentParser } from '@content-ui/md/parser/ContentParser'
+import Paper from '@mui/material/Paper'
 import React from 'react'
 import Helmet from 'react-helmet'
 import { useTranslation } from 'react-i18next'
@@ -69,61 +70,63 @@ export const PageComplex: React.ComponentType = () => {
 
         <Container maxWidth={'lg'} fixed>
             <Box mt={1}>
-                <Grid2 container spacing={2}>
-                    <Grid2 xs={12} sx={{display: 'flex'}}>
-                        <FormControl fullWidth size={'small'} sx={{mr: 1}}>
-                            <InputLabel id="content-selector">Content</InputLabel>
-                            <Select
-                                label={'Content'} size={'small'}
-                                labelId="content-selector"
-                                id="content-selector-v"
-                                value={content}
-                                onChange={(e) => setContent(e.target.value)}
+                <Paper sx={{px: 1.5, py: 1}}>
+                    <Grid2 container spacing={2}>
+                        <Grid2 xs={12} sx={{display: 'flex'}}>
+                            <FormControl fullWidth size={'small'} sx={{mr: 1}}>
+                                <InputLabel id="content-selector">Content</InputLabel>
+                                <Select
+                                    label={'Content'} size={'small'}
+                                    labelId="content-selector"
+                                    id="content-selector-v"
+                                    value={content}
+                                    onChange={(e) => setContent(e.target.value)}
+                                >
+                                    {contentList?.files.map(file =>
+                                        <MenuItem value={file.name} key={file.name}>{file.name}</MenuItem>,
+                                    )}
+                                </Select>
+                            </FormControl>
+                            <IconButtonProgress
+                                tooltip={'Refresh'}
+                                progress={loading.progress}
+                                onClick={() => {
+                                    load()
+                                    if(!content) return
+                                    loadDetails(content)
+                                }}
                             >
-                                {contentList?.files.map(file =>
-                                    <MenuItem value={file.name} key={file.name}>{file.name}</MenuItem>,
-                                )}
-                            </Select>
-                        </FormControl>
-                        <IconButtonProgress
-                            tooltip={'Refresh'}
-                            progress={loading.progress}
-                            onClick={() => {
-                                load()
-                                if(!content) return
-                                loadDetails(content)
-                            }}
-                        >
-                            <IcRefresh/>
-                        </IconButtonProgress>
+                                <IcRefresh/>
+                            </IconButtonProgress>
+                        </Grid2>
+
+                        {loading.progress === ps.start || loadingDetails.progress === ps.start ?
+                            <LinearProgress/> : null}
+
+                        {loading.progress === ps.error ?
+                            <Grid2 xs={12}>
+                                <Alert severity={'error'}>
+                                    <AlertTitle>Failed to load content list.</AlertTitle>
+                                </Alert>
+                            </Grid2> : null}
+                        {content && loadingDetails.progress === ps.error ?
+                            <Grid2 xs={12}>
+                                <Alert severity={'error'}>
+                                    <AlertTitle>Failed to load content details for <code>{content}</code>.</AlertTitle>
+                                </Alert>
+                            </Grid2> : null}
+
+                        {contentDetails?.file ?
+                            <Grid2 xs={12}>
+                                <ViewerFromText
+                                    processor={ContentParser}
+                                    textValue={contentDetails.file}
+                                    parseDelay={0}
+                                    onMount
+                                />
+                            </Grid2> : null}
                     </Grid2>
-
-                    {loading.progress === ps.start || loadingDetails.progress === ps.start ?
-                        <LinearProgress/> : null}
-
-                    {loading.progress === ps.error ?
-                        <Grid2 xs={12}>
-                            <Alert severity={'error'}>
-                                <AlertTitle>Failed to load content list.</AlertTitle>
-                            </Alert>
-                        </Grid2> : null}
-                    {content && loadingDetails.progress === ps.error ?
-                        <Grid2 xs={12}>
-                            <Alert severity={'error'}>
-                                <AlertTitle>Failed to load content details for <code>{content}</code>.</AlertTitle>
-                            </Alert>
-                        </Grid2> : null}
-
-                    {contentDetails?.file ?
-                        <Grid2 xs={12}>
-                            <ViewerFromText
-                                processor={ContentParser}
-                                textValue={contentDetails.file}
-                                parseDelay={0}
-                                onMount
-                            />
-                        </Grid2> : null}
-                </Grid2>
+                </Paper>
             </Box>
         </Container>
     </>
