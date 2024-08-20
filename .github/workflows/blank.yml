@@ -66,11 +66,11 @@ jobs:
 
             -   name: CP License files
                 run: |
-                    cp LICENSE dist/input
+                    cp LICENSE dist/struct
                     cp LICENSE dist/md
-                    cp LICENSE dist/md-mui
                     cp LICENSE dist/react
-                    #cp LICENSE dist/struct
+                    cp LICENSE dist/md-mui
+                    cp LICENSE dist/input
 
             -   name: Publish to NPM
                 if: github.ref == 'refs/heads/main'

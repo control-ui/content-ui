@@ -32,6 +32,10 @@
             "import": "./ContentLeaf.js",
             "types": "./ContentLeaf.d.ts"
         },
+        "./EngineDecorator": {
+            "import": "./EngineDecorator.js",
+            "types": "./EngineDecorator.d.ts"
+        },
         "./isLeafSelected": {
             "import": "./isLeafSelected.js",
             "types": "./isLeafSelected.d.ts"
