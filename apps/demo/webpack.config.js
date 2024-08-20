@@ -49,6 +49,8 @@ export default {
         alias: {
             // note: strict esm in some, not in others, works in monorepo only with aliasing the strict ones
             '@content-ui/react': path.resolve(baseDir, '../../', 'packages', 'react'),
+            '@content-ui/struct': path.resolve(baseDir, '../../', 'packages', 'struct'),
+            '@content-ui/md-mui': path.resolve(baseDir, '../../', 'packages', 'md-mui'),
             '@content-ui/md': path.resolve(baseDir, '../../', 'packages', 'md'),
         },
     },

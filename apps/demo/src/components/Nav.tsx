@@ -1,6 +1,6 @@
+import { MuiNavLink } from '@content-ui/md-mui/MuiComponents/MuiNavLink'
 import React from 'react'
 import { config } from '../config'
-import { MuiNavLink } from './Links/MuiNavLink'
 import Box from '@mui/material/Box'
 
 export const Nav: React.FC<React.PropsWithChildren<{ pb: number }>> = ({children, pb}) => {

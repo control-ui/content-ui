@@ -1,8 +1,10 @@
-/**!
- * copied from https://github.com/erykwalder/lezer-markdown-obsidian/tree/main/src
- * @todo license/published check
+/**
+ * Copied and adjusted, https://github.com/erykwalder/lezer-markdown-obsidian/blob/6223674c535addf0fa60c8a04e3ebf5fd8aa3d7e/src/extensions.ts
+ * @licence MIT 2023 Eric Rykwalder, see file LICENSE_LEZER-MD.md
  */
-import { Input } from '@lezer/common'
+import { foldNodeProp, StreamLanguage } from '@codemirror/language'
+import { yaml } from '@codemirror/legacy-modes/mode/yaml'
+import { Input, parseMixed } from '@lezer/common'
 import {
     BlockContext,
     Element,
@@ -11,6 +13,7 @@ import {
     LeafBlockParser,
     Line,
     MarkdownConfig,
+    DelimiterType,
 } from '@lezer/markdown'
 import { styleTags, tags } from '@lezer/highlight'
 
@@ -19,6 +22,10 @@ declare module '@lezer/markdown' {
         readonly input: Input
         checkedYaml: boolean | null
     }
+}
+
+interface BlockContextWithInput extends BlockContext {
+    readonly input: Input
 }
 
 const CommentDelim = {resolve: 'Comment', mark: 'CommentMarker'}
@@ -215,8 +222,10 @@ export const Hashtag: MarkdownConfig = {
         }),
     ],
 }
+
+// removed `dot` here to allow that for combined names
 const mentionRE =
-    /^[^\u2000-\u206F\u2E00-\u2E7F'!"#$%&()*+,.:;<=>?^`{|}~[\]\\\s]+/
+    /^[^\u2000-\u206E\u2E00-\u2E7F'!"#$%&()*+,:;<=>?^`{|}~[\]\\\s]+/
 
 export const Mention: MarkdownConfig = {
     defineNodes: ['Mention', 'MentionMark', 'MentionLabel'],
@@ -232,6 +241,10 @@ export const Mention: MarkdownConfig = {
                 const match = mentionRE.exec(cx.text.slice(pos - cx.offset))
                 if(match && /[\D|\d]/.test(match[0])) {
                     pos += match[0].length
+                    if(match[0][match[0].length - 1] === '.') {
+                        // if the last is a dot, exclude dot again, e.g. sentence endings
+                        pos -= 1
+                    }
                     return cx.addElement(
                         cx.elt('Mention', start, pos, [
                             cx.elt('MentionMark', start, start + 1),
@@ -413,7 +426,7 @@ export const Mark: MarkdownConfig = {
     ],
 }
 
-export const InsertDelim = {resolve: 'Insert', mark: 'InsertMarker'}
+export const InsertDelim: DelimiterType = {resolve: 'Insert', mark: 'InsertMarker'}
 
 export const Insert: MarkdownConfig = {
     defineNodes: ['Insert', 'InsertMarker'],
@@ -428,7 +441,7 @@ export const Insert: MarkdownConfig = {
     ],
     props: [
         styleTags({
-            'InsertMarker': tags.meta,
+            'InsertMarker': [tags.meta, tags.inserted],
         }),
     ],
 }
@@ -538,22 +551,44 @@ export const Tex: MarkdownConfig = {
     ],
 }
 
-export const YAMLFrontMatter: MarkdownConfig = {
+export const YAMLFrontMatter: (options?: { allBlocks?: boolean }) => MarkdownConfig = ({allBlocks} = {}) => ({
     defineNodes: ['YAMLFrontMatter', 'YAMLMarker', 'YAMLContent'],
     parseBlock: [
         {
             name: 'YAMLFrontMatter',
-            // eslint-disable-next-line
-            parse(cx: BlockContext, _line: Line) {
-                if(cx.checkedYaml) {
+            before: 'FencedCode',
+            parse(cx: BlockContextWithInput, line: Line) {
+                // if(cx.insideYaml) {
+                //     return false
+                // }
+                const start = cx.lineStart
+
+                // abort when not at start and not wanting all blocks
+                if(cx.prevLineEnd() !== -1 && !allBlocks) {
+                    // cx.insideYaml = true
                     return false
                 }
-                cx.checkedYaml = true
-                const start = cx.lineStart
+
+                // const chunk = cx.input.chunk(start)
+                // line.addMarker()
+                // ignoring blocks with new lines after the start-line, to not highlight actual content with hr around
+                if(line.text !== '---' || cx.input.read(start + 3, start + 3 + 2) === '\n\n') return false
+
+                const lastLineEnd = cx.input.read(cx.prevLineEnd() - 1, cx.prevLineEnd() + 1)
+
                 if(
-                    cx.prevLineEnd() === -1 &&
-                    cx.input.chunk(start) === '---'
+                    cx.prevLineEnd() === -1 ||
+                    lastLineEnd === '\n\n' || lastLineEnd === '\r\n\r\n'
                 ) {
+                    // cx.insideYaml = true
+
+                    // todo: improve this check, when just using `nextLine` this will overwrite anything afterwards
+                    //       but `---` is also for hr, thus may be existing just once
+                    //       and currently does not correctly work when changing only one marker, as incrementally read seems to be lost
+                    const contentToEnd = cx.input.read(start, cx.input.length)
+                    const hasEndLine = contentToEnd.indexOf('\n---\n')
+
+                    if(hasEndLine === -1) return false
                     let end: number | undefined
                     do {
                         if(cx.lineStart !== start && cx.input.chunk(cx.lineStart) === '---') {
@@ -561,7 +596,15 @@ export const YAMLFrontMatter: MarkdownConfig = {
                         }
                     } while(typeof end === 'undefined' && cx.nextLine())
 
-                    if(typeof end === 'undefined') return false
+                    if(typeof end === 'undefined') {
+                        return false
+                    }
+
+                    if(allBlocks) {
+                        // just kept this marker as not sure how exactly nested langs work,
+                        // is sharing the cx while iterating above, then it may be needed
+                        // cx.insideYaml = false
+                    }
 
                     cx.addElement(
                         cx.elt('YAMLFrontMatter', start, end, [
@@ -574,13 +617,25 @@ export const YAMLFrontMatter: MarkdownConfig = {
                 }
                 return false
             },
-            before: 'LinkReference',
         },
     ],
     props: [
         styleTags({
-            'YAMLMarker': [tags.meta, tags.strong],
+            'YAMLMarker': [tags.strong, tags.blockComment],
             'YAMLContent': tags.blockComment,
         }),
+        foldNodeProp.add({
+            'YAMLFrontMatter'(tree) {
+                const first = tree.firstChild, last = tree.lastChild!
+                if(!first || first.name != 'YAMLMarker') return null
+                return {from: first.to, to: last.name == 'YAMLMarker' ? last.to : tree.to}
+            },
+        }),
     ],
-}
+    wrap: parseMixed(node => {
+        return node.name === 'YAMLContent' ? {
+            parser: StreamLanguage.define(yaml).parser,
+            // overlay: node => node.type.name == 'Text',
+        } : null
+    }),
+})

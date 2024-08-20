@@ -1,6 +1,6 @@
 {
     "name": "@content-ui/react",
-    "version": "0.0.7",
+    "version": "0.0.8",
     "description": "",
     "author": {
         "name": "bemit",
@@ -32,6 +32,10 @@
             "import": "./ContentLeaf.js",
             "types": "./ContentLeaf.d.ts"
         },
+        "./EngineDecorator": {
+            "import": "./EngineDecorator.js",
+            "types": "./EngineDecorator.d.ts"
+        },
         "./isLeafSelected": {
             "import": "./isLeafSelected.js",
             "types": "./isLeafSelected.d.ts"
@@ -54,18 +58,15 @@
         }
     },
     "dependencies": {
-        "@tactic-ui/react": "~0.0.5",
-        "vfile": "^5.3.6"
+        "vfile": "^6.0.2"
     },
     "peerDependencies": {
-        "@content-ui/md": "*",
-        "react-progress-state": "~0.2.6 || ~0.3.1",
+        "@types/mdast": "^4.0.0",
         "react": "^17.0 || ^18.0",
         "react-dom": "^17.0 || ^18.0"
     },
     "devDependencies": {
-        "@content-ui/md": "*",
-        "react-progress-state": "~0.3.1",
+        "@types/mdast": "^4.0.0",
         "react": "^17.0 || ^18.0",
         "react-dom": "^17.0 || ^18.0"
     },

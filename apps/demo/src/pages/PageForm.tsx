@@ -1,3 +1,4 @@
+import Paper from '@mui/material/Paper'
 import React from 'react'
 import Helmet from 'react-helmet'
 import { useTranslation } from 'react-i18next'
@@ -97,38 +98,42 @@ export const PageForm: React.ComponentType = () => {
         </Helmet>
 
         <Container maxWidth={'lg'} fixed>
-            <Box my={1}>
-                <Button onClick={() => setEdit(r => !r)}>
-                    {edit ? 'read' : 'edit'}
-                </Button>
-                <Button onClick={() => setReadDense(r => !r)}>
-                    {readDense ? 'normal-size' : 'dense'}
-                </Button>
-                <Button
-                    onClick={() => setStore(s => s
-                        .setIn(['values', 'name'], 'Example ' + (++i))
-                        .setIn(['values', 'intro'], mdIntro)
-                        .setIn(['values', 'content'], md),
-                    )}
-                >
-                    import example
-                </Button>
-            </Box>
-            <UIMetaProvider<UIMetaReadContextType & { isVirtual?: boolean }>
-                widgets={rtdWidgets} t={tUI}
-                readDense={readDense} readActive={!edit}
-                // isVirtual={isVirtual}
-            >
-                <UIStoreProvider
-                    store={store} onChange={onChange}
-                    showValidity={Boolean((edit && showValidityOnRead) || (!edit && showValidity))}
-                >
-                    <GridStack
-                        isRoot
-                        schema={schema}
-                    />
-                </UIStoreProvider>
-            </UIMetaProvider>
+            <Paper>
+                <Box my={1}>
+                    <Button onClick={() => setEdit(r => !r)}>
+                        {edit ? 'read' : 'edit'}
+                    </Button>
+                    <Button onClick={() => setReadDense(r => !r)}>
+                        {readDense ? 'normal-size' : 'dense'}
+                    </Button>
+                    <Button
+                        onClick={() => setStore(s => s
+                            .setIn(['values', 'name'], 'Example ' + (++i))
+                            .setIn(['values', 'intro'], mdIntro)
+                            .setIn(['values', 'content'], md),
+                        )}
+                    >
+                        import example
+                    </Button>
+                </Box>
+                <Box mx={1.5} mb={1}>
+                    <UIMetaProvider<UIMetaReadContextType & { isVirtual?: boolean }>
+                        widgets={rtdWidgets} t={tUI}
+                        readDense={readDense} readActive={!edit}
+                        // isVirtual={isVirtual}
+                    >
+                        <UIStoreProvider
+                            store={store} onChange={onChange}
+                            showValidity={Boolean((edit && showValidityOnRead) || (!edit && showValidity))}
+                        >
+                            <GridStack
+                                isRoot
+                                schema={schema}
+                            />
+                        </UIStoreProvider>
+                    </UIMetaProvider>
+                </Box>
+            </Paper>
         </Container>
     </>
 }

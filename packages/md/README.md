@@ -15,4 +15,4 @@ Adjusted to Typescript and used as base for similar plugins:
 - `remarkUnderline` to support `__` `<u`
 - `remarkMark` to support `==` `<mark`
 
-© 2023 bemit UG (haftungsbeschränkt)
+© 2024 bemit UG (haftungsbeschränkt)

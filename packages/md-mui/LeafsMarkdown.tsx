@@ -10,14 +10,13 @@ import { LeafH, LeafLink, LeafP } from '@content-ui/md-mui/Leafs/LeafTypo'
 import { LeafList, LeafListItem } from '@content-ui/md-mui/Leafs/LeafList'
 import { LeafCode, LeafCodeInline } from '@content-ui/md-mui/Leafs/LeafCode'
 import { LeafBlockquote } from '@content-ui/md-mui/Leafs/LeafBlockquote'
-import { LeafFootnote, LeafFootnoteDefinition, LeafFootnoteReference } from '@content-ui/md-mui/Leafs/LeafFootnote'
+import { LeafFootnoteDefinition, LeafFootnoteReference } from '@content-ui/md-mui/Leafs/LeafFootnote'
 import { LeafTable, LeafTableCell, LeafTableRow } from '@content-ui/md-mui/Leafs/LeafTable'
 import { LeafYaml } from '@content-ui/md-mui/Leafs/LeafYaml'
 import { LeafTocListItem } from '@content-ui/md-mui/Leafs/LeafToc'
 import { LeafImage } from '@content-ui/md-mui/Leafs/LeafImage'
-import { ContentLeafComponents, ContentLeafsNodeMapping } from '@content-ui/react/ContentLeaf'
+import { ContentLeafComponents, ContentLeafsNodeMapping, LeafsRenderMapping } from '@content-ui/react/ContentLeaf'
 import { LeafDefList, LeafDefListDescription, LeafDefListTerm } from '@content-ui/md-mui/Leafs/LeafDefList'
-import { LeafsRenderMapping } from '@tactic-ui/react/LeafsEngine'
 
 const leafs: ContentLeafsNodeMapping = {
     break: LeafBr,
@@ -42,7 +41,6 @@ const leafs: ContentLeafsNodeMapping = {
     list: LeafList,
     listItem: LeafListItem,
     blockquote: LeafBlockquote,
-    footnote: LeafFootnote,
     footnoteDefinition: LeafFootnoteDefinition,
     footnoteReference: LeafFootnoteReference,
     table: LeafTable,
@@ -60,9 +58,9 @@ const leafs: ContentLeafsNodeMapping = {
     linkReference: null,
 }
 
-export const renderMapping: LeafsRenderMapping<ContentLeafsNodeMapping, ContentLeafComponents> = {
+export const renderMapping: LeafsRenderMapping<ContentLeafsNodeMapping, ContentLeafComponents, { type: string }> = {
     leafs: leafs,
-    // @ts-ignore
     components: {},
+    matchLeaf: (p, l) => l[p.type],
 }
 

@@ -1,3 +1,4 @@
+import { ContentParser } from '@content-ui/md/parser/ContentParser'
 import { UIMetaReadContextType } from '@ui-schema/ui-schema/UIMetaReadContext'
 import React from 'react'
 import { TransTitle, WidgetProps, WithScalarValue } from '@ui-schema/ui-schema'
@@ -51,7 +52,19 @@ export const WidgetMarkdownEditor: React.ComponentType<WidgetProps & WithScalarV
         typeof value === 'string' ? value : '',
         onChangeText,
     )
-    const {processing, root, file} = useContent(textValue, textValue.length > 10000 ? 460 : 280, 0, autoProcess)
+    const {processing, root, file} = useContent({
+        textValue,
+        parseDelay: textValue.length > 10000 ? 460 : 280,
+        autoProcess,
+        onMount: true,
+        processor: ContentParser,
+    })
+
+    const warnings = file?.messages.length
+
+    React.useEffect(() => {
+        setLintWarnings?.(typeof warnings === 'number' ? warnings : null)
+    }, [warnings, setLintWarnings])
 
     const extensions = React.useMemo(() => {
         const highlight = getHighlight('md')
@@ -109,7 +122,6 @@ export const WidgetMarkdownEditor: React.ComponentType<WidgetProps & WithScalarV
             >
                 <ContentInput
                     preview={preview}
-                    setLintWarnings={setLintWarnings}
                     refWarningBox={refWarningBox}
                     CodeMirror={CustomCodeMirror}
                     onChange={readOnly ? undefined : handleOnChange}

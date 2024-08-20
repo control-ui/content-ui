@@ -1,3 +1,4 @@
+import { Transaction } from '@codemirror/state'
 import React from 'react'
 import { EditorSelection } from '@content-ui/react/useContent'
 import { CodeMirrorOnChange } from '@ui-schema/kit-codemirror/useCodeMirror'
@@ -49,6 +50,10 @@ export const useContentEditor = (
             setEditorSelection(undefined)
         }
         if(!v.docChanged || typeof newValue !== 'string') {
+            return
+        }
+        const isFromRemote = v.transactions.some(t => t.annotation(Transaction.remote))
+        if(isFromRemote) {
             return
         }
         onChange(newValue)

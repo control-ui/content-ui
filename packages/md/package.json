@@ -1,6 +1,6 @@
 {
     "name": "@content-ui/md",
-    "version": "0.0.6",
+    "version": "0.0.7",
     "description": "",
     "author": {
         "name": "bemit",
@@ -24,14 +24,6 @@
             "import": "./parser/ContentParser.js",
             "types": "./parser/ContentParser.d.ts"
         },
-        "./parser/HTMLParser": {
-            "import": "./parser/HTMLParser.js",
-            "types": "./parser/HTMLParser.d.ts"
-        },
-        "./parser/ParseTo": {
-            "import": "./parser/ParseTo.js",
-            "types": "./parser/ParseTo.d.ts"
-        },
         "./plugins/remarkInsert": {
             "import": "./plugins/remarkInsert.js",
             "types": "./plugins/remarkInsert.d.ts"
@@ -47,56 +39,23 @@
         "./plugins/remarkUnderline": {
             "import": "./plugins/remarkUnderline.js",
             "types": "./plugins/remarkUnderline.d.ts"
-        },
-        "./Ast": {
-            "import": "./Ast.js",
-            "types": "./Ast.d.ts"
-        },
-        "./diffLines": {
-            "import": "./diffLines.js",
-            "types": "./diffLines.d.ts"
-        },
-        "./diffLinesList": {
-            "import": "./diffLinesList.js",
-            "types": "./diffLinesList.d.ts"
-        },
-        "./diffText": {
-            "import": "./diffText.js",
-            "types": "./diffText.d.ts"
-        },
-        "./flattenText": {
-            "import": "./flattenText.js",
-            "types": "./flattenText.d.ts"
-        },
-        "./textTo": {
-            "import": "./textTo.js",
-            "types": "./textTo.d.ts"
-        },
-        "./textToId": {
-            "import": "./textToId.js",
-            "types": "./textToId.d.ts"
         }
     },
     "dependencies": {
-        "rehype-parse": "^8.0.4",
-        "rehype-remark": "^9.1.2",
-        "rehype-sanitize": "^5.0.1",
-        "rehype-stringify": "^9.0.3",
-        "remark": "^14.0.2",
-        "remark-frontmatter": "^4.0.1",
-        "remark-gfm": "^3.0.1",
-        "remark-lint": "^9.1.1",
-        "remark-lint-no-duplicate-headings": "^3.1.1",
-        "remark-parse": "^10.0.1",
-        "remark-preset-lint-consistent": "^5.1.1",
-        "remark-preset-lint-recommended": "^6.1.2",
-        "remark-definition-list": "^1.2.0",
-        "micromark-extension-definition-list": "^1.3.0",
-        "remark-rehype": "^10.1.0",
-        "remark-stringify": "^10.0.2",
-        "unified": "^10.1.2",
-        "vfile": "^5.3.5",
-        "vfile-reporter": "^7.0.4",
+        "remark": "^15.0.1",
+        "remark-frontmatter": "^5.0.0",
+        "remark-gfm": "^4.0.0",
+        "remark-lint": "^10.0.0",
+        "remark-lint-no-duplicate-headings": "^4.0.0",
+        "remark-parse": "^11.0.0",
+        "remark-preset-lint-consistent": "^6.0.0",
+        "remark-preset-lint-recommended": "^7.0.0",
+        "remark-definition-list": "^2.0.0",
+        "micromark-extension-definition-list": "^2.0.0",
+        "remark-stringify": "^11.0.0",
+        "unified": "^11.0.0",
+        "vfile": "^6.0.2",
+        "vfile-reporter": "^8.0.0",
         "yaml": "^2.1.1"
     },
     "peerDependencies": {

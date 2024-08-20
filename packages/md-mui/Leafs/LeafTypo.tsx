@@ -5,7 +5,7 @@ import { BaseLeafContent } from '@content-ui/md-mui/Leafs/BaseLeafContent'
 import Link from '@mui/material/Link'
 import IcLink from '@mui/icons-material/Link'
 import IcOpenIn from '@mui/icons-material/OpenInNew'
-import { RouterMuiLink } from '@content-ui/md-mui/MuiComponents/MuiNavLink'
+import { MuiLink } from '@content-ui/md-mui/MuiComponents/MuiLink'
 import { useNavigate } from 'react-router-dom'
 import Box from '@mui/material/Box'
 import useTheme from '@mui/material/styles/useTheme'
@@ -13,9 +13,9 @@ import { useSettings } from '@content-ui/react/LeafSettings'
 import { ContentLeafProps } from '@content-ui/react/ContentLeaf'
 import { useLeafFollower } from '@content-ui/react/useLeafFollower'
 import { copyToClipBoard } from '@content-ui/react/Utils/copyToClipboard'
-import { flattenText } from '@content-ui/md/flattenText'
-import { textToId } from '@content-ui/md/textToId'
-import { WithMdAstChild } from '@content-ui/md/Ast'
+import { flattenText } from '@content-ui/struct/flattenText'
+import { textToId } from '@content-ui/struct/textToId'
+import { WithMdAstChild } from '@content-ui/struct/Ast'
 
 export const LeafP: React.FC<ContentLeafProps & WithMdAstChild & { selected?: boolean, dense?: boolean }> = ({child, selected, dense, isLast}) => {
     const {palette} = useTheme()
@@ -39,7 +39,7 @@ export const LeafH: React.FC<ContentLeafProps & WithMdAstChild & { selected?: bo
         headlineLinkable,
         headlineSelectable, headlineSelectableOnHover,
         headlineOffset,
-        // todo: with the tui@0.0.3 it is injected in the renderer and thus should be moved to props
+        // todo: is injected in `ContentLeaf`, move to props
     } = useSettings()
     const hRef = useLeafFollower<HTMLHeadingElement>(selected)
     const [copied, setCopied] = React.useState(false)
@@ -144,7 +144,12 @@ export const LeafH: React.FC<ContentLeafProps & WithMdAstChild & { selected?: bo
 export const LeafLink: React.FC<ContentLeafProps & WithMdAstChild> = ({child}) => {
     if(child.type !== 'link') return null
 
-    if(child.url.startsWith('http://') || child.url.startsWith('https://') || child.url.startsWith('ftp://') || child.url.startsWith('ftps://')) {
+    // todo: support custom base-urls which, if same as currently open, will use react-router
+    // todo: support custom base-urls which will always open in the same window, but not using react-router
+    if(
+        !child.url.startsWith(window.location.protocol + '//' + window.location.host)
+        && (child.url.startsWith('http://') || child.url.startsWith('https://') || child.url.startsWith('ftp://') || child.url.startsWith('ftps://'))
+    ) {
         return <Link href={child.url} target={'_blank'} rel={'noreferrer noopener'}>
             <BaseLeafContent child={child}/>
             <small style={{paddingLeft: 3}}><IcOpenIn fontSize={'inherit'} color={'inherit'} style={{verticalAlign: 'middle', opacity: 0.625}}/></small>
@@ -158,7 +163,7 @@ export const LeafLink: React.FC<ContentLeafProps & WithMdAstChild> = ({child}) =
         </Link>
     }
 
-    return <RouterMuiLink href={child.url}>
+    return <MuiLink href={child.url}>
         <BaseLeafContent child={child}/>
-    </RouterMuiLink>
+    </MuiLink>
 }

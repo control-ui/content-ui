@@ -21,9 +21,16 @@ export const contentHandler = (app: Express, folder: string) => {
 
     app.get('/contents/:contentId', async(req, res) => {
         const contentId = req.params.contentId
-        const file = await readFile(path.join(folder, contentId + '.md'))
-        return res.send({
-            file: file.toString('utf8'),
-        })
+        try {
+
+            const file = await readFile(path.join(folder, contentId + '.md'))
+            return res.send({
+                file: file.toString('utf8'),
+            })
+        } catch(e) {
+            return res.status(404).send({
+                error: 'Missing content file',
+            })
+        }
     })
 }

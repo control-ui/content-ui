@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2024 bemit UG (haftungsbeschränkt), Michael Becker https://i-am-digital.eu
+Copyright (c) 2023 Eric Rykwalder
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

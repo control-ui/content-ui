@@ -1,3 +1,5 @@
+import { ContentParser } from '@content-ui/md/parser/ContentParser'
+import Paper from '@mui/material/Paper'
 import React from 'react'
 import Helmet from 'react-helmet'
 import { useTranslation } from 'react-i18next'
@@ -43,12 +45,16 @@ export const PageHome: React.ComponentType = () => {
 
         <Container maxWidth={'lg'} fixed>
             <Grid2 container spacing={2}>
-                <Grid2 xs={12} md={6} mdOffset={3}>
-                    <ViewerFromText
-                        textValue={md}
-                    />
+                <Grid2 xs={12} md={8} mdOffset={2}>
+                    <Paper sx={{px: 1.5, py: 1}}>
+                        <ViewerFromText
+                            processor={ContentParser}
+                            textValue={md}
+                            onMount
+                        />
+                    </Paper>
                 </Grid2>
-                <Grid2 xs={12} md={6} mdOffset={3}>
+                <Grid2 xs={12} md={8} mdOffset={2}>
                     <ApiPing/>
                 </Grid2>
             </Grid2>

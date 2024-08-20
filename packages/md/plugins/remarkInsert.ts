@@ -1,13 +1,8 @@
 // @ts-nocheck
-import { ok as assert } from 'uvu/assert'
 import { splice } from 'micromark-util-chunked'
 import { classifyCharacter } from 'micromark-util-classify-character'
 import { resolveAll } from 'micromark-util-resolve-all'
-import { codes } from 'micromark-util-symbol/codes'
-import { constants } from 'micromark-util-symbol/constants'
-import { types } from 'micromark-util-symbol/types'
-import { containerPhrasing } from 'mdast-util-to-markdown/lib/util/container-phrasing.js'
-import { track } from 'mdast-util-to-markdown/lib/util/track.js'
+import { constants, codes, types } from 'micromark-util-symbol'
 import { Extension } from 'micromark-util-types'
 import { Resolver } from 'micromark-util-types'
 import { Tokenizer } from 'micromark-util-types'
@@ -18,7 +13,7 @@ import { Extension as FromMarkdownExtension } from 'mdast-util-from-markdown'
 import { Handle as FromMarkdownHandle } from 'mdast-util-from-markdown'
 import { Options as ToMarkdownExtension } from 'mdast-util-to-markdown'
 import { Handle as ToMarkdownHandle } from 'mdast-util-to-markdown'
-import { ConstructName, Handle, Handlers } from 'mdast-util-to-markdown/lib/types'
+import { ConstructName, Handle, Handlers } from 'mdast-util-to-markdown/lib/types.js'
 
 function mdInsert(): Extension {
     const tokenizer = {
@@ -130,7 +125,7 @@ function mdInsert(): Extension {
         return start
 
         function start(...[code]: Parameters<State>): ReturnType<State> {
-            assert(code === codes.plusSign, 'expected `++`')
+            // assert(code === codes.plusSign, 'expected `++`')
 
             if(
                 previous === code &&
@@ -194,11 +189,11 @@ function exitInsert(this: ThisParameterType<FromMarkdownHandle>, ...[token]: Par
     this.exit(token)
 }
 
-function handleInsert(...[node, , context, safeOptions]: Parameters<ToMarkdownHandle>): ReturnType<ToMarkdownHandle> {
-    const tracker = track(safeOptions)
-    const exit = context.enter('insert' as ConstructName)
+function handleInsert(...[node, , state, info]: Parameters<ToMarkdownHandle>): ReturnType<ToMarkdownHandle> {
+    const tracker = state.createTracker(info)
+    const exit = state.enter('insert' as ConstructName)
     let value = tracker.move('++')
-    value += containerPhrasing(node, context, {
+    value += state.containerPhrasing(node, {
         ...tracker.current(),
         before: value,
         after: '+',

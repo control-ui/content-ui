@@ -1,22 +1,23 @@
 import React from 'react'
 import { Heading, ListItem, Root } from 'mdast'
-import { RouterMuiLink } from '@content-ui/md-mui/MuiComponents/MuiNavLink'
+import { MuiLink } from '@content-ui/md-mui/MuiComponents/MuiLink'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import { ContentLeaf, ContentLeafProps, ContentLeafPropsMapping } from '@content-ui/react/ContentLeaf'
 import { EditorSelection } from '@content-ui/react/useContent'
 import { useSettings } from '@content-ui/react/LeafSettings'
-import { flattenText } from '@content-ui/md/flattenText'
-import { textToId } from '@content-ui/md/textToId'
+import { flattenText } from '@content-ui/struct/flattenText'
+import { textToId } from '@content-ui/struct/textToId'
 import useTheme from '@mui/material/styles/useTheme'
 import type { Theme } from '@mui/material/styles'
 import { TypographyWithExtras } from '@content-ui/md-mui/MuiComponents/Theme'
-import { TocHNode, WithMdAstChild } from '@content-ui/md/Ast'
+import { TocHNode, TocListItem, WithMdAstChild } from '@content-ui/struct/Ast'
 
-export const LeafTocListItem: React.FC<ContentLeafProps & WithMdAstChild & { textVariant?: 'body1' | 'body2' | 'caption' }> = ({child, textVariant}) => {
+export const LeafTocListItem: React.FC<ContentLeafProps & WithMdAstChild<TocListItem> & { textVariant?: 'body1' | 'body2' | 'caption' }> = ({child, textVariant}) => {
+    const c = child as TocListItem
     const {smallList, showLines, editorSelection, onClick} = useToc()
-    const c = child.type === 'tocListItem' ? child : undefined
-    // todo: with the tui@0.0.3 it is injected in the renderer and thus should be moved to props
+    // const c = child.type === 'tocListItem' ? child : undefined
+    // todo: is injected in `ContentLeaf`, move to props
     const {headlineLinkable} = useSettings()
     const {typography} = useTheme<Theme & { typography: TypographyWithExtras }>()
     const [focus, setFocus] = React.useState(false)
@@ -27,7 +28,7 @@ export const LeafTocListItem: React.FC<ContentLeafProps & WithMdAstChild & { tex
     return c ? <Typography component={'li'} variant={textVariant || (smallList ? 'body2' : 'body1')} sx={{pl: 0.5}}>
         <Box style={{display: 'inline-flex'}}>
             {headlineLinkable ?
-                <RouterMuiLink
+                <MuiLink
                     href={'#' + textToId(c?.value.flatText.join(''))}
                     color={selectedByLine ? 'primary' : 'inherit'}
                     underline={'hover'}
@@ -41,7 +42,7 @@ export const LeafTocListItem: React.FC<ContentLeafProps & WithMdAstChild & { tex
                     onBlur={() => setFocus(false)}
                 >
                     {c.value.flatText.join('')}
-                </RouterMuiLink> :
+                </MuiLink> :
                 <Typography>
                     {c.value.flatText.join('')}
                 </Typography>}

@@ -1,6 +1,7 @@
 import React from 'react'
 import { ReactDeco, DecoratorProps, DecoratorPropsNext, DecoratorNextFn } from '@tactic-ui/react/Deco'
-import { defineLeafEngine, GenericLeafsDataSpec, LeafsEngine, LeafsRenderMapping, ReactLeafsNodeSpec } from '@tactic-ui/react/LeafsEngine'
+import { createLeafsContext, defineLeafsContext } from '@tactic-ui/react/LeafsContext'
+import { GenericLeafsDataSpec, LeafsEngine, LeafsRenderMapping, ReactLeafsNodeSpec } from '@tactic-ui/react/LeafsEngine'
 import { CustomLeafDataSpec, CustomLeafDataType, CustomLeafPropsSpec, CustomLeafPropsWithValue, DemoDecoratorProps, DemoDecorator1ResultProps } from './leafs.js'
 
 export const Typo: React.FC<React.PropsWithChildren<{
@@ -24,34 +25,23 @@ export const Typo: React.FC<React.PropsWithChildren<{
 //
 // 👉 5.1. Create a custom render engine out of the parts
 
-type CustomLeafsNodeSpec = ReactLeafsNodeSpec<CustomLeafPropsSpec>
+type CustomLeafsNodeSpec = ReactLeafsNodeSpec<Required<CustomLeafPropsSpec>>
 type CustomComponents = {}
 type CustomLeafsRenderMapping<
     TLeafsMapping extends {} = {},
     TComponentsMapping extends {} = {}
-> = LeafsRenderMapping<TLeafsMapping, TComponentsMapping>
-type CustomLeafsEngine<
-    TLeafsDataMapping extends GenericLeafsDataSpec,
-    TComponents extends {},
-    TRender extends LeafsRenderMapping<ReactLeafsNodeSpec<TLeafsDataMapping>, TComponents>,
-    TDeco extends ReactDeco<{}, {}, {}>
-> = LeafsEngine<TLeafsDataMapping, TComponents, TRender, TDeco> & {
-    settings?: { hideTitles?: boolean }
-}
+> = LeafsRenderMapping<TLeafsMapping, TComponentsMapping, { type: string }>
 
-const {
-    LeafsProvider, useLeafs,
-    // context,
-} = defineLeafEngine<
+const context = createLeafsContext<
     GenericLeafsDataSpec, CustomComponents,
-    CustomLeafsRenderMapping<ReactLeafsNodeSpec<GenericLeafsDataSpec>, CustomComponents>,
     ReactDeco<{}, {}>,
-    CustomLeafsEngine<GenericLeafsDataSpec, CustomComponents, CustomLeafsRenderMapping<ReactLeafsNodeSpec<GenericLeafsDataSpec>, CustomComponents>, ReactDeco<{}, {}>>
+    LeafsRenderMapping<ReactLeafsNodeSpec<GenericLeafsDataSpec>, CustomComponents, { type: string }>
 >()
+const {LeafsProvider, useLeafs} = defineLeafsContext(context)
 
 // 👉 5.2. Create a custom LeafNode which maps the properties, decorators and handles the rendering
 
-type LeafNodeInjected = 'decoIndex' | 'next' | keyof CustomLeafsEngine<any, any, any, any>
+type LeafNodeInjected = 'decoIndex' | 'next' | keyof LeafsEngine<any, any, any, any>
 
 function LeafNode<
     TLeafsDataMapping extends GenericLeafsDataSpec,
@@ -64,7 +54,7 @@ function LeafNode<
 >(
     props: Omit<TProps, LeafNodeInjected>, // remove the props injected by LeafNode
 ): React.JSX.Element | null {
-    const {deco, render, settings} = useLeafs<TLeafsDataMapping, TComponentsMapping, TRender, TDeco>()
+    const {deco, renderMap} = useLeafs<TLeafsDataMapping, TComponentsMapping, TDeco, TRender>()
     if(!deco) {
         throw new Error('This LeafNode requires decorators, maybe missed `deco` at the `LeafsProvider`?')
     }
@@ -76,9 +66,8 @@ function LeafNode<
     return <Next
         {...props}
         deco={deco}
-        render={render}
+        renderMap={renderMap}
         next={deco.next}
-        settings={settings}
         decoIndex={0}
     />
 }
@@ -108,30 +97,23 @@ function DemoDecorator<P extends DecoratorPropsNext>(p: P & DemoDecoratorProps):
 
 type DemoRendererProps = {
     // todo: try to make the render typing a bit stricter without circular CustomLeafProps import dependencies
-    render: CustomLeafsRenderMapping<ReactLeafsNodeSpec<{ [k: string]: {} }>, {}>
-    settings?: { hideTitles?: boolean }
+    renderMap: CustomLeafsRenderMapping<ReactLeafsNodeSpec<{ [k: string]: {} }>, {}>
     type: string
 }
 
 function DemoRenderer<P extends DecoratorPropsNext>(
     {
-        render,
+        renderMap,
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         next,
-        // todo: shouldn't `settings` be passed down here? maybe that is the solution to check for compat at the end,
-        //       using the end result to check against the requirements of all leaf-props (in provider only)
-        settings,
         ...p
     }: P & DemoDecoratorProps & { id: string } & DemoRendererProps,
 ): React.ReactElement<P> {
     // the last decorator must end the run - decorators afterwards are skipped silently
-    const Leaf = render.leafs[p.type] as any
+    const Leaf = renderMap.leafs[p.type] as any
     return <div className={'mb2'}>
-        {settings?.hideTitles ? null : <>
-            <p className={'my0 body2'}>id: <code>{p.id}</code></p>
-            <p className={'my0 body2'}>title: <code>{p.title}</code></p>
-        </>}
-
+        <p className={'my0 body2'}>id: <code>{p.id}</code></p>
+        <p className={'my0 body2'}>title: <code>{p.title}</code></p>
         <Leaf {...p}/>
     </div>
 }
@@ -156,8 +138,7 @@ const deco = new ReactDeco<
     DemoDecoratorProps &
     CustomLeafDataType<string> &
     {
-        render: CustomLeafsRenderMapping<ReactLeafsNodeSpec<{ [k: string]: {} }>, CustomComponents>
-        settings?: { hideTitles?: boolean }
+        renderMap: CustomLeafsRenderMapping<ReactLeafsNodeSpec<{ [k: string]: {} }>, CustomComponents>
     }
 >()
     .use(DemoDecorator)
@@ -180,9 +161,10 @@ const leafs: CustomLeafsNodeSpec = {
     breakThematic: BreakThematic,
 }
 
-const render: CustomLeafsRenderMapping<CustomLeafsNodeSpec, CustomComponents> = {
+const renderMap: CustomLeafsRenderMapping<CustomLeafsNodeSpec, CustomComponents> = {
     leafs: leafs,
     components: {},
+    matchLeaf: (p, l) => l[p.type],
 }
 
 //
@@ -212,9 +194,9 @@ export const DemoAutomatic: React.FC = () => {
     //       i think it is impossible to further guarantee deco+leafs are compatible
     //       - except maybe with a check using further generics on `LeafsProvider`
     return <div className={'flex flex-column'}>
-        <LeafsProvider<CustomLeafPropsSpec>
+        <LeafsProvider<Required<CustomLeafPropsSpec>>
             deco={deco}
-            render={render}
+            renderMap={renderMap}
         >
             {leafData.map((ld, i) =>
                 <LeafNode<CustomLeafPropsSpec, typeof deco, CustomLeafPropsSpec[typeof ld.type]>

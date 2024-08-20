@@ -1,11 +1,11 @@
 import { Viewer } from '@content-ui/md-mui/Viewer'
 import { ContentParser } from '@content-ui/md/parser/ContentParser'
-import { parseTo } from '@content-ui/md/parser/ParseTo'
 import { ContentFileProvider } from '@content-ui/react/ContentFileProvider'
 import { ContentLeafsProvider, contentUIDecorators } from '@content-ui/react/ContentLeaf'
 import { Express } from 'express'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { StaticRouter } from 'react-router-dom/server'
+import { VFile } from 'vfile'
 import { contentUIMapping } from '../../../../apps/demo/src/components/ContentUI.js'
 
 export const reactHandler = (app: Express) => {
@@ -14,18 +14,30 @@ export const reactHandler = (app: Express) => {
 
 This is **rendered static on server**.
 `
-        const ast = await parseTo(md, ContentParser)
+        const file = new VFile(md)
+        const ast = ContentParser.parse(file)
+
+        const {root} = await ContentParser
+            .run(ast, file)
+            .then((root) => {
+                return {
+                    root: root,
+                    file: file,
+                    toString: () => ContentParser.stringify(root, file) as string,
+                }
+            })
+
         const html = renderToStaticMarkup(
             <StaticRouter location={req.url}>
-                <ContentLeafsProvider deco={contentUIDecorators} render={contentUIMapping}>
+                <ContentLeafsProvider deco={contentUIDecorators} renderMap={contentUIMapping}>
                     <ContentFileProvider
-                        root={ast.root}
-                        file={ast.file}
+                        root={root}
+                        file={file}
                     >
                         <Viewer
                             editorSelection={undefined}
-                            keepMounted
-                            needsProcessing={false}
+                            outdated={false}
+                            processing={'success'}
                         />
                     </ContentFileProvider>
                 </ContentLeafsProvider>

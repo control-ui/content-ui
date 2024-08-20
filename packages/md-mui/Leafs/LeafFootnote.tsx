@@ -1,8 +1,7 @@
 import React from 'react'
-import Box from '@mui/material/Box'
 import { FootnoteReference } from 'mdast'
 import { BaseLeafContent } from '@content-ui/md-mui/Leafs/BaseLeafContent'
-import { RouterMuiLink } from '@content-ui/md-mui/MuiComponents/MuiNavLink'
+import { MuiLink } from '@content-ui/md-mui/MuiComponents/MuiLink'
 import IcGoTo from '@mui/icons-material/SubdirectoryArrowLeft'
 import Typography from '@mui/material/Typography'
 import { ContentLeafProps } from '@content-ui/react/ContentLeaf'
@@ -12,27 +11,6 @@ import { TypographyWithExtras } from '@content-ui/md-mui/MuiComponents/Theme'
 
 const userContentPrefix = 'user-content-'
 export const footnoteContainerId = 'footnote-label'
-
-export const LeafFootnote: React.FC<ContentLeafProps> = ({child}) => {
-    return <Box
-        component={'div'}
-        sx={{
-            mt: 1,
-            mb: 2,
-            pt: 1,
-            pb: 0.5,
-            pl: 1.5,
-            mr: 1,
-            ml: 0,
-            borderLeftColor: 'divider',
-            // borderLeftColor: 'primary.main',
-            borderLeftWidth: 4,
-            borderLeftStyle: 'solid',
-        }}
-    >
-        {child.type === 'footnote' ? <BaseLeafContent child={child}/> : null}
-    </Box>
-}
 
 export const LeafFootnoteDefinition: React.FC<ContentLeafProps> = ({child}) => {
     const c = child.type === 'footnoteDefinition' ? child : undefined
@@ -55,7 +33,7 @@ export const LeafFootnoteDefinition: React.FC<ContentLeafProps> = ({child}) => {
                 {child.type === 'footnoteDefinition' ? <BaseLeafContent child={child}/> : null}
             </div>
 
-            <RouterMuiLink
+            <MuiLink
                 href={'#' + userContentPrefix + 'fnref-' + c?.identifier}
                 aria-label={'Back to content'}
                 sx={{
@@ -64,13 +42,13 @@ export const LeafFootnoteDefinition: React.FC<ContentLeafProps> = ({child}) => {
                 }}
             >
                 <small style={{paddingLeft: 3, display: 'flex'}}><IcGoTo fontSize={'small'} color={'inherit'} style={{verticalAlign: 'middle', opacity: 0.625}}/></small>
-            </RouterMuiLink>
+            </MuiLink>
         </div>
     </Typography>
 }
 
 export const LeafFootnoteReference: React.FC<ContentLeafProps> = ({child}) => {
-    return <RouterMuiLink
+    return <MuiLink
         href={'#' + userContentPrefix + 'fn-' + (child as FootnoteReference).identifier}
         id={userContentPrefix + 'fnref-' + (child as FootnoteReference).identifier}
         aria-describedby={footnoteContainerId}// todo: validate the aria selector
@@ -80,6 +58,6 @@ export const LeafFootnoteReference: React.FC<ContentLeafProps> = ({child}) => {
         }}
     >
         <sup>{child.type === 'footnoteReference' ? '[' + child.label + ']' : '*'}</sup>
-    </RouterMuiLink>
+    </MuiLink>
 }
 
