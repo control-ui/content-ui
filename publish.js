@@ -14,7 +14,7 @@ const pkg = pkgJson.name
 
 console.log('checking version for ' + pkg + ' (' + pkgJsonVersion + ')')
 exec('npm view ' + pkg + ' version', [], (version, err) => {
-    if(err.startsWith('npm ERR! code E404')) {
+    if(err.startsWith('npm ERR! code E404') || err.startsWith('npm error code E404') || err.startsWith('npm error 404')) {
         console.log('  > not existing yet')
     } else if(err.length) {
         console.error('npm view error:', err)
