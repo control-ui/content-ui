@@ -21,10 +21,3 @@ country:
 | 8am  | *Morning* | 40.5 |
 | 12am | **Noon** | 80.42 |
 ```
-
-## Team:
-
-- [ ] @jane_d
-- [x] @joe.x
-
-Take a look @lead.

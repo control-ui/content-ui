@@ -3,7 +3,7 @@ import { Heading, ListItem, Root } from 'mdast'
 import { MuiLink } from '@content-ui/md-mui/MuiComponents/MuiLink'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
-import { ContentLeaf, ContentLeafProps, ContentLeafPropsMapping } from '@content-ui/react/ContentLeaf'
+import { ContentLeaf, ContentLeafProps, ContentLeafsPropsMapping } from '@content-ui/react/ContentLeaf'
 import { EditorSelection } from '@content-ui/react/useContent'
 import { useSettings } from '@content-ui/react/LeafSettings'
 import { flattenText } from '@content-ui/struct/flattenText'
@@ -94,7 +94,7 @@ export const LeafTocList: React.FC<{
             ),
         }
     })
-    return <ContentLeaf<ContentLeafPropsMapping, ContentLeafPropsMapping['list'] & { child: { dense?: boolean } }>
+    return <ContentLeaf<ContentLeafsPropsMapping, ContentLeafsPropsMapping['list'] & { child: { dense?: boolean } }>
         elem={'list'}
         child={{
             type: 'list',

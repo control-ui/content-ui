@@ -13,7 +13,7 @@ import IcEdit from '@mui/icons-material/Edit'
 import IcPreview from '@mui/icons-material/Preview'
 import { CustomCodeMirror, getHighlight } from '../CustomCodeMirror'
 import { ContentInput } from '@content-ui/input/ContentInput'
-import { useContentEditor } from '@content-ui/react/useContentEditor'
+import { useContentEditor } from '@content-ui/input/useContentEditor'
 import { useContent } from '@content-ui/react/useContent'
 import { ContentFileProvider } from '@content-ui/react/ContentFileProvider'
 

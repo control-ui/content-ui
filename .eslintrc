@@ -5,6 +5,9 @@
         "eslint:recommended",
         "plugin:react-hooks/recommended"
     ],
+    "ignorePatterns": [
+        "apps/sandbox/**/*"
+    ],
     "settings": {
         "react": {
             "version": "detect"

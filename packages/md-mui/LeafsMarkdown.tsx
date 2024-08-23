@@ -15,8 +15,9 @@ import { LeafTable, LeafTableCell, LeafTableRow } from '@content-ui/md-mui/Leafs
 import { LeafYaml } from '@content-ui/md-mui/Leafs/LeafYaml'
 import { LeafTocListItem } from '@content-ui/md-mui/Leafs/LeafToc'
 import { LeafImage } from '@content-ui/md-mui/Leafs/LeafImage'
-import { ContentLeafComponents, ContentLeafsNodeMapping, LeafsRenderMapping } from '@content-ui/react/ContentLeaf'
+import { ContentRenderComponents, ContentLeafsNodeMapping, LeafsRenderMapping } from '@content-ui/react/ContentLeaf'
 import { LeafDefList, LeafDefListDescription, LeafDefListTerm } from '@content-ui/md-mui/Leafs/LeafDefList'
+import { ComponentType } from 'react'
 
 const leafs: ContentLeafsNodeMapping = {
     break: LeafBr,
@@ -58,7 +59,18 @@ const leafs: ContentLeafsNodeMapping = {
     linkReference: null,
 }
 
-export const renderMapping: LeafsRenderMapping<ContentLeafsNodeMapping, ContentLeafComponents, { type: string }> = {
+export interface MuiContentRenderComponents extends ContentRenderComponents {
+    /**
+     * @deprecated use `Code` instead
+     */
+    CodeMirror?: ComponentType<{ value?: string, lang?: string }>
+    /**
+     * @todo support setting focus and retrieving e.g. selections
+     */
+    Code?: ComponentType<{ value?: string, lang?: string }>
+}
+
+export const renderMapping: LeafsRenderMapping<ContentLeafsNodeMapping, MuiContentRenderComponents, { type: string }> = {
     leafs: leafs,
     components: {},
     matchLeaf: (p, l) => l[p.type],

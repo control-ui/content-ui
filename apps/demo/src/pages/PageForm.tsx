@@ -12,7 +12,7 @@ import { readWidgets } from '../components/UISchema'
 import { GridContainer } from '@ui-schema/ds-material/GridContainer'
 import { OrderedMap } from 'immutable'
 
-const mdIntro = `UI-Schema based form with **read-or-write mode** and MarkDown editor.
+const mdIntro = `UI-Schema based form with **read-or-write mode** and Markdown editor.
 
 *CodeMirror* input field with highlighting and **preview mode**.
 `
@@ -53,11 +53,11 @@ const schema = createOrderedMap<JsonSchema>({
         },
         intro: {
             type: 'string',
-            widget: 'MarkDown',
+            widget: 'Markdown',
         },
         content: {
             type: 'string',
-            widget: 'MarkDown',
+            widget: 'Markdown',
         },
     },
 })

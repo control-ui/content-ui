@@ -31,7 +31,7 @@ export const InputWarnings: React.ComponentType<{
     const {palette} = useTheme()
     const hasWarnings = (fileMessages?.length || 0) > 0
     const title =
-        <Tooltip title={'MarkDown is checked against basic formatting rules'} disableInteractive>
+        <Tooltip title={'Markdown is checked against basic formatting rules'} disableInteractive>
             <Typography
                 variant={'caption'}
                 color={

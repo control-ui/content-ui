@@ -19,3 +19,10 @@ Lorem futurum creare inovatum instantus.
 - [x] Task B1
 - [x] Task B2
 - [ ] Task B3
+
+## Team:
+
+- [ ] @jane_d
+- [x] @joe.x
+
+Take a look @lead.

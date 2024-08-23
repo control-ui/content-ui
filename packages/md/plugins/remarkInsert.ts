@@ -9,11 +9,15 @@ import { Tokenizer } from 'micromark-util-types'
 import { State } from 'micromark-util-types'
 import { Root } from 'mdast'
 import { Plugin, Processor } from 'unified'
-import { Extension as FromMarkdownExtension } from 'mdast-util-from-markdown'
-import { Handle as FromMarkdownHandle } from 'mdast-util-from-markdown'
-import { Options as ToMarkdownExtension } from 'mdast-util-to-markdown'
-import { Handle as ToMarkdownHandle } from 'mdast-util-to-markdown'
-import { ConstructName, Handle, Handlers } from 'mdast-util-to-markdown/lib/types.js'
+import {
+    Extension as FromMarkdownExtension,
+    Handle as FromMarkdownHandle,
+} from 'mdast-util-from-markdown'
+import {
+    Options as ToMarkdownExtension,
+    Handle as ToMarkdownHandle,
+    ConstructName, Handlers,
+} from 'mdast-util-to-markdown'
 
 function mdInsert(): Extension {
     const tokenizer = {
@@ -171,7 +175,7 @@ const insertFromMarkdown: FromMarkdownExtension = {
     },
 }
 
-export const insertToMarkdown: ToMarkdownExtension & { handlers: Partial<Handlers & Record<'insert', Handle>> | null | undefined } = {
+export const insertToMarkdown: ToMarkdownExtension & { handlers: Partial<Handlers & Record<'insert', ToMarkdownHandle>> | null | undefined } = {
     unsafe: [{character: '+', inConstruct: 'phrasing'}],
     handlers: {insert: handleInsert},
 }

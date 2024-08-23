@@ -1,5 +1,10 @@
 import { ContentParser } from '@content-ui/md/parser/ContentParser'
-import React from 'react'
+import { useMediaQuery } from '@mui/material'
+import Button from '@mui/material/Button'
+import IcVisibility from '@mui/icons-material/Visibility'
+import IcVisibilityOff from '@mui/icons-material/VisibilityOff'
+import useTheme from '@mui/material/styles/useTheme'
+import React, { useState } from 'react'
 import Helmet from 'react-helmet'
 import { useTranslation } from 'react-i18next'
 import Grid2 from '@mui/material/Unstable_Grid2'
@@ -8,7 +13,7 @@ import { CustomCodeMirror, getHighlight } from '../components/CustomCodeMirror'
 import Box from '@mui/material/Box'
 import { Viewer } from '@content-ui/md-mui/Viewer'
 import { SettingsProvider } from '@content-ui/react/LeafSettings'
-import { useContentEditor } from '@content-ui/react/useContentEditor'
+import { useContentEditor } from '@content-ui/input/useContentEditor'
 import { useContent } from '@content-ui/react/useContent'
 import { ContentFileProvider } from '@content-ui/react/ContentFileProvider'
 
@@ -49,6 +54,8 @@ With even more sentences, words and other things.
 export const PageInput: React.ComponentType = () => {
     const {t} = useTranslation('translation')
     const [value, setValue] = React.useState(md)
+    const {breakpoints} = useTheme()
+    const isMediumScreen = useMediaQuery(breakpoints.up('md'))
     const {
         textValue,
         handleOnChange,
@@ -79,6 +86,8 @@ export const PageInput: React.ComponentType = () => {
         ]
     }, [])
 
+    const [showAst, setShowAst] = useState(false)
+
     return <>
         <Helmet>
             <title>{t('brand')} · Content-UI</title>
@@ -91,12 +100,12 @@ export const PageInput: React.ComponentType = () => {
                 editorSelection={editorSelection}
             >
                 <SettingsProvider
-                    followEditor
+                    followEditor={isMediumScreen}
                     headlineLinkable
                     headlineSelectable
                     headlineSelectableOnHover
                 >
-                    <Grid2 container spacing={2} sx={{overflow: 'auto'}}>
+                    <Grid2 container spacing={2} sx={{overflow: 'auto', flexWrap: {xs: 'wrap', md: 'nowrap'}}}>
                         <Grid2 xs={12} md={6} sx={{overflow: 'auto', scrollbarWidth: 'thin', maxHeight: {md: '100%'}}}>
                             <ContentInput
                                 CodeMirror={CustomCodeMirror}
@@ -126,6 +135,19 @@ export const PageInput: React.ComponentType = () => {
                                 processing={processing}
                                 editorSelection={editorSelection}
                             />
+                            <Button
+                                startIcon={showAst ? <IcVisibility/> : <IcVisibilityOff/>}
+                                onClick={() => setShowAst(s => !s)}
+                                variant={'outlined'}
+                                sx={{mt: 2, mb: 1}}
+                            >
+                                {'AST'}
+                            </Button>
+                            {showAst ?
+                                <CustomCodeMirror
+                                    value={JSON.stringify(root || null, undefined, 4)}
+                                    lang={'json'}
+                                /> : null}
                         </Grid2>
                     </Grid2>
                 </SettingsProvider>

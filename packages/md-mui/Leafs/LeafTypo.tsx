@@ -146,9 +146,10 @@ export const LeafLink: React.FC<ContentLeafProps & WithMdAstChild> = ({child}) =
 
     // todo: support custom base-urls which, if same as currently open, will use react-router
     // todo: support custom base-urls which will always open in the same window, but not using react-router
+    const isHttp = child.url.startsWith('http://') || child.url.startsWith('https://')
     if(
-        !child.url.startsWith(window.location.protocol + '//' + window.location.host)
-        && (child.url.startsWith('http://') || child.url.startsWith('https://') || child.url.startsWith('ftp://') || child.url.startsWith('ftps://'))
+        (isHttp || child.url.startsWith('ftp://') || child.url.startsWith('ftps://'))
+        && !child.url.startsWith(window.location.protocol + '//' + window.location.host)
     ) {
         return <Link href={child.url} target={'_blank'} rel={'noreferrer noopener'}>
             <BaseLeafContent child={child}/>
@@ -156,7 +157,10 @@ export const LeafLink: React.FC<ContentLeafProps & WithMdAstChild> = ({child}) =
         </Link>
     }
 
-    if(child.url.indexOf(':') !== -1 && child.url.indexOf(':') < child.url.indexOf('/')) {
+    if(
+        !isHttp
+        && child.url.indexOf(':') !== -1 && child.url.indexOf(':') < child.url.indexOf('/')
+    ) {
         // mailto/tel etc.
         return <Link href={child.url}>
             <BaseLeafContent child={child}/>

@@ -121,7 +121,7 @@ export const getCustomWidgets: () => CustomWidgetsBinding = () => ({
         Time: CustomTimePicker,
         Date: CustomDatePicker,
         DateTime: CustomDateTimePicker,
-        MarkDown: WidgetMarkdownEditor,
+        Markdown: WidgetMarkdownEditor,
     },
 })
 
@@ -145,6 +145,6 @@ export const readWidgets: any = {
         Time: TextRendererRead,
         Date: TextRendererRead,
         DateTime: TextRendererRead,
-        MarkDown: WidgetMarkdownViewer,
+        Markdown: WidgetMarkdownViewer,
     },
 }

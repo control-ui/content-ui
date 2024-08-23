@@ -54,7 +54,9 @@
         ]
     },
     "include": [
+        "jest.config.ts",
         "apps/demo/src",
+        "apps/sandbox/src",
         "server/feed/src",
         "packages"
     ]
