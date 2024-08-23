@@ -1,6 +1,6 @@
 {
     "name": "@content-ui/struct",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "",
     "author": {
         "name": "bemit",
@@ -24,6 +24,10 @@
             "import": "./Ast.js",
             "types": "./Ast.d.ts"
         },
+        "./diffText": {
+            "import": "./diffText.js",
+            "types": "./diffText.d.ts"
+        },
         "./flattenText": {
             "import": "./flattenText.js",
             "types": "./flattenText.d.ts"
@@ -32,6 +36,9 @@
             "import": "./textToId.js",
             "types": "./textToId.d.ts"
         }
+    },
+    "dependencies": {
+        "mdast-util-definition-list": "^2.0.0"
     },
     "peerDependencies": {
         "@types/mdast": "^4.0.0"

@@ -1,5 +1,4 @@
-import { RootContent, Heading, Literal, Parent, PhrasingContent, Root } from 'mdast'
-import { Node } from 'unist'
+import { Node, RootContent, Heading, Literal, Parent, PhrasingContent, Root } from 'mdast'
 import { DefListNode, DefListDescriptionNode, DefListTermNode } from 'mdast-util-definition-list'
 
 export interface Underline extends Parent {

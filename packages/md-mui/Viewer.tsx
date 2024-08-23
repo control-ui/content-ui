@@ -69,6 +69,9 @@ export const Viewer = <P extends ViewerProps>(
 
 export interface ViewerFromTextProps extends Omit<ViewerProps, 'processing' | 'outdated'> {
     textValue: string
+    /**
+     * @todo make available with `ContentLeafsProvider` or `LeafsSettings`/`SettingsProvider`?
+     */
     processor: ContentProcessor
     parseDelay?: number
     onMount?: boolean

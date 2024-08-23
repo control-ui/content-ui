@@ -2,7 +2,7 @@ import React from 'react'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Tooltip from '@mui/material/Tooltip'
-import { WithContentEditor } from '@content-ui/react/useContentEditor'
+import { WithContentEditor } from '@content-ui/input/useContentEditor'
 import useTheme from '@mui/material/styles/useTheme'
 
 export type InputBottomBarProps = Pick<WithContentEditor, 'textValue' | 'editorSelection'> & {

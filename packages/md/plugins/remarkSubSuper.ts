@@ -9,11 +9,15 @@ import { Tokenizer } from 'micromark-util-types'
 import { State } from 'micromark-util-types'
 import { Root } from 'mdast'
 import { Plugin, Processor } from 'unified'
-import { Extension as FromMarkdownExtension } from 'mdast-util-from-markdown'
-import { Handle as FromMarkdownHandle } from 'mdast-util-from-markdown'
-import { Options as ToMarkdownExtension } from 'mdast-util-to-markdown'
-import { Handle as ToMarkdownHandle } from 'mdast-util-to-markdown'
-import { ConstructName, Handle, Handlers } from 'mdast-util-to-markdown/lib/types'
+import {
+    Extension as FromMarkdownExtension,
+    Handle as FromMarkdownHandle,
+} from 'mdast-util-from-markdown'
+import {
+    Options as ToMarkdownExtension,
+    Handle as ToMarkdownHandle,
+    ConstructName, Handlers,
+} from 'mdast-util-to-markdown'
 
 function mdSubSup(): Extension {
     const tokenizer = {
@@ -204,7 +208,7 @@ function enterSup(this: ThisParameterType<FromMarkdownHandle>, ...[token]: Param
     }, token)
 }
 
-export const subToMarkdown: ToMarkdownExtension & { handlers: Partial<Handlers & Record<'sub', Handle>> | null | undefined } = {
+export const subToMarkdown: ToMarkdownExtension & { handlers: Partial<Handlers & Record<'sub', ToMarkdownHandle>> | null | undefined } = {
     unsafe: [{character: '~', inConstruct: 'phrasing'}],
     handlers: {sub: handleSub},
 }
@@ -223,7 +227,7 @@ function handleSub(...[node, , state, info]: Parameters<ToMarkdownHandle>): Retu
     return value
 }
 
-export const superToMarkdown: ToMarkdownExtension & { handlers: Partial<Handlers & Record<'super', Handle>> | null | undefined } = {
+export const superToMarkdown: ToMarkdownExtension & { handlers: Partial<Handlers & Record<'super', ToMarkdownHandle>> | null | undefined } = {
     unsafe: [{character: '^', inConstruct: 'phrasing'}],
     handlers: {super: handleSuper},
 }

@@ -1,6 +1,6 @@
 {
     "name": "@content-ui/md-mui",
-    "version": "0.0.8",
+    "version": "0.0.9",
     "description": "",
     "author": {
         "name": "bemit",
@@ -19,12 +19,12 @@
         "directory": "packages/md-mui"
     },
     "dependencies": {
-        "react-router-dom": "^6.3.0"
+        "react-router-dom": "^6.3.0",
+        "yaml": "^2.1.1"
     },
     "peerDependencies": {
         "@mui/icons-material": "^5.10",
         "@mui/material": "^5.1",
-        "@ui-schema/kit-codemirror": "~0.1.0-alpha.1",
         "@content-ui/react": "*",
         "@content-ui/struct": "*",
         "react": "^17.0 || ^18.0",
@@ -33,7 +33,6 @@
     "devDependencies": {
         "@mui/icons-material": "^5.10",
         "@mui/material": "^5.1",
-        "@ui-schema/kit-codemirror": "~0.1.0-alpha.1",
         "@content-ui/react": "*",
         "@content-ui/struct": "*",
         "react": "^17.0 || ^18.0",

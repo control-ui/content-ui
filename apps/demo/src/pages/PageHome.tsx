@@ -23,11 +23,9 @@ Hey there this is some content, rendered from Markdown as ReactJS components usi
 
 Some code: \`var some = true\`.
 
-> Blockqoutes on the go..
+> Blockquotes :+1:
 >
 > With multiple rows and a link [to the *input page*](/input).
-
-Lorem ipsum __breaking **line**__.
 
 ---
 
