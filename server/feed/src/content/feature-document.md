@@ -3,7 +3,7 @@
 "lang": "en"
 ---
 
-# Markdown Features & Dummy Text
+# Markdown Features
 
 ## Table of content
 
@@ -12,6 +12,8 @@ This should be an intro - let's see where it shows up.
 ## Extended Markdown Features
 
 A lot of stuff is supported. Alright let me check how i normally write and if that gives enough buffer to get some more fluent preview.
+
+:rocket: :+1:
 
 ### Markdown Footnotes
 
@@ -24,13 +26,11 @@ Here is a footnote reference,[^1] and another.[^longnote]
     Subsequent paragraphs are indented to show that they
     belong to the previous footnote. (which isn't highlighted correctly.)
 
-```
 ### Markdown Abbr
 
 *[HTML]: Hyper Text Markup Language
 *[W3C]:  World Wide Web Consortium
 The HTML specification is maintained by the W3C.
-```
 
 ### Definition List
 
@@ -44,8 +44,6 @@ Second Term
 Lorem ipsum dolor sit amet consectutor adipisci.
 
 ### Strike through & Inserted
-
-#### Strike A
 
 ~~The world is flat.~~ We now know that the world is ++round++
 
@@ -61,11 +59,9 @@ Line with ==something marked== in the middle.
 
 ^superscript^, e.g. e^x^
 
-## Passa titulum
+## Plain Code
 
-Lorem markdownum et mox, et pars Byblida carmine magni [nam
-tamen](http://dolores-lacrimis.net/opifertum.html) quoque pondere gaudia. Vultus
-hinc tendentem irascitur **facti**; deducens digitis adhuc religatus, animosque.
+A plain code block:
 
 ```
 status *= wepModel + password_hyper;
@@ -76,31 +72,50 @@ gigabyteText = png_firewall_emoticon;
 wordVersion = ppc_hard_key;
 ```
 
-## Lugent de magnorum tristia collo concipit audiat
+Intended code block:
 
-Quae ait in promissa numina, *diva* artes [ea](http://auxilium.org/) regem
-classem. Molimine **et vir** locuta, et fixis Atrides est peto. Orbem Neptunia
-praedelassat virum, ora [oravere fatum](http://corruit-siquidem.com/peremi)
-medio voce flexos quo inridet una et linguam potitus, sed! Ad recepto tura
-pectore sanguine, receperunt in somno, est posita oculos dempsisse; ossa.
-Regique patriorum iterata relicto Phlegyanque curis posuitque **faciat
-ratibus**, et exspiravit perde mixtae.
+    title;score;
+    Home;1;
+    About;0.5;
+    Products;0.8;
 
-## Corneaque vivere talaribus dici coronat
+## Text with Links
 
-Nocens dolebo; quod non lacrimaeque et se pumice Denique sustinuere quodcumque
-torquere: munusque Belo, nec. Dianae quacumque cornix oscula. Aevo **dei**, et
-surgit, mea dea monstra [audiat](http://cybeleiusmontes.com/), procul aure me
-domos. Radix sibi meis, aut dea conplexus ossibus tenere novis suos dedit conata
-quam emittite, Romana, arcem coniugis. Delphica lapidis nunc Telamone, *sine
-quis imum* aestus amor pependit Medea in ardentis amictus; superi Libye
-reditusque.s
+Quae in promisa numina, *diva* artes [ea](https://example.org/) regem classem. Moli **et vir** locuta, et fixis atrides est peto.
+
+Orbem Neptunia ora [oravere fatum](https://example.org/peremi) medio voce flexos quo  [inridet *una et* tusto](https://example.org/peremi) linguam potitus, sed!
+
+Ad recepto tura pectore sanguine, receperunt in somno, est posita oculos dempsisse; ossa. Regique patriorum iterata relicto Phlegyanque curis posuitque **faciat ratibus**, et exspiravit perde mixtae.
+
+## Text and Lists
+
+Quod non lacrimaeque et se pumice denique.
 
 1. Illic dubitat tot cum data marmora in
 2. Phoebe Panes
 3. Arbor hic oblivia spes tellus
 4. Vires Iovis pectore credere Herculis more
 5. Non de prosum
+
+### Tasks and Team Mention
+
+- [ ] open task
+- [x] done task
+- [ ] milestone
+    - [x] subtask 1
+    - [ ] subtask 2
+    - [ ] subtask 3
+        1. [x] subtasks in numbered list
+        2. [ ] subtask 3 b
+        3. normal item in between
+        4. [ ] subtask 3 c
+    - [ ] subtask 4
+    - normal at the end
+- mentions at tasks:
+    - [ ] @jane_d
+    - [x] @joe.x
+
+Take a look @lead.
 
 ## Haec inmotosque volet
 
@@ -119,3 +134,54 @@ contudit, deam, quod, duros militiam incessit et?
 Unum super de sensisse et moveres *acerbo tum* populos nec oleis ex bracchia
 flexit et? Parente umor **versat** summoque quidem utramque **piceae**. Cur
 virgo aequora autumnos postquam!
+
+## Markdown Code
+
+```md
+1. List
+2. Paragraph
+3. Table
+
+Lorem ipsum dolor sit amet.
+
+| Time | Name | Energy |
+| ---- | ---- | ---- |
+| 8am  | *Morning* | 40.5 |
+| 12am | **Noon** | 80.42 |
+```
+
+## GitHub Alerts
+
+> [!NOTE]
+> Useful information that users should know, even when skimming content.
+
+> [!TIP]
+> Helpful advice for doing things better or more easily.
+
+> [!IMPORTANT]
+> Key information users need to know to achieve their goal.
+
+> [!WARNING]
+> Urgent info that needs immediate user attention to avoid problems.
+
+> [!CAUTION]
+> Advises about risks or negative outcomes of certain actions.
+
+See [Github Alerts](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#alerts).
+
+## Liquid
+
+Contact **{{customers | size}} customers**:
+
+{% for customer in customers %}- [ ] **{{ customer.name }}**
+{% endfor %}}
+
+```ts
+function render(text: string) {
+    return text.replaceAll('{}', '')
+}
+
+render(`hello {{customers[0].name}}`)
+
+render('hello ' + 'Max')
+```

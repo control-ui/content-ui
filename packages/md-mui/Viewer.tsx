@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography'
 import { useLocation } from 'react-router-dom'
 import LinearProgress from '@mui/material/LinearProgress'
 import { ContentFileProvider } from '@content-ui/react/ContentFileProvider'
-import { Renderer } from '@content-ui/md-mui/Renderer'
+import { RendererMemo } from '@content-ui/md-mui/Renderer'
 
 export interface ViewerProps {
     editorSelection?: EditorSelection
@@ -54,7 +54,7 @@ export const Viewer = <P extends ViewerProps>(
         ref={contentRoot}
     >
         {processing === 'success' || isReady ?
-            <Renderer
+            <RendererMemo
                 // handleTocClick={}
                 editorSelection={editorSelection}
             /> : null}

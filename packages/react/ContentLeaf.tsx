@@ -1,5 +1,5 @@
 import { RootContent } from 'mdast'
-import React from 'react'
+import React, { useMemo, memo, createContext, useContext } from 'react'
 import { EditorSelection } from '@content-ui/react/useContent'
 import { useSettings } from '@content-ui/react/LeafSettings'
 import { DecoratorProps, DecoratorPropsNext, ReactBaseDecorator, ReactDeco } from '@content-ui/react/EngineDecorator'
@@ -17,8 +17,8 @@ export interface LeafsRenderMapping<
      * as mostly the matcher should work for more leafs than initially known.
      *
      * @example
-     *  if some leaf param is:      `{ type: 'headline' | 'input' }`
-     *  the match params should be: `{ type: string }`
+     *  if some leaf param is:      `{ elem: 'headline' | 'input' }`
+     *  the match params should be: `{ elem: string }`
      */
     TMatchParams extends {} = {},
     /**
@@ -49,7 +49,7 @@ export type ReactLeafsNodeSpec<LDS extends GenericLeafsDataSpec> = {
     [K in keyof LDS]: ReactLeafDefaultNodeType<NonNullable<LDS[K]>>;
 }
 
-export type ContentLeafMatchParams = { type: string }
+export type ContentLeafMatchParams = { elem: string }
 
 export interface LeafsEngine<TDeco extends ReactDeco<{}, {}, {}>, TRender extends {}> {
     renderMap: TRender
@@ -96,34 +96,35 @@ export function ContentRenderer<P extends DecoratorPropsNext>(
         ...p
     }: P & ContentRendererProps,
 ): React.ReactElement<P> | null {
+    const settings = useSettings()
     const leafs = renderMap.leafs
-    // todo: check if there is a better way to "auto memo the final Leaf",
-    //       an extra render-component could be used, but would that be better/faster than this here?
-    const Leaf = React.useMemo(
-        () => leafs[p.elem] ? React.memo(leafs[p.elem]) as any : null,
-        [leafs, p.elem],
-    )
+    const Leaf = renderMap.matchLeaf(p, leafs)
 
-    if(!leafs[p.elem]) {
+    if(!Leaf) {
         console.error('No LeafNode found for ' + p.elem, p)
         return null
     }
 
-    return <Leaf {...p}/>
+    return <Leaf
+        {...settings}
+        {...p}
+    />
 }
+
+export const ContentRendererMemo = memo(ContentRenderer)
 
 export const contentUIDecorators = new ReactDeco<
     DecoratorPropsNext &
     ContentRendererProps
 >()
-    .use(ContentRenderer)
+    .use(ContentRendererMemo as typeof ContentRenderer)
 
 export const contentLeafsContext: React.Context<
     LeafsEngine<
         ReactDeco<{}, {}>,
         LeafsRenderMapping<ReactLeafsNodeSpec<ContentLeafsPropsMapping>, ContentRenderComponents, ContentLeafMatchParams>
     >
-> = React.createContext(undefined as any)
+> = createContext(undefined as any)
 
 export const useContentLeafs = <
     TLeafsDataMapping2 extends ContentLeafsPropsMapping = ContentLeafsPropsMapping,
@@ -131,7 +132,7 @@ export const useContentLeafs = <
     TDeco2 extends ReactDeco<{}, {}> = ReactDeco<{}, {}>,
     TRender2 extends LeafsRenderMapping<ReactLeafsNodeSpec<TLeafsDataMapping2>, TComponents2, ContentLeafMatchParams> = LeafsRenderMapping<ReactLeafsNodeSpec<TLeafsDataMapping2>, TComponents2, ContentLeafMatchParams>,
 >() => {
-    return React.useContext<LeafsEngine<TDeco2, TRender2>>(
+    return useContext<LeafsEngine<TDeco2, TRender2>>(
         contentLeafsContext as unknown as React.Context<LeafsEngine<TDeco2, TRender2>>,
     )
 }
@@ -148,7 +149,7 @@ export function ContentLeafsProvider<
         deco, renderMap,
     }: React.PropsWithChildren<LeafsEngine<TDeco2, TRender2>>,
 ) {
-    const ctx = React.useMemo((): LeafsEngine<TDeco2, TRender2> => ({
+    const ctx = useMemo((): LeafsEngine<TDeco2, TRender2> => ({
         deco: deco,
         renderMap: renderMap,
     }), [deco, renderMap])
@@ -181,12 +182,11 @@ export function ContentLeaf<
     if(!deco) {
         throw new Error('This LeafNode requires decorators, maybe missed `deco` at the `ContentLeafsProvider`?')
     }
-    const settings = useSettings()
+
     const Next = deco.next(0) as ReactBaseDecorator<DecoratorPropsNext & { [k in ContentLeafInjected]: any }>
     // todo: `Next` can not be typed in any way i've found, thus here no error will be shown, except for missing "injected props"
     return <Next
         {...props}
-        {...settings}
         next={deco.next}
         decoIndex={0}
         renderMap={renderMap}

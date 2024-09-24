@@ -13,6 +13,7 @@ export const BaseLeafContent = <P extends { selected?: boolean } = { selected?: 
             }
         },
 ) => {
+    // todo: move this hook into the decorators
     const editorSelection = useContentSelection()
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const {child, selected, ...p} = props

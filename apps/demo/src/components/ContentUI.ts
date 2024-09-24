@@ -11,5 +11,5 @@ export const contentUIMapping: LeafsRenderMapping<ContentLeafsNodeMapping, MuiCo
         ...renderMapping.components,
         Code: CustomCodeMirror,
     },
-    matchLeaf: (p, l) => l[p.type],
+    matchLeaf: (p, l) => l[p.elem],
 }

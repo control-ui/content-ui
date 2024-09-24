@@ -39,7 +39,7 @@ export const LeafH: React.FC<ContentLeafProps & WithMdAstChild & { selected?: bo
         headlineLinkable,
         headlineSelectable, headlineSelectableOnHover,
         headlineOffset,
-        // todo: is injected in `ContentLeaf`, move to props
+        // todo: is injected in `ContentRenderer`, move to props
     } = useSettings()
     const hRef = useLeafFollower<HTMLHeadingElement>(selected)
     const [copied, setCopied] = React.useState(false)
@@ -141,27 +141,40 @@ export const LeafH: React.FC<ContentLeafProps & WithMdAstChild & { selected?: bo
     </Typography>
 }
 
-export const LeafLink: React.FC<ContentLeafProps & WithMdAstChild> = ({child}) => {
-    if(child.type !== 'link') return null
+const urlIsRelativeTo = (linkBase: string, url: string) => {
+    return (
+        linkBase === url
+        || url.startsWith(linkBase + '/')
+        || url.startsWith(linkBase + '?')
+        || url.startsWith(linkBase + '#')
+    )
+}
 
-    // todo: support custom base-urls which, if same as currently open, will use react-router
-    // todo: support custom base-urls which will always open in the same window, but not using react-router
+export const LeafLink: React.FC<ContentLeafProps<'link'>> = ({child}) => {
+    // todo: is injected in `ContentRenderer`, move to props
+    const {linkBase, linkNotBlank} = useSettings()
+
     const isHttp = child.url.startsWith('http://') || child.url.startsWith('https://')
     if(
-        (isHttp || child.url.startsWith('ftp://') || child.url.startsWith('ftps://'))
-        && !child.url.startsWith(window.location.protocol + '//' + window.location.host)
+        (child.url.startsWith('ftp://') || child.url.startsWith('ftps://'))
+        || (isHttp && !urlIsRelativeTo(linkBase || (window.location.protocol + '//' + window.location.host), child.url))
     ) {
         return <Link href={child.url} target={'_blank'} rel={'noreferrer noopener'}>
             <BaseLeafContent child={child}/>
-            <small style={{paddingLeft: 3}}><IcOpenIn fontSize={'inherit'} color={'inherit'} style={{verticalAlign: 'middle', opacity: 0.625}}/></small>
+            <Box component={'small'} sx={{pl: '3px'}}><IcOpenIn fontSize={'inherit'} color={'inherit'} style={{verticalAlign: 'middle', opacity: 0.625}}/></Box>
         </Link>
     }
 
     if(
-        !isHttp
-        && child.url.indexOf(':') !== -1 && child.url.indexOf(':') < child.url.indexOf('/')
+        (!isHttp && child.url.indexOf(':') !== -1 && child.url.indexOf(':') < child.url.indexOf('/'))
+        || (
+            isHttp && linkNotBlank &&
+            (typeof linkNotBlank === 'string'
+                ? urlIsRelativeTo(linkNotBlank, child.url)
+                : linkNotBlank.test(child.url))
+        )
     ) {
-        // mailto/tel etc.
+        // mailto/tel etc. or URLs configured to not use `_blank`
         return <Link href={child.url}>
             <BaseLeafContent child={child}/>
         </Link>

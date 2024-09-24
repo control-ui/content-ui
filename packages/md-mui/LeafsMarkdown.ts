@@ -15,7 +15,7 @@ import { LeafTable, LeafTableCell, LeafTableRow } from '@content-ui/md-mui/Leafs
 import { LeafYaml } from '@content-ui/md-mui/Leafs/LeafYaml'
 import { LeafTocListItem } from '@content-ui/md-mui/Leafs/LeafToc'
 import { LeafImage } from '@content-ui/md-mui/Leafs/LeafImage'
-import { ContentRenderComponents, ContentLeafsNodeMapping, LeafsRenderMapping } from '@content-ui/react/ContentLeaf'
+import { ContentRenderComponents, ContentLeafsNodeMapping, LeafsRenderMapping, ContentLeafMatchParams } from '@content-ui/react/ContentLeaf'
 import { LeafDefList, LeafDefListDescription, LeafDefListTerm } from '@content-ui/md-mui/Leafs/LeafDefList'
 import { ComponentType } from 'react'
 
@@ -70,9 +70,9 @@ export interface MuiContentRenderComponents extends ContentRenderComponents {
     Code?: ComponentType<{ value?: string, lang?: string }>
 }
 
-export const renderMapping: LeafsRenderMapping<ContentLeafsNodeMapping, MuiContentRenderComponents, { type: string }> = {
+export const renderMapping: LeafsRenderMapping<ContentLeafsNodeMapping, MuiContentRenderComponents, ContentLeafMatchParams> = {
     leafs: leafs,
     components: {},
-    matchLeaf: (p, l) => l[p.type],
+    matchLeaf: (p, l) => l[p.elem],
 }
 

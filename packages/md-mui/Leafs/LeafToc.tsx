@@ -17,7 +17,7 @@ export const LeafTocListItem: React.FC<ContentLeafProps & WithMdAstChild<TocList
     const c = child as TocListItem
     const {smallList, showLines, editorSelection, onClick} = useToc()
     // const c = child.type === 'tocListItem' ? child : undefined
-    // todo: is injected in `ContentLeaf`, move to props
+    // todo: is injected in `ContentRenderer`, move to props
     const {headlineLinkable} = useSettings()
     const {typography} = useTheme<Theme & { typography: TypographyWithExtras }>()
     const [focus, setFocus] = React.useState(false)
