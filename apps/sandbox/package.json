@@ -1,6 +1,6 @@
 {
     "name": "content-ui-sandbox",
-    "version": "0.0.9",
+    "version": "0.0.10",
     "description": "Content-UI MD-MUI demo",
     "keywords": [
         "typescript",
@@ -30,8 +30,8 @@
         "@codemirror/view": "^6.0.0",
         "@content-ui/input": "0.0.6",
         "@content-ui/md": "0.0.8",
-        "@content-ui/md-mui": "0.0.9",
-        "@content-ui/react": "0.0.9",
+        "@content-ui/md-mui": "0.0.10",
+        "@content-ui/react": "0.0.10",
         "@content-ui/struct": "0.0.2",
         "@emotion/react": "^11.9.0",
         "@emotion/styled": "^11.8.1",
@@ -58,7 +58,7 @@
         "@types/react-dom": "^18.3.0",
         "@vitejs/plugin-react": "^4.0.0",
         "typescript": "~5.3.3",
-        "vite": "^4.0.0"
+        "vite": "^4.5.5"
     },
     "scripts": {
         "start": "tsc && cross-env NODE_ENV=development vite",

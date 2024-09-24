@@ -141,7 +141,7 @@ export default {
                         // enforce: true,
                     },
                     common: {
-                        test: /[\\/]node_modules[\\/](react-loadable|immutable|react-helmet|react-error-boundary|react-router|react-router-dom|i18next*|react-i18next)[\\/]/,
+                        test: /[\\/]node_modules[\\/](immutable|react-helmet|react-error-boundary|react-router|react-router-dom|i18next*|react-i18next)[\\/]/,
                         usedExports: true,
                         name: 'cmn',
                         priority: 8,

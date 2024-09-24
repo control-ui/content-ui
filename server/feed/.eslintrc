@@ -44,22 +44,15 @@
                 "@typescript-eslint"
             ],
             "rules": {
+                "@typescript-eslint/no-unused-vars": [
+                    "error",
+                    {
+                        "caughtErrors": "none"
+                    }
+                ],
                 "@typescript-eslint/no-namespace": "off",
                 "@typescript-eslint/no-unnecessary-boolean-literal-compare": "error",
                 "@typescript-eslint/no-empty-interface": "error",
-                "@typescript-eslint/member-delimiter-style": [
-                    "error",
-                    {
-                        "multiline": {
-                            "delimiter": "none",
-                            "requireLast": false
-                        },
-                        "singleline": {
-                            "delimiter": "comma",
-                            "requireLast": false
-                        }
-                    }
-                ],
                 "indent": [
                     "error",
                     4,
@@ -84,10 +77,7 @@
                 "@typescript-eslint/no-inferrible-types": "off",
                 "@typescript-eslint/no-inferrable-types": "off",
                 "@typescript-eslint/no-explicit-any": "off",
-                "@typescript-eslint/semi": [
-                    "warn",
-                    "never"
-                ],
+                "@typescript-eslint/no-empty-object-type": "off",
                 "semi-style": "off"
             }
         }

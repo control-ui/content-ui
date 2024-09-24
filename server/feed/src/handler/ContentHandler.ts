@@ -22,7 +22,6 @@ export const contentHandler = (app: Express, folder: string) => {
     app.get('/contents/:contentId', async(req, res) => {
         const contentId = req.params.contentId
         try {
-
             const file = await readFile(path.join(folder, contentId + '.md'))
             return res.send({
                 file: file.toString('utf8'),

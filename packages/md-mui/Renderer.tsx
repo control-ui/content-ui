@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { useContentContext, EditorSelection } from '@content-ui/react/useContent'
 import Typography from '@mui/material/Typography'
 import { defaultTocIds, LeafToc, LeafTocContextType, useLeafToc } from '@content-ui/md-mui/Leafs/LeafToc'
@@ -68,3 +68,5 @@ export const Renderer = ({handleTocClick, editorSelection}: RendererProps): Reac
             <Typography variant={'body2'} color={'disabled'}>{'-'}</Typography>}
     </>
 }
+
+export const RendererMemo = memo(Renderer)

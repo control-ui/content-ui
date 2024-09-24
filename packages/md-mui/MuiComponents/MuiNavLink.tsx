@@ -1,7 +1,7 @@
 import React from 'react'
 import { useMatch } from 'react-router-dom'
 import MuiLink, { LinkProps } from '@mui/material/Link'
-import { NavLinkProps, RouterLink } from './MuiLink'
+import { NavLinkProps, RouterLink } from '@content-ui/md-mui/MuiComponents/MuiLink'
 
 export const MuiNavLink: React.FC<Omit<LinkProps, 'component' | 'underline'> & Pick<NavLinkProps, 'href'> & { exact?: boolean }> = ({children, exact, ...props}) => {
     const match = useMatch(props.href + (exact ? '' : '*'))
