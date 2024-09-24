@@ -145,7 +145,9 @@ const urlIsRelativeTo = (linkBase: string, url: string) => {
     return (
         linkBase === url
         || url.startsWith(linkBase + '/')
+        || url.startsWith(linkBase + '/?')
         || url.startsWith(linkBase + '?')
+        || url.startsWith(linkBase + '/#')
         || url.startsWith(linkBase + '#')
     )
 }
@@ -155,9 +157,17 @@ export const LeafLink: React.FC<ContentLeafProps<'link'>> = ({child}) => {
     const {linkBase, linkNotBlank} = useSettings()
 
     const isHttp = child.url.startsWith('http://') || child.url.startsWith('https://')
+    const isControlled = (isHttp && urlIsRelativeTo(linkBase || (window.location.protocol + '//' + window.location.host), child.url))
+    const notBlank = (
+        isHttp && linkNotBlank &&
+        (typeof linkNotBlank === 'string'
+            ? urlIsRelativeTo(linkNotBlank, child.url)
+            : linkNotBlank.test(child.url))
+    )
+
     if(
         (child.url.startsWith('ftp://') || child.url.startsWith('ftps://'))
-        || (isHttp && !urlIsRelativeTo(linkBase || (window.location.protocol + '//' + window.location.host), child.url))
+        || (isHttp && !isControlled && !notBlank)
     ) {
         return <Link href={child.url} target={'_blank'} rel={'noreferrer noopener'}>
             <BaseLeafContent child={child}/>
@@ -167,12 +177,7 @@ export const LeafLink: React.FC<ContentLeafProps<'link'>> = ({child}) => {
 
     if(
         (!isHttp && child.url.indexOf(':') !== -1 && child.url.indexOf(':') < child.url.indexOf('/'))
-        || (
-            isHttp && linkNotBlank &&
-            (typeof linkNotBlank === 'string'
-                ? urlIsRelativeTo(linkNotBlank, child.url)
-                : linkNotBlank.test(child.url))
-        )
+        || (notBlank && !isControlled)
     ) {
         // mailto/tel etc. or URLs configured to not use `_blank`
         return <Link href={child.url}>
