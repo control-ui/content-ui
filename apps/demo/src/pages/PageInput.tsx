@@ -136,7 +136,7 @@ export const PageInput: React.ComponentType = () => {
                                 editorSelection={editorSelection}
                             />
                             <Button
-                                startIcon={showAst ? <IcVisibility/> : <IcVisibilityOff/>}
+                                startIcon={showAst ? <IcVisibilityOff/> : <IcVisibility/>}
                                 onClick={() => setShowAst(s => !s)}
                                 variant={'outlined'}
                                 sx={{mt: 2, mb: 1}}

@@ -1,6 +1,6 @@
 import React from 'react'
 import Box from '@mui/material/Box'
-import { BaseLeafContent } from '@content-ui/md-mui/Leafs/BaseLeafContent'
+import { LeafChildNodes } from '@content-ui/md-mui/LeafChildNodes'
 import { ContentLeafProps } from '@content-ui/react/ContentLeaf'
 import { useLeafFollower } from '@content-ui/react/useLeafFollower'
 
@@ -45,7 +45,7 @@ export const LeafBlockquote: React.FC<ContentLeafProps> = ({child, selected}) =>
         }}
     >
         {child.type === 'blockquote' ?
-            <BaseLeafContent child={child}/> : null}
+            <LeafChildNodes childNodes={child.children}/> : null}
     </Box>
 }
 

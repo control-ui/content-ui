@@ -1,7 +1,7 @@
 import React from 'react'
 import Typography, { TypographyProps } from '@mui/material/Typography'
 import { Parent } from 'mdast'
-import { BaseLeafContent } from '@content-ui/md-mui/Leafs/BaseLeafContent'
+import { LeafChildNodes } from '@content-ui/md-mui/LeafChildNodes'
 import Link from '@mui/material/Link'
 import IcLink from '@mui/icons-material/Link'
 import IcOpenIn from '@mui/icons-material/OpenInNew'
@@ -29,7 +29,7 @@ export const LeafP: React.FC<ContentLeafProps & WithMdAstChild & { selected?: bo
             boxShadow: selected ? palette.mode === 'dark' ? '-8px 0px 0px 0px rgba(5, 115, 115, 0.11)' : '-8px 0px 0px 0px rgba(206, 230, 228, 0.31)' : undefined,
         }}
     >
-        {child.type === 'paragraph' ? <BaseLeafContent child={child}/> : null}
+        {child.type === 'paragraph' ? <LeafChildNodes childNodes={child.children}/> : null}
     </Typography>
 }
 
@@ -137,7 +137,7 @@ export const LeafH: React.FC<ContentLeafProps & WithMdAstChild & { selected?: bo
         // color={selected ? 'info.light' : 'default'}
     >
         {btnCopy}
-        {c ? <span><BaseLeafContent child={c}/></span> : null}
+        {c ? <span><LeafChildNodes childNodes={c.children}/></span> : null}
     </Typography>
 }
 
@@ -170,7 +170,7 @@ export const LeafLink: React.FC<ContentLeafProps<'link'>> = ({child}) => {
         || (isHttp && !isControlled && !notBlank)
     ) {
         return <Link href={child.url} target={'_blank'} rel={'noreferrer noopener'}>
-            <BaseLeafContent child={child}/>
+            <LeafChildNodes childNodes={child.children}/>
             <Box component={'small'} sx={{pl: '3px'}}><IcOpenIn fontSize={'inherit'} color={'inherit'} style={{verticalAlign: 'middle', opacity: 0.625}}/></Box>
         </Link>
     }
@@ -181,11 +181,11 @@ export const LeafLink: React.FC<ContentLeafProps<'link'>> = ({child}) => {
     ) {
         // mailto/tel etc. or URLs configured to not use `_blank`
         return <Link href={child.url}>
-            <BaseLeafContent child={child}/>
+            <LeafChildNodes childNodes={child.children}/>
         </Link>
     }
 
     return <MuiLink href={child.url}>
-        <BaseLeafContent child={child}/>
+        <LeafChildNodes childNodes={child.children}/>
     </MuiLink>
 }

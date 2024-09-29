@@ -3,7 +3,7 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import useTheme from '@mui/material/styles/useTheme'
 import { ContentLeafProps } from '@content-ui/react/ContentLeaf'
-import { BaseLeafContent } from '@content-ui/md-mui/Leafs/BaseLeafContent'
+import { LeafChildNodes } from '@content-ui/md-mui/LeafChildNodes'
 import { useLeafFollower } from '@content-ui/react/useLeafFollower'
 
 export const LeafDefList: React.FC<ContentLeafProps> = ({child}) => {
@@ -15,7 +15,7 @@ export const LeafDefList: React.FC<ContentLeafProps> = ({child}) => {
             mb: dense ? 0.5 : 1.5,
         }}
     >
-        {child.type === 'defList' ? <BaseLeafContent child={child}/> : null}
+        {child.type === 'defList' ? <LeafChildNodes childNodes={child.children}/> : null}
     </Box>
 }
 
@@ -39,7 +39,7 @@ export const LeafDefListTerm: React.FC<ContentLeafProps> = ({child, selected}) =
             boxShadow: selected ? palette.mode === 'dark' ? '-8px 0px 0px 0px rgba(5, 115, 115, 0.11)' : '-8px 0px 0px 0px rgba(206, 230, 228, 0.31)' : undefined,
         }}
     >
-        {child.type === 'defListTerm' ? <BaseLeafContent child={child}/> : null}
+        {child.type === 'defListTerm' ? <LeafChildNodes childNodes={child.children}/> : null}
     </Typography>
 }
 
@@ -58,6 +58,6 @@ export const LeafDefListDescription: React.FC<ContentLeafProps> = ({child, selec
         }}
         ref={dtRef}
     >
-        {child.type === 'defListDescription' ? <BaseLeafContent child={child}/> : null}
+        {child.type === 'defListDescription' ? <LeafChildNodes childNodes={child.children}/> : null}
     </Box>
 }

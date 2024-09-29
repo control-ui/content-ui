@@ -1,5 +1,5 @@
 import React from 'react'
-import { BaseLeafContent } from '@content-ui/md-mui/Leafs/BaseLeafContent'
+import { LeafChildNodes } from '@content-ui/md-mui/LeafChildNodes'
 import { Table as MdTable/* TableRow as MdTableRow, TableCell as MdTableCell*/ } from 'mdast'
 import Table from '@mui/material/Table'
 import TableHead from '@mui/material/TableHead'
@@ -25,11 +25,11 @@ export const LeafTable: React.FC<ContentLeafProps> = ({child}) => {
         }}
     >
         <TableHead>
-            <BaseLeafContent child={{children: headerRow}}/>
+            <LeafChildNodes childNodes={headerRow}/>
         </TableHead>
         <TableBody>
-            <BaseLeafContent<{ tableSettings?: any, selected?: boolean }>
-                child={{children: contentRows}}
+            <LeafChildNodes<{ tableSettings?: any }>
+                childNodes={contentRows}
                 //tableSettings={{align}}
             />
             {/*contentRows.map((childNext, i) =>
@@ -49,7 +49,7 @@ export const LeafTable: React.FC<ContentLeafProps> = ({child}) => {
 export const LeafTableRow: React.FC<ContentLeafProps> = ({child, selected, ...props}) => {
     const rRef = useLeafFollower<HTMLTableRowElement>(selected)
     return <TableRow ref={rRef}>
-        {child.type === 'tableRow' ? <BaseLeafContent child={child} {...props}/> : null}
+        {child.type === 'tableRow' ? <LeafChildNodes childNodes={child.children} {...props}/> : null}
     </TableRow>
 }
 
@@ -66,6 +66,6 @@ export const LeafTableCell: React.FC<ContentLeafProps & { tableSettings?: any }>
             boxShadow: selected ? palette.mode === 'dark' ? '-8px 0px 0px 0px rgba(5, 115, 115, 0.11)' : '-8px 0px 0px 0px rgba(206, 230, 228, 0.31)' : undefined,
         }}
     >
-        {child.type === 'tableCell' ? <BaseLeafContent child={child} {...props}/> : null}
+        {child.type === 'tableCell' ? <LeafChildNodes childNodes={child.children} {...props}/> : null}
     </TableCell>
 }

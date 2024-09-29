@@ -39,7 +39,7 @@ export const Viewer = <P extends ViewerProps>(
     const location = useLocation()
     const {root} = useContentContext()
 
-    const isReady = Boolean(root?.children)
+    const isReady = Boolean(root)
     React.useLayoutEffect(() => {
         const hash = location.hash
         if(!hash || !isReady) return

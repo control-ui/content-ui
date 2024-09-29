@@ -1,44 +1,43 @@
 import React from 'react'
-import { BaseLeafContent } from '@content-ui/md-mui/Leafs/BaseLeafContent'
+import { LeafChildNodes } from '@content-ui/md-mui/LeafChildNodes'
 import Box from '@mui/material/Box'
 import { ContentLeafProps } from '@content-ui/react/ContentLeaf'
 import { WithMdAstChild } from '@content-ui/struct/Ast'
 
 export const LeafBr: React.FC<ContentLeafProps> = () => <br/>
 
-export const LeafText: React.FC<ContentLeafProps & WithMdAstChild> = ({child}) => (
-    child.type === 'text' ? child.value : null
-) as unknown as React.ReactElement
+export const LeafText: React.FC<ContentLeafProps<'text'> & WithMdAstChild> = ({child}): React.ReactNode => (
+    child.value
+)
 
-export const LeafHtml: React.FC<ContentLeafProps & WithMdAstChild> = ({child}) => (
-    child.type === 'html' ?
-        child.value.trim().startsWith('<!--') && child.value.trim().endsWith('-->') ?
-            <span style={{display: 'none'}}>{child.value}</span> :
-            <pre><code>{child.value}</code></pre> : null
-) as unknown as React.ReactElement
+export const LeafHtml: React.FC<ContentLeafProps<'html'> & WithMdAstChild> = ({child}): React.ReactNode => (
+    child.value.trim().startsWith('<!--') && child.value.trim().endsWith('-->') ?
+        <span style={{display: 'none'}}>{child.value}</span> :
+        <pre><code>{child.value}</code></pre>
+)
 
 export const LeafEmphasis: React.FC<ContentLeafProps & WithMdAstChild> = ({child}) =>
-    'children' in child ? <em><BaseLeafContent child={child}/></em> : null
+    'children' in child ? <em><LeafChildNodes childNodes={child.children}/></em> : null
 
 export const LeafStrong: React.FC<ContentLeafProps & WithMdAstChild> = ({child}) =>
-    'children' in child ? <strong><BaseLeafContent child={child}/></strong> : null
+    'children' in child ? <strong><LeafChildNodes childNodes={child.children}/></strong> : null
 
 export const LeafUnderline: React.FC<ContentLeafProps & WithMdAstChild> = ({child}) =>
-    'children' in child ? <u><BaseLeafContent child={child}/></u> : null
+    'children' in child ? <u><LeafChildNodes childNodes={child.children}/></u> : null
 
 export const LeafDelete: React.FC<ContentLeafProps & WithMdAstChild> = ({child}) =>
-    'children' in child ? <del><BaseLeafContent child={child}/></del> : null
+    'children' in child ? <del><LeafChildNodes childNodes={child.children}/></del> : null
 
 export const LeafInsert: React.FC<ContentLeafProps & WithMdAstChild> = ({child}) =>
-    'children' in child ? <ins><BaseLeafContent child={child}/></ins> : null
+    'children' in child ? <ins><LeafChildNodes childNodes={child.children}/></ins> : null
 
 export const LeafSub: React.FC<ContentLeafProps & WithMdAstChild> = ({child}) =>
-    'children' in child ? <sub><BaseLeafContent child={child}/></sub> : null
+    'children' in child ? <sub><LeafChildNodes childNodes={child.children}/></sub> : null
 
 export const LeafSuper: React.FC<ContentLeafProps & WithMdAstChild> = ({child}) =>
-    'children' in child ? <sup><BaseLeafContent child={child}/></sup> : null
+    'children' in child ? <sup><LeafChildNodes childNodes={child.children}/></sup> : null
 
 export const LeafMark: React.FC<ContentLeafProps & WithMdAstChild> = ({child}) =>
-    'children' in child ? <Box component={'mark'} sx={{backgroundColor: 'info.light'}} px={0.25} py={0}><BaseLeafContent child={child}/></Box> : null
+    'children' in child ? <Box component={'mark'} sx={{backgroundColor: 'info.light'}} px={0.25} py={0}><LeafChildNodes childNodes={child.children}/></Box> : null
 
 export const LeafThematicBreak: React.FC<ContentLeafProps> = () => <Box component={'hr'} sx={{borderColor: 'divider', borderStyle: 'solid'}} my={0.5}/>

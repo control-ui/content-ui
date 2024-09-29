@@ -1,6 +1,6 @@
 import React from 'react'
 import { FootnoteReference } from 'mdast'
-import { BaseLeafContent } from '@content-ui/md-mui/Leafs/BaseLeafContent'
+import { LeafChildNodes } from '@content-ui/md-mui/LeafChildNodes'
 import { MuiLink } from '@content-ui/md-mui/MuiComponents/MuiLink'
 import IcGoTo from '@mui/icons-material/SubdirectoryArrowLeft'
 import Typography from '@mui/material/Typography'
@@ -30,7 +30,7 @@ export const LeafFootnoteDefinition: React.FC<ContentLeafProps> = ({child}) => {
                 </small> : null}
 
             <div id={userContentPrefix + 'fn-' + c?.identifier}>
-                {child.type === 'footnoteDefinition' ? <BaseLeafContent child={child}/> : null}
+                {child.type === 'footnoteDefinition' ? <LeafChildNodes childNodes={child.children}/> : null}
             </div>
 
             <MuiLink

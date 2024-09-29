@@ -77,14 +77,14 @@ export type ContentLeafsPropsMapping = {
     [K in MdAstNodes['type']]: { elem: K, child: Extract<MdAstNodes, { type: K }> } & ContentLeafPayload
 }
 
-export type ContentLeafsNodeMapping = ReactLeafsNodeSpec<ContentLeafsPropsMapping>
+export type ContentLeafsNodeMapping<TLeafDataMapping extends ContentLeafsPropsMapping = ContentLeafsPropsMapping> = ReactLeafsNodeSpec<TLeafDataMapping>
 
 export type ContentRenderComponents = {}
 
 export type ContentLeafProps<S extends keyof ContentLeafsPropsMapping = keyof ContentLeafsPropsMapping> = ContentLeafsPropsMapping[S]
 
-export type ContentRendererProps = {
-    renderMap: LeafsRenderMapping<ReactLeafsNodeSpec<{ [k: string]: {} }>, ContentRenderComponents, ContentLeafMatchParams>
+export type ContentRendererProps<TLeafDataMapping extends ContentLeafsPropsMapping = ContentLeafsPropsMapping> = {
+    renderMap: LeafsRenderMapping<ReactLeafsNodeSpec<TLeafDataMapping>, ContentRenderComponents, ContentLeafMatchParams>
     elem: string
 }
 
@@ -127,29 +127,29 @@ export const contentLeafsContext: React.Context<
 > = createContext(undefined as any)
 
 export const useContentLeafs = <
-    TLeafsDataMapping2 extends ContentLeafsPropsMapping = ContentLeafsPropsMapping,
-    TComponents2 extends ContentRenderComponents = ContentRenderComponents,
-    TDeco2 extends ReactDeco<{}, {}> = ReactDeco<{}, {}>,
-    TRender2 extends LeafsRenderMapping<ReactLeafsNodeSpec<TLeafsDataMapping2>, TComponents2, ContentLeafMatchParams> = LeafsRenderMapping<ReactLeafsNodeSpec<TLeafsDataMapping2>, TComponents2, ContentLeafMatchParams>,
+    TLeafsDataMapping extends ContentLeafsPropsMapping = ContentLeafsPropsMapping,
+    TComponents extends ContentRenderComponents = ContentRenderComponents,
+    TDeco extends ReactDeco<{}, {}> = ReactDeco<{}, {}>,
+    TRender extends LeafsRenderMapping<ReactLeafsNodeSpec<TLeafsDataMapping>, TComponents, ContentLeafMatchParams> = LeafsRenderMapping<ReactLeafsNodeSpec<TLeafsDataMapping>, TComponents, ContentLeafMatchParams>,
 >() => {
-    return useContext<LeafsEngine<TDeco2, TRender2>>(
-        contentLeafsContext as unknown as React.Context<LeafsEngine<TDeco2, TRender2>>,
+    return useContext<LeafsEngine<TDeco, TRender>>(
+        contentLeafsContext as unknown as React.Context<LeafsEngine<TDeco, TRender>>,
     )
 }
 
 export function ContentLeafsProvider<
-    TLeafsDataMapping2 extends ContentLeafsPropsMapping = ContentLeafsPropsMapping,
-    TComponents2 extends ContentRenderComponents = ContentRenderComponents,
-    TDeco2 extends ReactDeco<{}, {}> = ReactDeco<{}, {}>,
-    TRender2 extends LeafsRenderMapping<ReactLeafsNodeSpec<TLeafsDataMapping2>, TComponents2, ContentLeafMatchParams> = LeafsRenderMapping<ReactLeafsNodeSpec<TLeafsDataMapping2>, TComponents2, ContentLeafMatchParams>,
+    TLeafsDataMapping extends ContentLeafsPropsMapping = ContentLeafsPropsMapping,
+    TComponents extends ContentRenderComponents = ContentRenderComponents,
+    TDeco extends ReactDeco<{}, {}, {}> = ReactDeco<{}, {}, {}>,
+    TRender extends LeafsRenderMapping<ReactLeafsNodeSpec<TLeafsDataMapping>, TComponents, ContentLeafMatchParams> = LeafsRenderMapping<ReactLeafsNodeSpec<TLeafsDataMapping>, TComponents, ContentLeafMatchParams>,
     // todo: integrate a typing which validates that the provided deco-result-props are compatible with props of `TRender2['leafs']`
 >(
     {
         children,
         deco, renderMap,
-    }: React.PropsWithChildren<LeafsEngine<TDeco2, TRender2>>,
+    }: React.PropsWithChildren<LeafsEngine<TDeco, TRender>>,
 ) {
-    const ctx = useMemo((): LeafsEngine<TDeco2, TRender2> => ({
+    const ctx = useMemo((): LeafsEngine<TDeco, TRender> => ({
         deco: deco,
         renderMap: renderMap,
     }), [deco, renderMap])
@@ -158,8 +158,8 @@ export function ContentLeafsProvider<
     return <LeafsContextProvider
         value={
             ctx as LeafsEngine<
-                TDeco2,
-                LeafsRenderMapping<ReactLeafsNodeSpec<ContentLeafsPropsMapping>, ContentRenderComponents, ContentLeafMatchParams, any, {}>
+                TDeco,
+                LeafsRenderMapping<ReactLeafsNodeSpec<ContentLeafsPropsMapping>, TComponents, ContentLeafMatchParams, any, {}>
             >
         }
     >{children}</LeafsContextProvider>
@@ -171,14 +171,15 @@ export function ContentLeaf<
     TLeafDataMapping extends ContentLeafsPropsMapping,
     TLeafData extends TLeafDataMapping[keyof TLeafDataMapping] & {},
     TDeco extends ReactDeco<{}, {}> = ReactDeco<{}, {}>,
-    TComponents extends ContentRenderComponents = ContentRenderComponents,
-    TRenderMapping extends LeafsRenderMapping<ReactLeafsNodeSpec<TLeafDataMapping>, TComponents, ContentLeafMatchParams> = LeafsRenderMapping<ReactLeafsNodeSpec<TLeafDataMapping>, TComponents, ContentLeafMatchParams>,
     // todo: TProps not only need to support removing injected, but also allowing overriding
     TProps extends DecoratorProps<TLeafData, TDeco> = DecoratorProps<TLeafData, TDeco>,
 >(
     props: Omit<TProps, ContentLeafInjected>,
 ): React.JSX.Element | null {
-    const {renderMap, deco} = useContentLeafs<TLeafDataMapping, TComponents, TDeco, TRenderMapping>()
+    const {renderMap, deco} = useContentLeafs<
+        TLeafDataMapping, ContentRenderComponents, TDeco,
+        LeafsRenderMapping<ReactLeafsNodeSpec<TLeafDataMapping>, ContentRenderComponents, ContentLeafMatchParams>
+    >()
     if(!deco) {
         throw new Error('This LeafNode requires decorators, maybe missed `deco` at the `ContentLeafsProvider`?')
     }
