@@ -5,7 +5,7 @@ import { MuiLink } from '@content-ui/md-mui/MuiComponents/MuiLink'
 import IcGoTo from '@mui/icons-material/SubdirectoryArrowLeft'
 import Typography from '@mui/material/Typography'
 import { ContentLeafProps } from '@content-ui/react/ContentLeaf'
-import useTheme from '@mui/material/styles/useTheme'
+import { useTheme } from '@mui/material/styles'
 import type { Theme } from '@mui/material/styles'
 import { TypographyWithExtras } from '@content-ui/md-mui/MuiComponents/Theme'
 

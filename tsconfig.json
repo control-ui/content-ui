@@ -9,15 +9,15 @@
             "DOM.Iterable",
             "ESNext"
         ],
-        "allowJs": false,
+        "allowJs": true,
         "skipLibCheck": true,
-        "esModuleInterop": false,
+        "esModuleInterop": true,
         "allowSyntheticDefaultImports": true,
         "strict": true,
         "noImplicitAny": false,
         "forceConsistentCasingInFileNames": true,
         "resolveJsonModule": true,
-        "isolatedModules": true,
+        "isolatedModules": false,
         "noEmit": true,
         "jsx": "react-jsx"
     },
@@ -55,7 +55,9 @@
     },
     "include": [
         "jest.config.ts",
+        "jest.config-cjs.ts",
         "apps/demo/src",
+        "apps/demo/tests",
         "apps/sandbox/src",
         "server/feed/src",
         "packages"

@@ -1,7 +1,9 @@
-import React, { useCallback, useRef, useState } from 'react'
+import * as React from 'react'
 import { Processor } from 'unified'
 import { VFile } from 'vfile'
 import { Root } from 'mdast'
+
+const {useCallback, useRef, useState} = React
 
 export interface EditorSelectionPosition {
     start: number
@@ -83,7 +85,7 @@ export const useContent = (
                         outdated: !onMount,
                     }
                 } catch(e) {
-                    console.error('Content processing error', e)
+                    console.error('Content processing error in mount', e)
                     return {
                         file: file,
                         root: undefined,
@@ -134,7 +136,7 @@ export const useContent = (
                 })
                 .catch((e) => {
                     if(abort?.aborted) return
-                    console.error('Content processing error', e)
+                    console.error('Content processing error in effect', e)
                     setContentState({
                         file: file,
                         root: undefined,

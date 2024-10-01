@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import { useSettings } from '@content-ui/react/LeafSettings'
 
 export const useLeafFollower = <E extends HTMLElement = HTMLElement>(selected: boolean | undefined) => {

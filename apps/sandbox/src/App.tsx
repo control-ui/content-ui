@@ -3,7 +3,8 @@ import { PageHome } from "./pages/PageHome";
 import { MuiNavLink } from "@content-ui/md-mui/MuiComponents/MuiNavLink";
 import { PageInput } from "./pages/PageInput";
 import IcGitHub from "@mui/icons-material/GitHub";
-import { Box, Divider } from '@mui/material'
+import Box from '@mui/material/Box'
+import Divider from '@mui/material/Divider'
 
 export default function App() {
   return (

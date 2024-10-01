@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import { Root } from 'mdast'
 import { ContentFileContextType, ContentContext, ContentSelectionContext, EditorSelection } from '@content-ui/react/useContent'
 import { VFile } from 'vfile'

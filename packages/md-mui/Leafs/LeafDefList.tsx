@@ -1,7 +1,7 @@
 import React from 'react'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import useTheme from '@mui/material/styles/useTheme'
+import { useTheme } from '@mui/material/styles'
 import { ContentLeafProps } from '@content-ui/react/ContentLeaf'
 import { LeafChildNodes } from '@content-ui/md-mui/LeafChildNodes'
 import { useLeafFollower } from '@content-ui/react/useLeafFollower'

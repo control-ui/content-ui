@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import * as React from 'react'
 import { useContentContext, EditorSelection } from '@content-ui/react/useContent'
 import Typography from '@mui/material/Typography'
 import { defaultTocIds, LeafToc, LeafTocContextType, useLeafToc } from '@content-ui/md-mui/Leafs/LeafToc'
@@ -69,4 +69,4 @@ export const Renderer = ({handleTocClick, editorSelection}: RendererProps): Reac
     </>
 }
 
-export const RendererMemo = memo(Renderer)
+export const RendererMemo = React.memo(Renderer)

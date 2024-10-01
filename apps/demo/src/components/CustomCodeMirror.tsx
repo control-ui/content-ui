@@ -42,7 +42,7 @@ import { yaml } from '@codemirror/legacy-modes/mode/yaml'
 import { YAMLFrontMatter, Footnote, Mark, Hashtag, Mention, Insert } from './lezerMarkdown'
 import { useCodeMirror, useEditorClasses, useExtension } from '@ui-schema/kit-codemirror'
 import { MuiCodeMirrorStyleProps } from '@ui-schema/material-code'
-import useTheme from '@mui/material/styles/useTheme'
+import { useTheme } from '@mui/material/styles'
 
 const mdLang0 = markdown({
     base: markdownLanguage,
