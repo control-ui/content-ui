@@ -1,9 +1,9 @@
 import { ContentParser } from '@content-ui/md/parser/ContentParser'
-import { useMediaQuery } from '@mui/material'
+import useMediaQuery from '@mui/material/useMediaQuery'
 import Button from '@mui/material/Button'
 import IcVisibility from '@mui/icons-material/Visibility'
 import IcVisibilityOff from '@mui/icons-material/VisibilityOff'
-import useTheme from '@mui/material/styles/useTheme'
+import { useTheme } from '@mui/material/styles'
 import React, { useState } from 'react'
 import Helmet from 'react-helmet'
 import { useTranslation } from 'react-i18next'
@@ -136,7 +136,7 @@ export const PageInput: React.ComponentType = () => {
                                 editorSelection={editorSelection}
                             />
                             <Button
-                                startIcon={showAst ? <IcVisibility/> : <IcVisibilityOff/>}
+                                startIcon={showAst ? <IcVisibilityOff/> : <IcVisibility/>}
                                 onClick={() => setShowAst(s => !s)}
                                 variant={'outlined'}
                                 sx={{mt: 2, mb: 1}}

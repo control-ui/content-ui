@@ -3,7 +3,7 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Tooltip from '@mui/material/Tooltip'
 import { WithContentEditor } from '@content-ui/input/useContentEditor'
-import useTheme from '@mui/material/styles/useTheme'
+import { useTheme } from '@mui/material/styles'
 
 export type InputBottomBarProps = Pick<WithContentEditor, 'textValue' | 'editorSelection'> & {
     py?: number

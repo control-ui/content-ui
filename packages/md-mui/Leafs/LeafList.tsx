@@ -3,7 +3,7 @@ import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import IcChecked from '@mui/icons-material/CheckBox'
 import IcUnchecked from '@mui/icons-material/CheckBoxOutlineBlank'
-import { BaseLeafContent } from '@content-ui/md-mui/Leafs/BaseLeafContent'
+import { LeafChildNodes } from '@content-ui/md-mui/LeafChildNodes'
 import { ContentLeafProps } from '@content-ui/react/ContentLeaf'
 
 export const LeafList: React.FC<ContentLeafProps<'list'>> = ({child}) => {
@@ -20,13 +20,13 @@ export const LeafList: React.FC<ContentLeafProps<'list'>> = ({child}) => {
         }}
         style={{outline: 0, border: 0}}
     >
-        {child.type === 'list' ? <BaseLeafContent child={child}/> : null}
+        {child.type === 'list' ? <LeafChildNodes childNodes={child.children}/> : null}
     </Box>
 }
 
 export const LeafListItem: React.FC<ContentLeafProps> = ({child}) => {
     const listItemContent = child.type === 'listItem' ?
-        <BaseLeafContent child={{...child, children: child.children.filter(c => c.type !== 'list')}}/> : null
+        <LeafChildNodes childNodes={child.children.filter(c => c.type !== 'list')}/> : null
     return <Typography
         component={'li'} variant={'body1'}
         sx={{
@@ -46,16 +46,15 @@ export const LeafListItem: React.FC<ContentLeafProps> = ({child}) => {
             listItemContent}
 
         {child.type === 'listItem' ?
-            <BaseLeafContent<{ selected?: boolean }>
-                child={{
-                    ...child,
-                    children: child.children
+            <LeafChildNodes
+                childNodes={
+                    child.children
                         .filter(c => c.type === 'list')
                         .map(c => ({
                             ...c,
                             inList: true,
-                        })),
-                }}
+                        }))
+                }
             /> : null}
     </Typography>
 }

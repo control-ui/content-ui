@@ -83,7 +83,7 @@ export const useContent = (
                         outdated: !onMount,
                     }
                 } catch(e) {
-                    console.error('Content processing error', e)
+                    console.error('Content processing error in mount', e)
                     return {
                         file: file,
                         root: undefined,
@@ -134,7 +134,7 @@ export const useContent = (
                 })
                 .catch((e) => {
                     if(abort?.aborted) return
-                    console.error('Content processing error', e)
+                    console.error('Content processing error in effect', e)
                     setContentState({
                         file: file,
                         root: undefined,
