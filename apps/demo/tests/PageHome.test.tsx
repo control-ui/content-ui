@@ -8,6 +8,8 @@ import { render } from '@testing-library/react'
 import { contentUIMapping } from '../src/components/ContentUI'
 import { PageHome } from '../src/pages/PageHome'
 
+// rm -rf node_modules/.cache && npm run test -- --testPathPattern=PageHome --no-cache
+
 describe('PageHome', () => {
     // it('DummyText', async() => {
     //     const {queryByText} = render(

@@ -12,6 +12,7 @@ import { BrowserRouter } from 'react-router-dom'
 
 // npm run test -- --testPathPattern=ViewerFrom --no-cache
 // rm -rf node_modules/.cache && npm run test -- --testPathPattern=ViewerFrom --no-cache
+// rm -rf node_modules && npm i && npm run test -- --testPathPattern=ViewerFrom --no-cache
 
 describe('ViewerFromText', () => {
     it('Headline', async() => {

@@ -14,31 +14,31 @@ const toPackageFolder = (pkg: [name: string, folder?: string]) => {
     return pkg[1] || pkg[0]
 }
 
-// todo: something in TS/babel, no matter which preset, causes `export default Comp` to not work,
-//       e.g. for `import Box from '@mui/material/Box'` is `console.log(Box)` logs: `Box { boxClasses: [Getter], default: [Getter] }`
-//       but expects to be more like: `Object { "$$typeof": Symbol("react.forward_ref"), render: Box(inProps, ref), propTypes: {…}, … }`
-// todo: maybe use babel-plugin-transform-imports to configure that? but looks like it is for ESM>CJS, but allows throwing for full lib imports
+// todo: For tests in ESM sometimes `React` is undefined, yet somehow could not make it reproducible.
+//       It is the `import React from 'react'` vs `import * as React from 'react'` thing.
+//       - somehow it first failed, then worked with `"jsx": "react-jsxdev"`, afterwards some kind of caching?!
+//       - not depending on disabling transform of packages
 const base: Config.InitialProjectOptions = {
-    // note: presets are deprecated
-    // preset: 'ts-jest/presets/default', // ts/tsx to CJS, js/jsx as-is
-    // preset: 'ts-jest/presets/default-esm-legacy', // ts/tsx to ESM, js/jsx as-is
-    // preset: 'ts-jest/presets/js-with-ts',// all to CJS
-    // preset: 'ts-jest/presets/js-with-ts-esm',// all to ESM
-    // preset: 'ts-jest/presets/js-with-babel',// TS with ts-jest to CJS, other with babel-jest
-    // preset: 'ts-jest/presets/js-with-babel-esm',// TS with ts-jest to ESM, other with babel-jest
+    cacheDirectory: '<rootDir>/node_modules/.cache/jest-tmp',
     transformIgnorePatterns: [
-        // `node_modules/?!(${[
-        //     ...packages,
-        //     // ['@mui'] as [name: string, folder?: string], ['@ui-schema'] as [name: string, folder?: string],
-        // ].map(toPackageFolder).join('|')})`,
-        'node_modules/(?!(@mui)/)',
+        `node_modules/?!(${[
+            ...packages,
+            ['@mui'] as [name: string, folder?: string],
+            // ['@ui-schema'] as [name: string, folder?: string],
+        ].map(toPackageFolder).join('|')})/`,
+        // `node_modules/?!(@mui)/`,
     ],
     transform: {
         ...createDefaultEsmPreset({
             babelConfig: {
                 plugins: [
                     './babelImportDefaultPlugin.js',
-                    // 'babel-plugin-transform-require-default',
+                    // ['transform-imports', { // not validated/checked
+                    //     'react': {
+                    //         // 'transform': 'import * as React from 'react'',
+                    //         // 'preventFullImport': true,
+                    //     },
+                    // }],
                 ],
             },
         }).transform,// ts/tsx to ESM, js/jsx as-is
@@ -64,6 +64,9 @@ const base: Config.InitialProjectOptions = {
     coveragePathIgnorePatterns: [
         '(tests/.*.mock).(jsx?|tsx?|ts?|js?)$',
         '.*.(test|spec).(js|ts|tsx)$',
+        '<rootDir>/apps/demo',
+        '<rootDir>/apps/sandbox',
+        '<rootDir>/server/sandbox',
     ],
     extensionsToTreatAsEsm: ['.ts', '.tsx'],
 }

@@ -1,9 +1,7 @@
-import * as React from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import { Processor } from 'unified'
 import { VFile } from 'vfile'
 import { Root } from 'mdast'
-
-const {useCallback, useRef, useState} = React
 
 export interface EditorSelectionPosition {
     start: number

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import { useMatch } from 'react-router-dom'
 import MuiLink, { LinkProps } from '@mui/material/Link'
 import { NavLinkProps, RouterLink } from '@content-ui/md-mui/MuiComponents/MuiLink'

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import { Fragment, memo, ReactNode } from 'react'
 import { useContentContext, EditorSelection } from '@content-ui/react/useContent'
 import Typography from '@mui/material/Typography'
 import { defaultTocIds, LeafToc, LeafTocContextType, useLeafToc } from '@content-ui/md-mui/Leafs/LeafToc'
@@ -11,7 +11,7 @@ export interface RendererProps {
     handleTocClick?: LeafTocContextType['onClick']
 }
 
-export const Renderer = ({handleTocClick, editorSelection}: RendererProps): React.ReactNode => {
+export const Renderer = ({handleTocClick, editorSelection}: RendererProps): ReactNode => {
     const {root} = useContentContext()
     const {headlines, tocInject} = useLeafToc(root, defaultTocIds)
     const bodyNodes = root?.children?.filter(c => c.type !== 'footnoteDefinition')
@@ -34,7 +34,7 @@ export const Renderer = ({handleTocClick, editorSelection}: RendererProps): Reac
                         (typeof tocInject?.next?.rootIndex === 'number' && tocInject?.next?.rootIndex === i + 1) ||
                         (typeof tocInject?.next?.rootIndex === 'undefined' && tocInject?.start?.rootIndex === i)
                     ) ?
-                        <React.Fragment key={i}>
+                        <Fragment key={i}>
                             {/* todo: slice the whole toc area and render separately, not only injecting but "container wrapping" */}
                             <ContentLeaf
                                 elem={child.type}
@@ -50,7 +50,7 @@ export const Renderer = ({handleTocClick, editorSelection}: RendererProps): Reac
                                     tocInject={tocInject}
                                     onClick={handleTocClick}
                                 /> : null}
-                        </React.Fragment> :
+                        </Fragment> :
                         <ContentLeaf
                             key={i}
                             elem={child.type}
@@ -69,4 +69,4 @@ export const Renderer = ({handleTocClick, editorSelection}: RendererProps): Reac
     </>
 }
 
-export const RendererMemo = React.memo(Renderer)
+export const RendererMemo = memo(Renderer)

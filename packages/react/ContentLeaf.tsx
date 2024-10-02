@@ -1,10 +1,8 @@
 import { RootContent } from 'mdast'
-import * as React from 'react'
+import React, { useMemo, memo, createContext, useContext } from 'react'
 import { EditorSelection } from '@content-ui/react/useContent'
 import { useSettings } from '@content-ui/react/LeafSettings'
 import { DecoratorProps, DecoratorPropsNext, ReactBaseDecorator, ReactDeco } from '@content-ui/react/EngineDecorator'
-
-const {useMemo, memo, createContext, useContext} = React
 
 export type GenericLeafsDataSpec<D extends {} = {}> = {
     [k: string]: D

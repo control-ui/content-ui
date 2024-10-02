@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import { Heading, ListItem, Root } from 'mdast'
 import { MuiLink } from '@content-ui/md-mui/MuiComponents/MuiLink'
 import Typography from '@mui/material/Typography'

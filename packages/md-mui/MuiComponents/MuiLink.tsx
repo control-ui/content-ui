@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import { Link as LinkBase } from 'react-router-dom'
 import MuiLinkBase, { LinkProps } from '@mui/material/Link'
 
