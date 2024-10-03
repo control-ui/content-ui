@@ -19,7 +19,6 @@ import { useViewSettings } from './lib/ViewSettings'
 import I18NextChainedBackend from 'i18next-chained-backend'
 import I18NextLocalStorageBackend from 'i18next-localstorage-backend'
 import I18nextBrowserLanguageDetector from 'i18next-browser-languagedetector'
-import { ProgressControlProvider } from 'react-progress-state'
 import { UIApiProvider } from '@ui-schema/ui-schema/UIApi'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
@@ -116,11 +115,9 @@ export const App: React.ComponentType<{}> = () => {
                             <LocalizationProvider dateAdapter={AdapterMoment}>
                                 <UIMetaProvider t={browserT} widgets={customWidgets}>
                                     <ContentLeafsProvider deco={contentUIDecorators} renderMap={contentUIMapping}>
-                                        <ProgressControlProvider>
-                                            <DndProvider backend={HTML5Backend}>
-                                                <Layout/>
-                                            </DndProvider>
-                                        </ProgressControlProvider>
+                                        <DndProvider backend={HTML5Backend}>
+                                            <Layout/>
+                                        </DndProvider>
                                     </ContentLeafsProvider>
                                 </UIMetaProvider>
                             </LocalizationProvider>

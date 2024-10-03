@@ -17,7 +17,6 @@ import ListItemButton from '@mui/material/ListItemButton'
 import ListItemText from '@mui/material/ListItemText'
 import { useTranslation } from 'react-i18next'
 import Box from '@mui/material/Box'
-import { useProgressControlReset } from 'react-progress-state'
 import Tooltip from '@mui/material/Tooltip'
 import { PageComplex } from '../pages/PageComplex'
 import { PageInput } from '../pages/PageInput'
@@ -105,11 +104,6 @@ const basePath = config.BASE_PATH
 export const Layout: React.ComponentType<{}> = () => {
     const {snackbars, rmNotice} = useSnack()
     const scrollWrapper = React.useRef<HTMLDivElement | null>(null)
-    const {resetScopes} = useProgressControlReset()
-
-    React.useLayoutEffect(() => {
-        return () => resetScopes([])
-    }, [resetScopes])
 
     return <>
         <Header/>

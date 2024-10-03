@@ -15,7 +15,6 @@ export default function({types: t}) {
             ImportDeclaration(path, state) {
                 const source = path.node.source.value
 
-                // Log the original source and specifiers for debugging
                 // console.log(`Processing import from: ${source}`)
                 // console.log(`Specifiers: ${JSON.stringify(path.node.specifiers, null, 2)}`)
 
@@ -28,12 +27,11 @@ export default function({types: t}) {
 
                     // Check if the import already has "Module" suffix to prevent infinite loops
                     if(originalImportName.endsWith('Module')) {
-                        console.log(`Skipping transformation for ${originalImportName} to avoid infinite loop.`)
+                        // console.log(`Skipping transformation for ${originalImportName} to avoid infinite loop.`)
                         return // Stop further transformation
                     }
 
                     if(isLikelyCommonJS(source, state)) {
-                        // Log the transformation we are about to apply
                         console.log(`Transforming ${originalImportName} from CommonJS`)
 
                         path.replaceWithMultiple([
@@ -49,8 +47,7 @@ export default function({types: t}) {
                             ]),
                         ])
 
-                        // Log the final transformation result
-                        console.log(`Created new import: ${originalImportName}Module`)
+                        // console.log(`Created new import: ${originalImportName}Module`)
                     } else {
                         // console.log(`${source} is likely ESM, no transformation applied.`)
                     }
@@ -71,8 +68,9 @@ export default function({types: t}) {
         return (
             !source.endsWith('.mjs') &&
             (
-                /node_modules/.test(source) ||
-                source.startsWith('@mui')
+                /node_modules/.test(source)
+                || source.startsWith('@mui')
+                || source.startsWith('react-helmet')
             )
         )
     }

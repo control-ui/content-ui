@@ -11,6 +11,7 @@ import { config } from '../config'
 import LinearProgress from '@mui/material/LinearProgress'
 import Alert from '@mui/material/Alert'
 import AlertTitle from '@mui/material/AlertTitle'
+import { ApiPing } from '../components/ApiPing'
 import IcRefresh from '@mui/icons-material/Refresh'
 import { IconButtonProgress } from '@ui-controls/progress/IconButtonProgress'
 import FormControl from '@mui/material/FormControl'
@@ -128,6 +129,10 @@ export const PageComplex: React.ComponentType = () => {
                                     onMount
                                 />
                             </Grid2> : null}
+
+                        <Grid2 xs={12} md={8} mdOffset={2}>
+                            <ApiPing/>
+                        </Grid2>
                     </Grid2>
                 </Paper>
             </Box>
