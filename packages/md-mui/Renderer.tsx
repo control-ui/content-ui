@@ -3,7 +3,7 @@ import { Fragment, memo, ReactNode } from 'react'
 import { useContentContext } from '@content-ui/react/ContentFileContext'
 import Typography from '@mui/material/Typography'
 import { defaultTocIds, LeafToc, LeafTocContextType, useLeafToc } from '@content-ui/md-mui/Leafs/LeafToc'
-import { isLeafSelected } from '@content-ui/react/isLeafSelected'
+import { isLeafSelected } from '@content-ui/react/Utils/isLeafSelected'
 import { ContentLeaf } from '@content-ui/react/ContentLeaf'
 import { FootnoteSection } from '@content-ui/md-mui/Leafs/LeafFootnoteSection'
 

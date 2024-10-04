@@ -5,13 +5,12 @@ import Table from '@mui/material/Table'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import TableCell from '@mui/material/TableCell'
-// import { TableCellProps } from '@mui/material/TableCell/TableCell'
 import TableBody from '@mui/material/TableBody'
 import { useTheme } from '@mui/material/styles'
 import { ContentLeafProps } from '@content-ui/react/ContentLeafsContext'
 import { useLeafFollower } from '@content-ui/react/useLeafFollower'
 
-export const LeafTable: React.FC<ContentLeafProps> = ({child}) => {
+export const LeafTable: React.FC<ContentLeafProps<'table'>> = ({child}) => {
     const c = child as MdTable
     // todo: align exists on table level, not on cell level
     //const align = c.align
@@ -46,14 +45,14 @@ export const LeafTable: React.FC<ContentLeafProps> = ({child}) => {
     </Table>
 }
 
-export const LeafTableRow: React.FC<ContentLeafProps> = ({child, selected, ...props}) => {
+export const LeafTableRow: React.FC<ContentLeafProps<'tableRow'>> = ({child, selected, ...props}) => {
     const rRef = useLeafFollower<HTMLTableRowElement>(selected)
     return <TableRow ref={rRef}>
-        {child.type === 'tableRow' ? <LeafChildNodes childNodes={child.children} {...props}/> : null}
+        <LeafChildNodes childNodes={child.children} {...props}/>
     </TableRow>
 }
 
-export const LeafTableCell: React.FC<ContentLeafProps & { tableSettings?: any }> = ({child, selected, ...props}) => {
+export const LeafTableCell: React.FC<ContentLeafProps<'tableCell'> & { tableSettings?: any }> = ({child, selected, ...props}) => {
     const {palette} = useTheme()
     // const c = child as MdTableCell
     // todo: add gfm-advanced support
@@ -66,6 +65,6 @@ export const LeafTableCell: React.FC<ContentLeafProps & { tableSettings?: any }>
             boxShadow: selected ? palette.mode === 'dark' ? '-8px 0px 0px 0px rgba(5, 115, 115, 0.11)' : '-8px 0px 0px 0px rgba(206, 230, 228, 0.31)' : undefined,
         }}
     >
-        {child.type === 'tableCell' ? <LeafChildNodes childNodes={child.children} {...props}/> : null}
+        <LeafChildNodes childNodes={child.children} {...props}/>
     </TableCell>
 }

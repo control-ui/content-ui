@@ -2,7 +2,7 @@ import React from 'react'
 import { Parents } from 'mdast'
 import { useContentSelection } from '@content-ui/react/ContentSelectionContext'
 import { ContentLeaf } from '@content-ui/react/ContentLeaf'
-import { isLeafSelected } from '@content-ui/react/isLeafSelected'
+import { isLeafSelected } from '@content-ui/react/Utils/isLeafSelected'
 
 export const LeafChildNodes = <P extends {} = {}>(
     props:

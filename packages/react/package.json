@@ -24,6 +24,10 @@
             "import": "./Utils/copyToClipboard.js",
             "types": "./Utils/copyToClipboard.d.ts"
         },
+        "./Utils/isLeafSelected": {
+            "import": "./Utils/isLeafSelected.js",
+            "types": "./Utils/isLeafSelected.d.ts"
+        },
         "./ContentFileContext": {
             "import": "./ContentFileContext.js",
             "types": "./ContentFileContext.d.ts"
@@ -43,10 +47,6 @@
         "./EngineDecorator": {
             "import": "./EngineDecorator.js",
             "types": "./EngineDecorator.d.ts"
-        },
-        "./isLeafSelected": {
-            "import": "./isLeafSelected.js",
-            "types": "./isLeafSelected.d.ts"
         },
         "./LeafSettings": {
             "import": "./LeafSettings.js",
