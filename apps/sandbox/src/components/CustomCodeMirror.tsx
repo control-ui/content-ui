@@ -50,7 +50,7 @@ import {
   EditorThemeCustomStyles,
   useEditorTheme,
 } from "@ui-schema/material-code/useEditorTheme";
-import { useHighlightStyle } from "./useHighlightStyle";
+import { useHighlightStyle } from "@ui-schema/material-code/useHighlightStyle";
 import { json } from "@codemirror/lang-json";
 import { javascript } from "@codemirror/lang-javascript";
 import { html } from "@codemirror/lang-html";
@@ -343,7 +343,7 @@ export const CustomCodeMirror: React.FC<CustomCodeMirrorProps> = ({
     customStyles as EditorThemeCustomStyles,
   );
 
-  const highlightStyle = useHighlightStyle();
+  const highlightStyle = useHighlightStyle({headlineUnderline: false});
   const { init: initHighlightExt, effects: effectsHighlightExt } = useExtension(
     () =>
       syntaxHighlighting(highlightStyle || defaultHighlightStyle, {

@@ -1,7 +1,7 @@
 import React from 'react'
 import Box from '@mui/material/Box'
 import { LeafChildNodes } from '@content-ui/md-mui/LeafChildNodes'
-import { ContentLeafProps } from '@content-ui/react/ContentLeaf'
+import { ContentLeafProps } from '@content-ui/react/ContentLeafsContext'
 import { useLeafFollower } from '@content-ui/react/useLeafFollower'
 
 export const LeafBlockquote: React.FC<ContentLeafProps> = ({child, selected}) => {

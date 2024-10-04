@@ -1,43 +1,7 @@
-import React, { useCallback, useRef, useState } from 'react'
+import { useEffect, useCallback, useRef, useState } from 'react'
 import { Processor } from 'unified'
 import { VFile } from 'vfile'
 import { Root } from 'mdast'
-
-export interface EditorSelectionPosition {
-    start: number
-    startLine: number
-    startLineStart: number
-    startLineEnd: number
-
-    end: number
-    endLine: number
-    endLineStart: number
-    endLineEnd: number
-}
-
-export interface EditorSelectionFilled extends EditorSelectionPosition {
-    selected: true
-}
-
-export interface EditorSelectionEmpty extends Partial<EditorSelectionPosition> {
-    selected?: false
-}
-
-export type EditorSelection = EditorSelectionEmpty | EditorSelectionFilled
-
-export interface ContentFileContextType {
-    // root?: OrderedMap<string, any>
-    root?: Root
-    file?: VFile
-}
-
-export const ContentContext = React.createContext<ContentFileContextType>({})
-
-export const useContentContext = () => React.useContext(ContentContext)
-
-export const ContentSelectionContext = React.createContext<EditorSelection | undefined>(undefined)
-
-export const useContentSelection = () => React.useContext(ContentSelectionContext)
 
 export type ContentProcessor = Processor<Root, Root, Root, Root, string>
 
@@ -151,11 +115,11 @@ export const useContent = (
     const delayRefs = useRef({parseDelay, forceAfter})
     delayRefs.current = {parseDelay, forceAfter}
 
-    React.useEffect(() => {
+    useEffect(() => {
         return () => window.clearTimeout(timer2.current)
     }, [])
 
-    React.useEffect(() => {
+    useEffect(() => {
         if(onMount && !mountedRef.current) {
             mountedRef.current = true
             return

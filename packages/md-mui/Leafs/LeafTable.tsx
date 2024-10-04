@@ -8,7 +8,7 @@ import TableCell from '@mui/material/TableCell'
 // import { TableCellProps } from '@mui/material/TableCell/TableCell'
 import TableBody from '@mui/material/TableBody'
 import { useTheme } from '@mui/material/styles'
-import { ContentLeafProps } from '@content-ui/react/ContentLeaf'
+import { ContentLeafProps } from '@content-ui/react/ContentLeafsContext'
 import { useLeafFollower } from '@content-ui/react/useLeafFollower'
 
 export const LeafTable: React.FC<ContentLeafProps> = ({child}) => {

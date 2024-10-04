@@ -18,13 +18,13 @@
     - structural helper utils and mdast typing extensions
 
 ```shell
-npm i -S @content-ui/md @content-ui/react @content-ui/md-mui
+npm i -S @content-ui/md @content-ui/react @content-ui/struct @content-ui/md-mui
 # peer-dependencies:
 npm i -S @mui/material @mui/icons-material
 npm i -D @types/mdast
 
 # input component with CodeMirror:
-npm i -S @content-ui/md @content-ui/react @content-ui/md-mui @content-ui/input
+npm i -S @content-ui/md @content-ui/react @content-ui/struct @content-ui/md-mui @content-ui/input
 # peer-dependencies:
 npm i -S react-progress-state @ui-controls/progress @ui-schema/kit-codemirror @codemirror/state
 ```

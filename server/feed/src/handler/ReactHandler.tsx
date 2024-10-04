@@ -1,7 +1,7 @@
 import { Viewer } from '@content-ui/md-mui/Viewer'
 import { ContentParser } from '@content-ui/md/parser/ContentParser'
-import { ContentFileProvider } from '@content-ui/react/ContentFileProvider'
-import { ContentLeafsProvider, contentUIDecorators } from '@content-ui/react/ContentLeaf'
+import { ContentFileProvider } from '@content-ui/react/ContentFileContext'
+import { ContentLeafsProvider, contentUIDecorators } from '@content-ui/react/ContentLeafsContext'
 import { Express } from 'express'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { StaticRouter } from 'react-router-dom/server'
@@ -35,7 +35,6 @@ This is **rendered static on server**.
                         file={file}
                     >
                         <Viewer
-                            editorSelection={undefined}
                             outdated={false}
                             processing={'success'}
                         />

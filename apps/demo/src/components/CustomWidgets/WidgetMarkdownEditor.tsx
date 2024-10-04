@@ -1,4 +1,5 @@
 import { ContentParser } from '@content-ui/md/parser/ContentParser'
+import { ContentSelectionProvider } from '@content-ui/react/ContentSelectionContext'
 import { UIMetaReadContextType } from '@ui-schema/ui-schema/UIMetaReadContext'
 import React from 'react'
 import { TransTitle, WidgetProps, WithScalarValue } from '@ui-schema/ui-schema'
@@ -15,7 +16,7 @@ import { CustomCodeMirror, getHighlight } from '../CustomCodeMirror'
 import { ContentInput } from '@content-ui/input/ContentInput'
 import { useContentEditor } from '@content-ui/input/useContentEditor'
 import { useContent } from '@content-ui/react/useContent'
-import { ContentFileProvider } from '@content-ui/react/ContentFileProvider'
+import { ContentFileProvider } from '@content-ui/react/ContentFileContext'
 
 export const WidgetMarkdownEditor: React.ComponentType<WidgetProps & WithScalarValue & { readOnly?: boolean } & UIMetaReadContextType> = (
     {
@@ -118,22 +119,23 @@ export const WidgetMarkdownEditor: React.ComponentType<WidgetProps & WithScalarV
             <ContentFileProvider
                 root={root}
                 file={file}
-                editorSelection={editorSelection}
             >
-                <ContentInput
-                    preview={preview}
-                    refWarningBox={refWarningBox}
-                    CodeMirror={CustomCodeMirror}
-                    onChange={readOnly ? undefined : handleOnChange}
-                    extensions={extensions}
-                    textValue={textValue}
-                    bigSize={bigSize}
-                    processing={processing}
-                    autoProcess={autoProcess}
-                    setAutoProcess={setAutoProcess}
-                    valid={valid}
-                    mb={1}
-                />
+                <ContentSelectionProvider selection={editorSelection}>
+                    <ContentInput
+                        preview={preview}
+                        refWarningBox={refWarningBox}
+                        CodeMirror={CustomCodeMirror}
+                        onChange={readOnly ? undefined : handleOnChange}
+                        extensions={extensions}
+                        textValue={textValue}
+                        bigSize={bigSize}
+                        processing={processing}
+                        autoProcess={autoProcess}
+                        setAutoProcess={setAutoProcess}
+                        valid={valid}
+                        mb={1}
+                    />
+                </ContentSelectionProvider>
             </ContentFileProvider>
         </SettingsProvider>
     </>

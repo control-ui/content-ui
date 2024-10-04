@@ -6,7 +6,7 @@ import IcView from '@mui/icons-material/Visibility'
 import IcViewOff from '@mui/icons-material/VisibilityOff'
 import Button from '@mui/material/Button'
 import Collapse from '@mui/material/Collapse'
-import { ContentLeafProps, ContentLeafsPropsMapping, useContentLeafs } from '@content-ui/react/ContentLeaf'
+import { ContentLeafProps, ContentLeafsPropsMapping, useContentLeafs } from '@content-ui/react/ContentLeafsContext'
 import { MuiContentRenderComponents } from '@content-ui/md-mui/LeafsMarkdown'
 
 export const LeafYaml: React.FC<ContentLeafProps> = ({child}) => {

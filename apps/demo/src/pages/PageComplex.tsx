@@ -1,4 +1,5 @@
 import { ContentParser } from '@content-ui/md/parser/ContentParser'
+import { SettingsProvider } from '@content-ui/react/LeafSettings'
 import Paper from '@mui/material/Paper'
 import React from 'react'
 import Helmet from 'react-helmet'
@@ -122,12 +123,18 @@ export const PageComplex: React.ComponentType = () => {
 
                         {contentDetails?.file ?
                             <Grid2 xs={12}>
-                                <ViewerFromText
-                                    processor={ContentParser}
-                                    textValue={contentDetails.file}
-                                    parseDelay={0}
-                                    onMount
-                                />
+                                <SettingsProvider
+                                    headlineLinkable
+                                    headlineSelectable
+                                    headlineSelectableOnHover
+                                >
+                                    <ViewerFromText
+                                        processor={ContentParser}
+                                        textValue={contentDetails.file}
+                                        parseDelay={0}
+                                        onMount
+                                    />
+                                </SettingsProvider>
                             </Grid2> : null}
 
                         <Grid2 xs={12} md={8} mdOffset={2}>

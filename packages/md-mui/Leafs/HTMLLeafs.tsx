@@ -1,7 +1,7 @@
 import React from 'react'
 import { LeafChildNodes } from '@content-ui/md-mui/LeafChildNodes'
 import Box from '@mui/material/Box'
-import { ContentLeafProps } from '@content-ui/react/ContentLeaf'
+import { ContentLeafProps } from '@content-ui/react/ContentLeafsContext'
 import { WithMdAstChild } from '@content-ui/struct/Ast'
 
 export const LeafBr: React.FC<ContentLeafProps> = () => <br/>

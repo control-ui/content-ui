@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import { ContentParser } from '@content-ui/md/parser/ContentParser'
-import { ContentLeafsProvider, contentUIDecorators } from '@content-ui/react/ContentLeaf'
+import { ContentLeafsProvider, contentUIDecorators } from '@content-ui/react/ContentLeafsContext'
 import { it, expect, describe } from '@jest/globals'
 import '@testing-library/jest-dom/jest-globals'
 import { render } from '@testing-library/react'

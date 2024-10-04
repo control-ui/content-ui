@@ -1,4 +1,4 @@
-import { contentUIDecorators, ContentLeafsProvider } from '@content-ui/react/ContentLeaf'
+import { contentUIDecorators, ContentLeafsProvider } from '@content-ui/react/ContentLeafsContext'
 import React from 'react'
 import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles'
 import { DndProvider } from 'react-dnd'

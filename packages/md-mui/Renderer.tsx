@@ -1,5 +1,6 @@
+import { useContentSelection } from '@content-ui/react/ContentSelectionContext'
 import { Fragment, memo, ReactNode } from 'react'
-import { useContentContext, EditorSelection } from '@content-ui/react/useContent'
+import { useContentContext } from '@content-ui/react/ContentFileContext'
 import Typography from '@mui/material/Typography'
 import { defaultTocIds, LeafToc, LeafTocContextType, useLeafToc } from '@content-ui/md-mui/Leafs/LeafToc'
 import { isLeafSelected } from '@content-ui/react/isLeafSelected'
@@ -7,12 +8,12 @@ import { ContentLeaf } from '@content-ui/react/ContentLeaf'
 import { FootnoteSection } from '@content-ui/md-mui/Leafs/LeafFootnoteSection'
 
 export interface RendererProps {
-    editorSelection?: EditorSelection
     handleTocClick?: LeafTocContextType['onClick']
 }
 
-export const Renderer = ({handleTocClick, editorSelection}: RendererProps): ReactNode => {
+export const Renderer = ({handleTocClick}: RendererProps): ReactNode => {
     const {root} = useContentContext()
+    const editorSelection = useContentSelection()
     const {headlines, tocInject} = useLeafToc(root, defaultTocIds)
     const bodyNodes = root?.children?.filter(c => c.type !== 'footnoteDefinition')
 

@@ -4,7 +4,7 @@ import Box from '@mui/material/Box'
 import IcChecked from '@mui/icons-material/CheckBox'
 import IcUnchecked from '@mui/icons-material/CheckBoxOutlineBlank'
 import { LeafChildNodes } from '@content-ui/md-mui/LeafChildNodes'
-import { ContentLeafProps } from '@content-ui/react/ContentLeaf'
+import { ContentLeafProps } from '@content-ui/react/ContentLeafsContext'
 
 export const LeafList: React.FC<ContentLeafProps<'list'>> = ({child}) => {
     const component = child.type === 'list' && child.ordered ? 'ol' : 'ul'

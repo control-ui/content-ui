@@ -57,7 +57,6 @@ export default function({types: t}) {
     }
 
     function isLikelyCommonJS(source, state) {
-        // Log the check
         // Check if the source is from a package with type: module
         const isModulePackage = state.file.opts.filename.includes('node_modules') && state.file.opts.packageData
 

@@ -1,3 +1,4 @@
+import { useContentSelection } from '@content-ui/react/ContentSelectionContext'
 import React from 'react'
 import { CodeMirrorComponentProps } from '@ui-schema/kit-codemirror/CodeMirror'
 import { Extension } from '@codemirror/state'
@@ -10,7 +11,8 @@ import { InputBottomBar } from '@content-ui/input/InputBottomBar'
 import { IconButtonProgress } from '@ui-controls/progress/IconButtonProgress'
 import IcAutoProcess from '@mui/icons-material/ModelTraining'
 import { CodeMirrorOnChange } from '@ui-schema/kit-codemirror/useCodeMirror'
-import { useContentContext, useContentSelection, WithContent } from '@content-ui/react/useContent'
+import { useContentContext } from '@content-ui/react/ContentFileContext'
+import { WithContent } from '@content-ui/react/useContent'
 import { Viewer, ViewerProps } from '@content-ui/md-mui/Viewer'
 
 export interface ViewEditorProps extends Pick<WithContentEditor, 'autoProcess' | 'setAutoProcess'>, Omit<WithContent, 'file' | 'root'> {
@@ -52,7 +54,6 @@ export const ContentInput: React.ComponentType<ViewEditorProps & Omit<ViewerProp
             <Viewer
                 outdated={outdated}
                 processing={processing}
-                editorSelection={editorSelection}
                 {...props}
             /> :
             <CodeMirror

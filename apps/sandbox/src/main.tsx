@@ -5,7 +5,7 @@ import {
   LeafsRenderMapping,
   ContentLeafsNodeMapping,
   ContentLeafMatchParams,
-} from '@content-ui/react/ContentLeaf'
+} from '@content-ui/react/ContentLeafsContext'
 import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
 import { MuiContentRenderComponents, renderMapping } from '@content-ui/md-mui/LeafsMarkdown'

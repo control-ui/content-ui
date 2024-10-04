@@ -15,7 +15,7 @@ import { LeafTable, LeafTableCell, LeafTableRow } from '@content-ui/md-mui/Leafs
 import { LeafYaml } from '@content-ui/md-mui/Leafs/LeafYaml'
 import { LeafTocListItem } from '@content-ui/md-mui/Leafs/LeafToc'
 import { LeafImage } from '@content-ui/md-mui/Leafs/LeafImage'
-import { ContentRenderComponents, ContentLeafsNodeMapping, LeafsRenderMapping, ContentLeafMatchParams } from '@content-ui/react/ContentLeaf'
+import { ContentRenderComponents, ContentLeafsNodeMapping, LeafsRenderMapping, ContentLeafMatchParams } from '@content-ui/react/ContentLeafsContext'
 import { LeafDefList, LeafDefListDescription, LeafDefListTerm } from '@content-ui/md-mui/Leafs/LeafDefList'
 import { ComponentType } from 'react'
 

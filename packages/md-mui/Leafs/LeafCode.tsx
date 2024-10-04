@@ -1,11 +1,11 @@
 import React from 'react'
 import Box from '@mui/material/Box'
-import { ContentLeafProps, ContentLeafsPropsMapping, useContentLeafs } from '@content-ui/react/ContentLeaf'
+import { ContentLeafProps, ContentLeafsPropsMapping, useContentLeafs } from '@content-ui/react/ContentLeafsContext'
 import { useLeafFollower } from '@content-ui/react/useLeafFollower'
 import { useTheme } from '@mui/material/styles'
 import type { Theme } from '@mui/material/styles'
 import { TypographyWithExtras } from '@content-ui/md-mui/MuiComponents/Theme'
-import { MuiContentRenderComponents } from '../LeafsMarkdown'
+import { MuiContentRenderComponents } from '@content-ui/md-mui/LeafsMarkdown'
 
 export const LeafCode: React.FC<ContentLeafProps> = ({child, selected}) => {
     const code = child.type === 'code' ? child : undefined

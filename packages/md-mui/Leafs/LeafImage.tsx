@@ -1,6 +1,6 @@
 import React from 'react'
 import Typography from '@mui/material/Typography'
-import { ContentLeafProps } from '@content-ui/react/ContentLeaf'
+import { ContentLeafProps } from '@content-ui/react/ContentLeafsContext'
 import { WithMdAstChild } from '@content-ui/struct/Ast'
 
 export const LeafImage: React.FC<ContentLeafProps & WithMdAstChild> = ({child}) =>

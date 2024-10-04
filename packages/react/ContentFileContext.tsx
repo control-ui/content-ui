@@ -1,21 +1,26 @@
 import React from 'react'
 import { Root } from 'mdast'
-import { ContentFileContextType, ContentContext, ContentSelectionContext, EditorSelection } from '@content-ui/react/useContent'
 import { VFile } from 'vfile'
+
+export interface ContentFileContextType {
+    root?: Root
+    file?: VFile
+}
+
+export const ContentContext = React.createContext<ContentFileContextType>({})
+
+export const useContentContext = () => React.useContext(ContentContext)
 
 export const ContentFileProvider: React.FC<React.PropsWithChildren<{
     root: Root | undefined
     file: VFile | undefined
-    editorSelection?: EditorSelection
-}>> = ({root, file, editorSelection, children}) => {
+}>> = ({root, file, children}) => {
     const cmCtx = React.useMemo((): ContentFileContextType => ({
         root,
         file,
     }), [root, file])
 
     return <ContentContext.Provider value={cmCtx}>
-        <ContentSelectionContext.Provider value={editorSelection}>
-            {children}
-        </ContentSelectionContext.Provider>
+        {children}
     </ContentContext.Provider>
 }

@@ -24,13 +24,21 @@
             "import": "./Utils/copyToClipboard.js",
             "types": "./Utils/copyToClipboard.d.ts"
         },
-        "./ContentFileProvider": {
-            "import": "./ContentFileProvider.js",
-            "types": "./ContentFileProvider.d.ts"
+        "./ContentFileContext": {
+            "import": "./ContentFileContext.js",
+            "types": "./ContentFileContext.d.ts"
         },
         "./ContentLeaf": {
             "import": "./ContentLeaf.js",
             "types": "./ContentLeaf.d.ts"
+        },
+        "./ContentLeafsContext": {
+            "import": "./ContentLeafsContext.js",
+            "types": "./ContentLeafsContext.d.ts"
+        },
+        "./ContentSelectionContext": {
+            "import": "./ContentSelectionContext.js",
+            "types": "./ContentSelectionContext.d.ts"
         },
         "./EngineDecorator": {
             "import": "./EngineDecorator.js",

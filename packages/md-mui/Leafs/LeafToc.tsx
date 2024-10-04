@@ -1,10 +1,11 @@
+import { useContentSelection } from '@content-ui/react/ContentSelectionContext'
 import React from 'react'
 import { Heading, ListItem, Root } from 'mdast'
 import { MuiLink } from '@content-ui/md-mui/MuiComponents/MuiLink'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
-import { ContentLeaf, ContentLeafProps, ContentLeafsPropsMapping } from '@content-ui/react/ContentLeaf'
-import { EditorSelection } from '@content-ui/react/useContent'
+import { ContentLeaf } from '@content-ui/react/ContentLeaf'
+import { ContentLeafProps, ContentLeafsPropsMapping } from '@content-ui/react/ContentLeafsContext'
 import { useSettings } from '@content-ui/react/LeafSettings'
 import { flattenText } from '@content-ui/struct/flattenText'
 import { textToId } from '@content-ui/struct/textToId'
@@ -15,7 +16,8 @@ import { TocHNode, TocListItem, WithMdAstChild } from '@content-ui/struct/Ast'
 
 export const LeafTocListItem: React.FC<ContentLeafProps & WithMdAstChild<TocListItem> & { textVariant?: 'body1' | 'body2' | 'caption' }> = ({child, textVariant}) => {
     const c = child as TocListItem
-    const {smallList, showLines, editorSelection, onClick} = useToc()
+    const editorSelection = useContentSelection()
+    const {smallList, showLines, onClick} = useToc()
     // const c = child.type === 'tocListItem' ? child : undefined
     // todo: is injected in `ContentRenderer`, move to props
     const {headlineLinkable} = useSettings()
@@ -112,7 +114,6 @@ export const LeafTocList: React.FC<{
 export interface LeafTocContextType {
     smallList?: boolean
     showLines?: boolean
-    editorSelection?: EditorSelection
     onClick?: (hNode: TocHNode) => void
 }
 
@@ -120,10 +121,10 @@ export const LeafTocContext = React.createContext<LeafTocContextType>({})
 
 export const useToc = (): LeafTocContextType => React.useContext(LeafTocContext)
 
-export const TocProvider: React.FC<React.PropsWithChildren<LeafTocContextType>> = ({children, showLines, editorSelection, smallList, onClick}) => {
+export const TocProvider: React.FC<React.PropsWithChildren<LeafTocContextType>> = ({children, showLines, smallList, onClick}) => {
     const ctx = React.useMemo(
-        () => ({showLines, editorSelection, smallList, onClick}),
-        [showLines, editorSelection, smallList, onClick],
+        () => ({showLines, smallList, onClick}),
+        [showLines, smallList, onClick],
     )
     return <LeafTocContext.Provider value={ctx}>{children}</LeafTocContext.Provider>
 }
@@ -184,7 +185,7 @@ export interface LeafTocProps {
 
 export const LeafToc: React.FC<LeafTocContextType & LeafTocProps> = (
     {
-        smallList, showLines, editorSelection, onClick,
+        smallList, showLines, onClick,
         tocInject, headlines,
     },
 ) => {
@@ -198,7 +199,6 @@ export const LeafToc: React.FC<LeafTocContextType & LeafTocProps> = (
     return <TocProvider
         smallList={smallList}
         showLines={showLines}
-        editorSelection={editorSelection}
         onClick={onClick}
     >
         <LeafTocList
