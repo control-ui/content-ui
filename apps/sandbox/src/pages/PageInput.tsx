@@ -10,8 +10,8 @@ import { SettingsProvider } from '@content-ui/react/LeafSettings'
 import { useContentEditor } from '@content-ui/input/useContentEditor'
 import { useContent } from '@content-ui/react/useContent'
 import { ContentFileProvider } from '@content-ui/react/ContentFileContext'
-import useTheme from '@mui/material/styles/useTheme'
-import { useMediaQuery } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 const md = `# About a Note
 
