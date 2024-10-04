@@ -85,15 +85,15 @@ const config: Config.InitialOptions = {
     coverageDirectory: '<rootDir>/coverage',
     projects: [
         // todo: enable app tests again when fixed ESM/CJS issues
-        // {
-        //     displayName: 'test-apps-demo',
-        //     ...base,
-        //     moduleDirectories: ['node_modules', '<rootDir>/apps/demo/node_modules'],
-        //     testMatch: [
-        //         '<rootDir>/apps/demo/src/**/*.(test|spec).(js|ts|tsx)',
-        //         '<rootDir>/apps/demo/tests/**/*.(test|spec).(js|ts|tsx)',
-        //     ],
-        // },
+        {
+            displayName: 'test-apps-demo',
+            ...base,
+            moduleDirectories: ['node_modules', '<rootDir>/apps/demo/node_modules'],
+            testMatch: [
+                '<rootDir>/apps/demo/src/**/*.(test|spec).(js|ts|tsx)',
+                '<rootDir>/apps/demo/tests/**/*.(test|spec).(js|ts|tsx)',
+            ],
+        },
         ...packages.map(pkg => ({
             displayName: 'test-' + pkg[0],
             ...base,

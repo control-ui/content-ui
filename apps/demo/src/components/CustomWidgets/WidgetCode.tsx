@@ -8,7 +8,7 @@ import { javascript } from '@codemirror/lang-javascript'
 import { html } from '@codemirror/lang-html'
 import { css } from '@codemirror/lang-css'
 import { extractValue } from '@ui-schema/ui-schema/UIStore'
-import { WidgetCode } from '@ui-schema/material-code'
+import { WidgetCode } from '@ui-schema/material-code/WidgetCode'
 import { WidgetCodeSelectable } from '@ui-schema/material-code/WidgetCodeSelectable'
 import { CustomCodeMirror } from '../CustomCodeMirror'
 

@@ -1,14 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
-  contentUIDecorators,
-  ContentLeafsProvider,
-  LeafsRenderMapping,
-  ContentLeafsNodeMapping,
-  ContentLeafMatchParams,
-} from '@content-ui/react/ContentLeaf'
+    contentUIDecorators,
+    ContentLeafsProvider,
+} from '@content-ui/react/ContentLeafsContext'
 import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
-import { MuiContentRenderComponents, renderMapping } from '@content-ui/md-mui/LeafsMarkdown'
+import { renderMapping } from '@content-ui/md-mui/LeafsMarkdown'
 import { customTheme } from './theme'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
@@ -20,35 +17,43 @@ const root = ReactDOM.createRoot(rootElement)
 
 const themes = customTheme()
 
-const contentUIMapping: LeafsRenderMapping<
-    ContentLeafsNodeMapping,
-    MuiContentRenderComponents,
-    ContentLeafMatchParams
-> = {
-  ...renderMapping,
-  leafs: {
-    ...renderMapping.leafs,
-  },
-  components: {
-    ...renderMapping.components,
-    Code: CustomCodeMirror,
-  },
+const contentUIMapping: typeof renderMapping = {
+    ...renderMapping,
+    leafs: {
+        ...renderMapping.leafs,
+    },
+    components: {
+        ...renderMapping.components,
+        Code: CustomCodeMirror,
+    },
 }
 
-root.render(
-    <React.StrictMode>
-      <StyledEngineProvider injectFirst>
-        <ThemeProvider theme={themes.dark}>
-          <CssBaseline/>
-          <BrowserRouter>
+const Main = () => {
+    const [theme, setTheme] = useState<'dark' | 'light'>(
+        () => window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
+    )
+
+    const toggleTheme = () => {
+        setTheme(t => t === 'dark' ? 'light' : 'dark')
+    }
+
+    return <ThemeProvider theme={themes[theme]}>
+        <CssBaseline/>
+        <BrowserRouter>
             <ContentLeafsProvider
                 deco={contentUIDecorators}
                 renderMap={contentUIMapping}
             >
-              <App/>
+                <App toggleTheme={toggleTheme}/>
             </ContentLeafsProvider>
-          </BrowserRouter>
-        </ThemeProvider>
-      </StyledEngineProvider>
+        </BrowserRouter>
+    </ThemeProvider>
+}
+
+root.render(
+    <React.StrictMode>
+        <StyledEngineProvider injectFirst>
+            <Main/>
+        </StyledEngineProvider>
     </React.StrictMode>,
 )

@@ -10,14 +10,13 @@ import { useNavigate } from 'react-router-dom'
 import Box from '@mui/material/Box'
 import { useTheme } from '@mui/material/styles'
 import { useSettings } from '@content-ui/react/LeafSettings'
-import { ContentLeafProps } from '@content-ui/react/ContentLeaf'
+import { ContentLeafProps } from '@content-ui/react/ContentLeafsContext'
 import { useLeafFollower } from '@content-ui/react/useLeafFollower'
 import { copyToClipBoard } from '@content-ui/react/Utils/copyToClipboard'
 import { flattenText } from '@content-ui/struct/flattenText'
 import { textToId } from '@content-ui/struct/textToId'
-import { WithMdAstChild } from '@content-ui/struct/Ast'
 
-export const LeafP: React.FC<ContentLeafProps & WithMdAstChild & { selected?: boolean, dense?: boolean }> = ({child, selected, dense, isLast}) => {
+export const LeafP: React.FC<ContentLeafProps<'paragraph'> & { selected?: boolean, dense?: boolean }> = ({child, selected, dense, isLast}) => {
     const {palette} = useTheme()
     const pRef = useLeafFollower<HTMLParagraphElement>(selected)
     return <Typography
@@ -29,11 +28,11 @@ export const LeafP: React.FC<ContentLeafProps & WithMdAstChild & { selected?: bo
             boxShadow: selected ? palette.mode === 'dark' ? '-8px 0px 0px 0px rgba(5, 115, 115, 0.11)' : '-8px 0px 0px 0px rgba(206, 230, 228, 0.31)' : undefined,
         }}
     >
-        {child.type === 'paragraph' ? <LeafChildNodes childNodes={child.children}/> : null}
+        <LeafChildNodes childNodes={child.children}/>
     </Typography>
 }
 
-export const LeafH: React.FC<ContentLeafProps & WithMdAstChild & { selected?: boolean }> = ({child, selected, isFirst, isLast}) => {
+export const LeafH: React.FC<ContentLeafProps<'heading'> & { selected?: boolean }> = ({child, selected, isFirst, isLast}) => {
     const {palette} = useTheme()
     const {
         headlineLinkable,
@@ -45,8 +44,7 @@ export const LeafH: React.FC<ContentLeafProps & WithMdAstChild & { selected?: bo
     const [copied, setCopied] = React.useState(false)
     const [showCopy, setShowCopy] = React.useState(false)
     const timer = React.useRef<number | undefined>(undefined)
-    const c = child.type === 'heading' ? child : undefined
-    const id = c ? textToId(flattenText(c as Parent).join('')) : undefined
+    const id = child ? textToId(flattenText(child as Parent).join('')) : undefined
     const navigate = useNavigate()
 
     React.useEffect(() => {
@@ -67,7 +65,7 @@ export const LeafH: React.FC<ContentLeafProps & WithMdAstChild & { selected?: bo
             })
     }
 
-    const depth = child.type === 'heading' ? child.depth : 1
+    const depth = child.depth
 
     const btnCopy = headlineLinkable && headlineSelectable && typeof id === 'string' ?
         <Box
@@ -137,7 +135,7 @@ export const LeafH: React.FC<ContentLeafProps & WithMdAstChild & { selected?: bo
         // color={selected ? 'info.light' : 'default'}
     >
         {btnCopy}
-        {c ? <span><LeafChildNodes childNodes={c.children}/></span> : null}
+        {child ? <span><LeafChildNodes childNodes={child.children}/></span> : null}
     </Typography>
 }
 

@@ -1,10 +1,10 @@
 import React from 'react'
 import Box from '@mui/material/Box'
 import { LeafChildNodes } from '@content-ui/md-mui/LeafChildNodes'
-import { ContentLeafProps } from '@content-ui/react/ContentLeaf'
+import { ContentLeafProps } from '@content-ui/react/ContentLeafsContext'
 import { useLeafFollower } from '@content-ui/react/useLeafFollower'
 
-export const LeafBlockquote: React.FC<ContentLeafProps> = ({child, selected}) => {
+export const LeafBlockquote: React.FC<ContentLeafProps<'blockquote'>> = ({child, selected}) => {
     const bRef = useLeafFollower<HTMLQuoteElement>(selected)
     const classNames =
         typeof child.data === 'object'
@@ -44,8 +44,7 @@ export const LeafBlockquote: React.FC<ContentLeafProps> = ({child, selected}) =>
             borderLeftStyle: 'solid',
         }}
     >
-        {child.type === 'blockquote' ?
-            <LeafChildNodes childNodes={child.children}/> : null}
+        <LeafChildNodes childNodes={child.children}/>
     </Box>
 }
 

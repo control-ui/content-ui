@@ -1,4 +1,5 @@
 import { ContentParser } from '@content-ui/md/parser/ContentParser'
+import { ContentSelectionProvider } from '@content-ui/react/ContentSelectionContext'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import Button from '@mui/material/Button'
 import IcVisibility from '@mui/icons-material/Visibility'
@@ -15,7 +16,7 @@ import { Viewer } from '@content-ui/md-mui/Viewer'
 import { SettingsProvider } from '@content-ui/react/LeafSettings'
 import { useContentEditor } from '@content-ui/input/useContentEditor'
 import { useContent } from '@content-ui/react/useContent'
-import { ContentFileProvider } from '@content-ui/react/ContentFileProvider'
+import { ContentFileProvider } from '@content-ui/react/ContentFileContext'
 
 const md = `# About a Note
 
@@ -97,60 +98,62 @@ export const PageInput: React.ComponentType = () => {
             <ContentFileProvider
                 root={root}
                 file={file}
-                editorSelection={editorSelection}
             >
-                <SettingsProvider
-                    followEditor={isMediumScreen}
-                    headlineLinkable
-                    headlineSelectable
-                    headlineSelectableOnHover
+                <ContentSelectionProvider
+                    selection={editorSelection}
                 >
-                    <Grid2 container spacing={2} sx={{overflow: 'auto', flexWrap: {xs: 'wrap', md: 'nowrap'}}}>
-                        <Grid2 xs={12} md={6} sx={{overflow: 'auto', scrollbarWidth: 'thin', maxHeight: {md: '100%'}}}>
-                            <ContentInput
-                                CodeMirror={CustomCodeMirror}
-                                onChange={handleOnChange}
-                                extensions={extensions}
-                                textValue={textValue}
-                                bigSize={bigSize}
-                                processing={processing}
-                                outdated={outdated}
-                                autoProcess={autoProcess}
-                                setAutoProcess={setAutoProcess}
-                            />
-                        </Grid2>
-                        <Grid2
-                            xs={12} md={6}
-                            sx={{
-                                overflowY: 'auto',
-                                scrollbarWidth: 'thin',
-                                maxHeight: {md: '100%'},
-                                // viewer with bigger paddings for headline buttons
-                                px: {md: 2, lg: 3},
-                                backgroundColor: 'background.paper',
-                            }}
-                        >
-                            <Viewer
-                                outdated={outdated}
-                                processing={processing}
-                                editorSelection={editorSelection}
-                            />
-                            <Button
-                                startIcon={showAst ? <IcVisibilityOff/> : <IcVisibility/>}
-                                onClick={() => setShowAst(s => !s)}
-                                variant={'outlined'}
-                                sx={{mt: 2, mb: 1}}
+                    <SettingsProvider
+                        followEditor={isMediumScreen}
+                        headlineLinkable
+                        headlineSelectable
+                        headlineSelectableOnHover
+                    >
+                        <Grid2 container spacing={2} sx={{overflow: 'auto', flexWrap: {xs: 'wrap', md: 'nowrap'}}}>
+                            <Grid2 xs={12} md={6} sx={{overflow: 'auto', scrollbarWidth: 'thin', maxHeight: {md: '100%'}}}>
+                                <ContentInput
+                                    CodeMirror={CustomCodeMirror}
+                                    onChange={handleOnChange}
+                                    extensions={extensions}
+                                    textValue={textValue}
+                                    bigSize={bigSize}
+                                    processing={processing}
+                                    outdated={outdated}
+                                    autoProcess={autoProcess}
+                                    setAutoProcess={setAutoProcess}
+                                />
+                            </Grid2>
+                            <Grid2
+                                xs={12} md={6}
+                                sx={{
+                                    overflowY: 'auto',
+                                    scrollbarWidth: 'thin',
+                                    maxHeight: {md: '100%'},
+                                    // viewer with bigger paddings for headline buttons
+                                    px: {md: 2, lg: 3},
+                                    backgroundColor: 'background.paper',
+                                }}
                             >
-                                {'AST'}
-                            </Button>
-                            {showAst ?
-                                <CustomCodeMirror
-                                    value={JSON.stringify(root || null, undefined, 4)}
-                                    lang={'json'}
-                                /> : null}
+                                <Viewer
+                                    outdated={outdated}
+                                    processing={processing}
+                                />
+                                <Button
+                                    startIcon={showAst ? <IcVisibilityOff/> : <IcVisibility/>}
+                                    onClick={() => setShowAst(s => !s)}
+                                    variant={'outlined'}
+                                    sx={{mt: 2, mb: 1}}
+                                >
+                                    {'AST'}
+                                </Button>
+                                {showAst ?
+                                    <CustomCodeMirror
+                                        value={JSON.stringify(root || null, undefined, 4)}
+                                        lang={'json'}
+                                    /> : null}
+                            </Grid2>
                         </Grid2>
-                    </Grid2>
-                </SettingsProvider>
+                    </SettingsProvider>
+                </ContentSelectionProvider>
             </ContentFileProvider>
         </Box>
     </>

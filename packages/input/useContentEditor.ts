@@ -1,11 +1,11 @@
 import { Transaction } from '@codemirror/state'
+import { ContentSelection } from '@content-ui/react/ContentSelectionContext'
 import React from 'react'
-import { EditorSelection } from '@content-ui/react/useContent'
 import { CodeMirrorOnChange } from '@ui-schema/kit-codemirror/useCodeMirror'
 
 export type WithContentEditor = {
-    editorSelection: EditorSelection | undefined
-    setEditorSelection: React.Dispatch<React.SetStateAction<EditorSelection | undefined>>
+    editorSelection: ContentSelection | undefined
+    setEditorSelection: React.Dispatch<React.SetStateAction<ContentSelection | undefined>>
 
     lines: number
     textValue: string
@@ -19,7 +19,7 @@ export const useContentEditor = (
     textValue: string,
     onChange: (newValue: string) => void,
 ): WithContentEditor => {
-    const [editorSelection, setEditorSelection] = React.useState<EditorSelection | undefined>(undefined)
+    const [editorSelection, setEditorSelection] = React.useState<ContentSelection | undefined>(undefined)
 
     const bigSize = textValue.length > 50000
     const [autoProcess, setAutoProcess] = React.useState(bigSize ? 0 : -1)

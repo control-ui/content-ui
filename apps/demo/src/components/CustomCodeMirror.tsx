@@ -19,7 +19,7 @@ import { lintKeymap } from '@codemirror/lint'
 import { Compartment, EditorState, Extension } from '@codemirror/state'
 import { CodeMirrorComponentProps, CodeMirrorProps } from '@ui-schema/kit-codemirror/CodeMirror'
 import { EditorThemeCustomStyles, useEditorTheme } from '@ui-schema/material-code/useEditorTheme'
-import { useHighlightStyle } from './useHighlightStyle'
+import { useHighlightStyle } from '@ui-schema/material-code/useHighlightStyle'
 import { json } from '@codemirror/lang-json'
 import { javascript } from '@codemirror/lang-javascript'
 import { html } from '@codemirror/lang-html'
@@ -257,7 +257,7 @@ export const CustomCodeMirror: React.FC<CustomCodeMirrorProps> = (
     }), [palette.mode, paddingBottom])
     const theme = useEditorTheme(typeof onChange === 'undefined', dense, customVariant, customStyles as EditorThemeCustomStyles)
 
-    const highlightStyle = useHighlightStyle()
+    const highlightStyle = useHighlightStyle({headlineUnderline: false})
     const {init: initHighlightExt, effects: effectsHighlightExt} = useExtension(
         () => syntaxHighlighting(highlightStyle || defaultHighlightStyle, {fallback: true}),
         [highlightStyle],

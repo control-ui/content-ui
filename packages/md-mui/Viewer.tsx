@@ -1,14 +1,14 @@
 import React from 'react'
 import Box from '@mui/material/Box'
-import { ContentProcessor, EditorSelection, useContent, useContentContext, WithContent } from '@content-ui/react/useContent'
+import { useContentContext } from '@content-ui/react/ContentFileContext'
+import { ContentProcessor, useContent, WithContent } from '@content-ui/react/useContent'
 import Typography from '@mui/material/Typography'
 import { useLocation } from 'react-router-dom'
 import LinearProgress from '@mui/material/LinearProgress'
-import { ContentFileProvider } from '@content-ui/react/ContentFileProvider'
+import { ContentFileProvider } from '@content-ui/react/ContentFileContext'
 import { RendererMemo } from '@content-ui/md-mui/Renderer'
 
 export interface ViewerProps {
-    editorSelection?: EditorSelection
     outdated?: boolean
     processing: WithContent['processing']
     m?: number
@@ -29,7 +29,6 @@ export interface ViewerProps {
 
 export const Viewer = <P extends ViewerProps>(
     {
-        editorSelection,
         processing,
         outdated,
         ...props
@@ -56,7 +55,6 @@ export const Viewer = <P extends ViewerProps>(
         {processing === 'success' || isReady ?
             <RendererMemo
                 // handleTocClick={}
-                editorSelection={editorSelection}
             /> : null}
 
         {(processing === 'loading' || outdated) && !isReady ?
@@ -80,7 +78,7 @@ export interface ViewerFromTextProps extends Omit<ViewerProps, 'processing' | 'o
 export const ViewerFromText: React.ComponentType<ViewerFromTextProps> = (
     {
         textValue,
-        editorSelection, processor,
+        processor,
         parseDelay,
         onMount = false,
         ...props
@@ -98,7 +96,6 @@ export const ViewerFromText: React.ComponentType<ViewerFromTextProps> = (
         file={file}
     >
         <Viewer
-            editorSelection={editorSelection}
             processing={processing}
             outdated={outdated}
             {...props}

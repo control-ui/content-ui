@@ -1,8 +1,7 @@
-import { MuiContentRenderComponents, renderMapping } from '@content-ui/md-mui/LeafsMarkdown'
-import { ContentLeafsNodeMapping, LeafsRenderMapping, ContentLeafMatchParams } from '@content-ui/react/ContentLeaf'
+import { renderMapping } from '@content-ui/md-mui/LeafsMarkdown'
 import { CustomCodeMirror } from './CustomCodeMirror.js'
 
-export const contentUIMapping: LeafsRenderMapping<ContentLeafsNodeMapping, MuiContentRenderComponents, ContentLeafMatchParams> = {
+export const contentUIMapping: typeof renderMapping = {
     ...renderMapping,
     leafs: {
         ...renderMapping.leafs,

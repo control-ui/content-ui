@@ -6,25 +6,24 @@ import IcView from '@mui/icons-material/Visibility'
 import IcViewOff from '@mui/icons-material/VisibilityOff'
 import Button from '@mui/material/Button'
 import Collapse from '@mui/material/Collapse'
-import { ContentLeafProps, ContentLeafsPropsMapping, useContentLeafs } from '@content-ui/react/ContentLeaf'
+import { ContentLeafProps, ContentLeafsPropsMapping, useContentLeafs } from '@content-ui/react/ContentLeafsContext'
 import { MuiContentRenderComponents } from '@content-ui/md-mui/LeafsMarkdown'
 
-export const LeafYaml: React.FC<ContentLeafProps> = ({child}) => {
+export const LeafYaml: React.FC<ContentLeafProps<'yaml'>> = ({child}) => {
     const [showData, setShowData] = React.useState(false)
-    const yml = child.type === 'yaml' ? child : undefined
     const {renderMap: {components}} = useContentLeafs<ContentLeafsPropsMapping, MuiContentRenderComponents>()
 
     const parsedData = React.useMemo(() => {
-        if(!yml || ((yml.value?.trim() || '') === '')) return undefined
+        if(!child || ((child.value?.trim() || '') === '')) return undefined
         try {
-            return YAML.parse(yml.value, {prettyErrors: true})
+            return YAML.parse(child.value, {prettyErrors: true})
         } catch(e) {
-            console.error('yaml error', yml, e)
+            console.error('yaml error', child, e)
             return undefined
         }
-    }, [yml])
+    }, [child])
 
-    if(!yml) return null
+    if(!child) return null
 
     const Code = components.Code
         // eslint-disable-next-line deprecation/deprecation
@@ -42,10 +41,10 @@ export const LeafYaml: React.FC<ContentLeafProps> = ({child}) => {
             <Box mt={1}>
                 {Code ?
                     <Code
-                        value={yml.value}
+                        value={child.value}
                         lang={'yaml'}
                     /> :
-                    <pre><code>{yml.value}</code></pre>}
+                    <pre><code>{child.value}</code></pre>}
             </Box>
         </Collapse>
     </Box>

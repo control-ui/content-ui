@@ -4,10 +4,10 @@ import Box from '@mui/material/Box'
 import IcChecked from '@mui/icons-material/CheckBox'
 import IcUnchecked from '@mui/icons-material/CheckBoxOutlineBlank'
 import { LeafChildNodes } from '@content-ui/md-mui/LeafChildNodes'
-import { ContentLeafProps } from '@content-ui/react/ContentLeaf'
+import { ContentLeafProps } from '@content-ui/react/ContentLeafsContext'
 
 export const LeafList: React.FC<ContentLeafProps<'list'>> = ({child}) => {
-    const component = child.type === 'list' && child.ordered ? 'ol' : 'ul'
+    const component = child.ordered ? 'ol' : 'ul'
     const dense = 'dense' in child && child.dense
     const inList = 'inList' in child && child.inList
     return <Box
@@ -20,21 +20,20 @@ export const LeafList: React.FC<ContentLeafProps<'list'>> = ({child}) => {
         }}
         style={{outline: 0, border: 0}}
     >
-        {child.type === 'list' ? <LeafChildNodes childNodes={child.children}/> : null}
+        <LeafChildNodes childNodes={child.children}/>
     </Box>
 }
 
-export const LeafListItem: React.FC<ContentLeafProps> = ({child}) => {
-    const listItemContent = child.type === 'listItem' ?
-        <LeafChildNodes childNodes={child.children.filter(c => c.type !== 'list')}/> : null
+export const LeafListItem: React.FC<ContentLeafProps<'listItem'>> = ({child}) => {
+    const listItemContent = <LeafChildNodes childNodes={child.children.filter(c => c.type !== 'list')}/>
     return <Typography
         component={'li'} variant={'body1'}
         sx={{
             px: 0.5,
-            listStyleType: child.type === 'listItem' && typeof child.checked === 'boolean' ? 'none' : undefined,
+            listStyleType: typeof child.checked === 'boolean' ? 'none' : undefined,
         }}
     >
-        {child.type === 'listItem' && typeof child.checked === 'boolean' ?
+        {typeof child.checked === 'boolean' ?
             <Box style={{display: 'flex', alignItems: 'center'}} ml={-3.5}>
                 {child.checked ?
                     <IcChecked color={'info'} fontSize={'small'}/> :
@@ -45,16 +44,15 @@ export const LeafListItem: React.FC<ContentLeafProps> = ({child}) => {
             </Box> :
             listItemContent}
 
-        {child.type === 'listItem' ?
-            <LeafChildNodes
-                childNodes={
-                    child.children
-                        .filter(c => c.type === 'list')
-                        .map(c => ({
-                            ...c,
-                            inList: true,
-                        }))
-                }
-            /> : null}
+        <LeafChildNodes
+            childNodes={
+                child.children
+                    .filter(c => c.type === 'list')
+                    .map(c => ({
+                        ...c,
+                        inList: true,
+                    }))
+            }
+        />
     </Typography>
 }

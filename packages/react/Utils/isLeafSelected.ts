@@ -2,7 +2,7 @@ export const isLeafSelected = (
     position: { start: { line: number }, end: { line: number } } | undefined,
     startLine: number | undefined,
     endLine: number | undefined,
-) =>
+): boolean =>
     typeof position?.start.line === 'number' &&
     typeof startLine === 'number' &&
     typeof endLine === 'number' && (

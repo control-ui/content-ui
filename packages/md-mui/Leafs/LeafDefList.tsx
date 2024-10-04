@@ -1,25 +1,29 @@
+import { useSettings } from '@content-ui/react/LeafSettings'
+import { DefListDescriptionNode, DefListNode, DefListTermNode } from 'mdast-util-definition-list'
 import React from 'react'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { useTheme } from '@mui/material/styles'
-import { ContentLeafProps } from '@content-ui/react/ContentLeaf'
+import { ContentLeafPayload } from '@content-ui/react/ContentLeafsContext'
 import { LeafChildNodes } from '@content-ui/md-mui/LeafChildNodes'
 import { useLeafFollower } from '@content-ui/react/useLeafFollower'
 
-export const LeafDefList: React.FC<ContentLeafProps> = ({child}) => {
-    const dense = 'dense' in child && child.dense
+export const LeafDefList: React.FC<ContentLeafPayload<DefListNode>> = ({child}) => {
+    const {dense} = useSettings()
+    // todo: check where the child.dense was used/injected or not all all anymore
+    const denseApplied = dense || ('dense' in child && child.dense)
     return <Box
         component={'dl'}
         sx={{
-            mt: dense ? 0.5 : 1.5,
-            mb: dense ? 0.5 : 1.5,
+            mt: denseApplied ? 0.5 : 1.5,
+            mb: denseApplied ? 0.5 : 1.5,
         }}
     >
-        {child.type === 'defList' ? <LeafChildNodes childNodes={child.children}/> : null}
+        <LeafChildNodes childNodes={child.children}/>
     </Box>
 }
 
-export const LeafDefListTerm: React.FC<ContentLeafProps> = ({child, selected}) => {
+export const LeafDefListTerm: React.FC<ContentLeafPayload<DefListTermNode>> = ({child, selected}) => {
     const {palette} = useTheme()
     const dtRef = useLeafFollower<HTMLElement>(selected)
     return <Typography
@@ -39,11 +43,11 @@ export const LeafDefListTerm: React.FC<ContentLeafProps> = ({child, selected}) =
             boxShadow: selected ? palette.mode === 'dark' ? '-8px 0px 0px 0px rgba(5, 115, 115, 0.11)' : '-8px 0px 0px 0px rgba(206, 230, 228, 0.31)' : undefined,
         }}
     >
-        {child.type === 'defListTerm' ? <LeafChildNodes childNodes={child.children}/> : null}
+        <LeafChildNodes childNodes={child.children}/>
     </Typography>
 }
 
-export const LeafDefListDescription: React.FC<ContentLeafProps> = ({child, selected}) => {
+export const LeafDefListDescription: React.FC<ContentLeafPayload<DefListDescriptionNode>> = ({child, selected}) => {
     const dtRef = useLeafFollower<HTMLElement>(selected)
     return <Box
         component={'dd'}
@@ -58,6 +62,6 @@ export const LeafDefListDescription: React.FC<ContentLeafProps> = ({child, selec
         }}
         ref={dtRef}
     >
-        {child.type === 'defListDescription' ? <LeafChildNodes childNodes={child.children}/> : null}
+        <LeafChildNodes childNodes={child.children}/>
     </Box>
 }

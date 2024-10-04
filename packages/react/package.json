@@ -1,6 +1,6 @@
 {
     "name": "@content-ui/react",
-    "version": "0.0.11",
+    "version": "0.1.0",
     "description": "",
     "author": {
         "name": "bemit",
@@ -24,21 +24,29 @@
             "import": "./Utils/copyToClipboard.js",
             "types": "./Utils/copyToClipboard.d.ts"
         },
-        "./ContentFileProvider": {
-            "import": "./ContentFileProvider.js",
-            "types": "./ContentFileProvider.d.ts"
+        "./Utils/isLeafSelected": {
+            "import": "./Utils/isLeafSelected.js",
+            "types": "./Utils/isLeafSelected.d.ts"
+        },
+        "./ContentFileContext": {
+            "import": "./ContentFileContext.js",
+            "types": "./ContentFileContext.d.ts"
         },
         "./ContentLeaf": {
             "import": "./ContentLeaf.js",
             "types": "./ContentLeaf.d.ts"
         },
+        "./ContentLeafsContext": {
+            "import": "./ContentLeafsContext.js",
+            "types": "./ContentLeafsContext.d.ts"
+        },
+        "./ContentSelectionContext": {
+            "import": "./ContentSelectionContext.js",
+            "types": "./ContentSelectionContext.d.ts"
+        },
         "./EngineDecorator": {
             "import": "./EngineDecorator.js",
             "types": "./EngineDecorator.d.ts"
-        },
-        "./isLeafSelected": {
-            "import": "./isLeafSelected.js",
-            "types": "./isLeafSelected.d.ts"
         },
         "./LeafSettings": {
             "import": "./LeafSettings.js",
