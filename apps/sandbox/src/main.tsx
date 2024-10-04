@@ -2,13 +2,10 @@ import React from 'react'
 import {
   contentUIDecorators,
   ContentLeafsProvider,
-  LeafsRenderMapping,
-  ContentLeafsNodeMapping,
-  ContentLeafMatchParams,
 } from '@content-ui/react/ContentLeafsContext'
 import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
-import { MuiContentRenderComponents, renderMapping } from '@content-ui/md-mui/LeafsMarkdown'
+import { renderMapping } from '@content-ui/md-mui/LeafsMarkdown'
 import { customTheme } from './theme'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
@@ -20,11 +17,7 @@ const root = ReactDOM.createRoot(rootElement)
 
 const themes = customTheme()
 
-const contentUIMapping: LeafsRenderMapping<
-    ContentLeafsNodeMapping,
-    MuiContentRenderComponents,
-    ContentLeafMatchParams
-> = {
+const contentUIMapping: typeof renderMapping = {
   ...renderMapping,
   leafs: {
     ...renderMapping.leafs,

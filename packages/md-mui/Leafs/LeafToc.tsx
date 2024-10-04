@@ -5,33 +5,31 @@ import { MuiLink } from '@content-ui/md-mui/MuiComponents/MuiLink'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import { ContentLeaf } from '@content-ui/react/ContentLeaf'
-import { ContentLeafProps, ContentLeafsPropsMapping } from '@content-ui/react/ContentLeafsContext'
+import { ContentLeafPayload, ContentLeafsPropsMapping } from '@content-ui/react/ContentLeafsContext'
 import { useSettings } from '@content-ui/react/LeafSettings'
 import { flattenText } from '@content-ui/struct/flattenText'
 import { textToId } from '@content-ui/struct/textToId'
 import { useTheme } from '@mui/material/styles'
 import type { Theme } from '@mui/material/styles'
 import { TypographyWithExtras } from '@content-ui/md-mui/MuiComponents/Theme'
-import { TocHNode, TocListItem, WithMdAstChild } from '@content-ui/struct/Ast'
+import { TocHNode, TocListItem } from '@content-ui/struct/Ast'
 
-export const LeafTocListItem: React.FC<ContentLeafProps & WithMdAstChild<TocListItem> & { textVariant?: 'body1' | 'body2' | 'caption' }> = ({child, textVariant}) => {
-    const c = child as TocListItem
+export const LeafTocListItem: React.FC<ContentLeafPayload<TocListItem> & { textVariant?: 'body1' | 'body2' | 'caption' }> = ({child, textVariant}) => {
     const editorSelection = useContentSelection()
     const {smallList, showLines, onClick} = useToc()
-    // const c = child.type === 'tocListItem' ? child : undefined
     // todo: is injected in `ContentRenderer`, move to props
     const {headlineLinkable} = useSettings()
     const {typography} = useTheme<Theme & { typography: TypographyWithExtras }>()
     const [focus, setFocus] = React.useState(false)
-    const selectedByLine = c && (
-        editorSelection?.startLine === c?.value.headline.position?.start?.line ||
-        editorSelection?.endLine === c?.value.headline.position?.end?.line
+    const selectedByLine = child && (
+        editorSelection?.startLine === child?.headline.headline.position?.start?.line ||
+        editorSelection?.endLine === child?.headline.headline.position?.end?.line
     )
-    return c ? <Typography component={'li'} variant={textVariant || (smallList ? 'body2' : 'body1')} sx={{pl: 0.5}}>
+    return child ? <Typography component={'li'} variant={textVariant || (smallList ? 'body2' : 'body1')} sx={{pl: 0.5}}>
         <Box style={{display: 'inline-flex'}}>
             {headlineLinkable ?
                 <MuiLink
-                    href={'#' + textToId(c?.value.flatText.join(''))}
+                    href={'#' + textToId(child?.headline.flatText.join(''))}
                     color={selectedByLine ? 'primary' : 'inherit'}
                     underline={'hover'}
                     style={{
@@ -39,14 +37,14 @@ export const LeafTocListItem: React.FC<ContentLeafProps & WithMdAstChild<TocList
                         display: 'flex',
                         textDecoration: focus ? 'underline' : undefined,
                     }}
-                    onClick={() => onClick?.(c?.value)}
+                    onClick={() => onClick?.(child?.headline)}
                     onFocus={() => setFocus(true)}
                     onBlur={() => setFocus(false)}
                 >
-                    {c.value.flatText.join('')}
+                    {child.headline.flatText.join('')}
                 </MuiLink> :
                 <Typography>
-                    {c.value.flatText.join('')}
+                    {child.headline.flatText.join('')}
                 </Typography>}
 
             {showLines ?
@@ -64,21 +62,25 @@ export const LeafTocListItem: React.FC<ContentLeafProps & WithMdAstChild<TocList
                     color={selectedByLine ? 'primary' : 'inherit'}
                 >
                     {'L'}
-                    {c.value.headline.position?.start?.line}
-                    {c.value.headline.position?.start?.line !== c.value.headline.position?.end?.line ?
-                        ' to L' + c.value.headline.position?.end?.line : ''}
+                    {child.headline.headline.position?.start?.line}
+                    {child.headline.headline.position?.start?.line !== child.headline.headline.position?.end?.line ?
+                        ' to L' + child.headline.headline.position?.end?.line : ''}
                 </Typography> : null}
         </Box>
 
-        {c?.value.nested?.length || 0 > 0 ?
+        {/* todo: refactor to use `leafs` */}
+        {child?.headline.nested?.length || 0 > 0 ?
             <LeafTocList
-                headLines={c.value.nested as TocHNode[]}
-                depth={c.value.headline.depth + 1}
+                headLines={child.headline.nested as TocHNode[]}
+                depth={child.headline.headline.depth + 1}
                 dense
             /> : null}
     </Typography> : null
 }
 
+/**
+ * @todo refactor as Leaf component
+ */
 export const LeafTocList: React.FC<{
     headLines: TocHNode[]
     depth: number
@@ -102,11 +104,11 @@ export const LeafTocList: React.FC<{
             type: 'list',
             ordered: true,
             dense: dense,
-            children: sameDepthTree.map((hNode) => ({
-                type: 'tocListItem' as 'listItem',
-                value: hNode,
+            children: sameDepthTree.map((hNode): TocListItem => ({
+                type: 'tocListItem',
+                headline: hNode,
                 children: [],
-            })) as ListItem[],
+            })) as unknown as ListItem[],
         }}
     />
 }
@@ -183,6 +185,9 @@ export interface LeafTocProps {
     headlines: TocHNode[] | undefined
 }
 
+/**
+ * @todo move to components mapping
+ */
 export const LeafToc: React.FC<LeafTocContextType & LeafTocProps> = (
     {
         smallList, showLines, onClick,

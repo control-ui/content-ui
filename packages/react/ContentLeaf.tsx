@@ -2,11 +2,11 @@ import { ReactElement } from 'react'
 import { DecoratorProps, DecoratorPropsNext, ReactBaseDecorator, ReactDeco } from '@content-ui/react/EngineDecorator'
 import {
     ContentLeafMatchParams, ContentLeafsPropsMapping, ContentRenderComponents,
-    LeafsEngine, LeafsRenderMapping, ReactLeafsNodeSpec,
+    LeafsRenderMapping, ReactLeafsNodeSpec,
     useContentLeafs,
 } from '@content-ui/react/ContentLeafsContext'
 
-export type ContentLeafInjected = 'decoIndex' | 'next' | keyof LeafsEngine<any, any>
+export type ContentLeafInjected = 'decoIndex' | 'next' | 'renderMap'// keyof LeafsEngine<any, any>
 
 export function ContentLeaf<
     TLeafDataMapping extends ContentLeafsPropsMapping,
@@ -27,11 +27,11 @@ export function ContentLeaf<
 
     const Next = deco.next(0) as ReactBaseDecorator<DecoratorPropsNext & { [k in ContentLeafInjected]: any }>
     // todo: `Next` can not be typed in any way i've found, thus here no error will be shown, except for missing "injected props"
+    //       maybe use `DecoratorPropsDefault/DecoratorPropsInjected`, but based on generics inference here?
     return <Next
         {...props}
         next={deco.next}
         decoIndex={0}
         renderMap={renderMap}
-        deco={deco}
     />
 }

@@ -7,11 +7,9 @@ import type { Theme } from '@mui/material/styles'
 import { TypographyWithExtras } from '@content-ui/md-mui/MuiComponents/Theme'
 import { MuiContentRenderComponents } from '@content-ui/md-mui/LeafsMarkdown'
 
-export const LeafCode: React.FC<ContentLeafProps> = ({child, selected}) => {
-    const code = child.type === 'code' ? child : undefined
+export const LeafCode: React.FC<ContentLeafProps<'code'>> = ({child, selected}) => {
     const cRef = useLeafFollower<HTMLDivElement>(selected)
     const {renderMap: {components}} = useContentLeafs<ContentLeafsPropsMapping, MuiContentRenderComponents>()
-    if(child.type !== 'code') return null
 
     const Code = components.Code
         // eslint-disable-next-line deprecation/deprecation
@@ -21,13 +19,13 @@ export const LeafCode: React.FC<ContentLeafProps> = ({child, selected}) => {
         {Code ?
             <Code
                 value={child.value}
-                lang={code?.lang || undefined}
+                lang={child?.lang || undefined}
             /> :
             <pre><code>{child.value}</code></pre>}
     </Box>
 }
 
-export const LeafCodeInline: React.FC<ContentLeafProps> = ({child}) => {
+export const LeafCodeInline: React.FC<ContentLeafProps<'inlineCode'>> = ({child}) => {
     const {typography} = useTheme<Theme & { typography: TypographyWithExtras }>()
     return <Box
         component={'code'}
@@ -42,6 +40,6 @@ export const LeafCodeInline: React.FC<ContentLeafProps> = ({child}) => {
             opacity: 0.8,
         }}
     >
-        {child.type === 'inlineCode' ? child.value : null}
+        {child.value}
     </Box>
 }
