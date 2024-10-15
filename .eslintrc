@@ -89,7 +89,7 @@
                 },
                 //"ecmaVersion": 2018,
                 //"sourceType": "module",
-                "project": "./tsconfig.json"
+                "projectService": true
             },
             "plugins": [
                 "react",
