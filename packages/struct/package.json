@@ -37,6 +37,7 @@
             "types": "./textToId.d.ts"
         }
     },
+    "sideEffects": false,
     "dependencies": {
         "mdast-util-definition-list": "^2.0.0"
     },

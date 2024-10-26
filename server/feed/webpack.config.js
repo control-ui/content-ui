@@ -16,7 +16,7 @@ const src = path.join(baseDir, 'src')
 const build = path.join(baseDir, 'build-2')
 
 /*
- * A temporary webpack config for NodeJS, as long as @mui doesn't support ESM
+ * A temporary webpack config for Node.js, as long as @mui doesn't support ESM
  * - https://github.com/mui/material-ui/issues/35233
  * - https://github.com/mui/material-ui/issues/30671
  * - https://github.com/mui/material-ui/issues/30525

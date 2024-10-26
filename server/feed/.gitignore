@@ -11,7 +11,7 @@
 # default upload dir
 /upload
 
-# NodeJS
+# Node.js
 node_modules
 
 # Logs

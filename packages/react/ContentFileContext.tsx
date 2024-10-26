@@ -1,5 +1,5 @@
 import React from 'react'
-import { Root } from 'mdast'
+import type { Root } from 'mdast'
 import { VFile } from 'vfile'
 
 export interface ContentFileContextType {

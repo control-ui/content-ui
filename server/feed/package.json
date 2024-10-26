@@ -1,9 +1,8 @@
 {
-    "name": "@content-ui/server-feed",
+    "name": "@content-ui/dev-server-feed",
     "private": true,
     "type": "module",
     "scripts": {
-        "cp-packages-json": "cp package.json build && cp package-lock.json build",
         "dev-build-init": "mkdirp build",
         "dev": "echo // > build/server.js && npm run watch-babel",
         "prestart-dev": "npm run clean && npm run dev-build-init",
@@ -15,7 +14,7 @@
         "watch-server-webpack": "cross-env PORT=4222 NODE_ENV=development NODE_OPTIONS=\"--experimental-vm-modules --no-deprecation --unhandled-rejections=strict\" nodemon -w ./build-2 ./build-2/server.js",
         "watch-server-ts": "cross-env PORT=4222 NODE_ENV=development NODE_OPTIONS=\"--experimental-vm-modules --no-deprecation --unhandled-rejections=strict\" nodemon -w ./build -w ../../packages -w src --exec 'node --experimental-specifier-resolution=node --loader ts-node/esm' src/server.ts",
         "prebuild": "npm run clean && npm run lint && npm run tsc",
-        "build": "cross-env NODE_ENV=node npm run babel && npm run cp-packages-json",
+        "build": "cross-env NODE_ENV=node npm run babel",
         "lint": "cross-env NODE_ENV=test NODE_OPTIONS=\"--experimental-vm-modules --unhandled-rejections=strict\" eslint -c=.eslintrc 'src/**/*.ts'",
         "tsc": "tsc --project tsconfig.json --noEmit",
         "test": "cross-env NODE_ENV=test NODE_OPTIONS=\"--experimental-vm-modules --unhandled-rejections=strict\" jest --passWithNoTests",

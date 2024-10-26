@@ -1,7 +1,7 @@
 import { useEffect, useCallback, useRef, useState } from 'react'
 import { Processor } from 'unified'
 import { VFile } from 'vfile'
-import { Root } from 'mdast'
+import type { Root } from 'mdast'
 
 export type ContentProcessor = Processor<Root, Root, Root, Root, string>
 

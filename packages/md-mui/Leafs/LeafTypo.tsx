@@ -1,6 +1,6 @@
 import React from 'react'
 import Typography, { TypographyProps } from '@mui/material/Typography'
-import { Parent } from 'mdast'
+import type { Parent } from 'mdast'
 import { LeafChildNodes } from '@content-ui/md-mui/LeafChildNodes'
 import Link from '@mui/material/Link'
 import IcLink from '@mui/icons-material/Link'

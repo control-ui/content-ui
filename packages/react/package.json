@@ -65,6 +65,7 @@
             "types": "./useLeafFollower.d.ts"
         }
     },
+    "sideEffects": false,
     "dependencies": {
         "vfile": "^6.0.2"
     },

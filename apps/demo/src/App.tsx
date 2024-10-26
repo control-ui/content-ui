@@ -1,8 +1,6 @@
 import { contentUIDecorators, ContentLeafsProvider } from '@content-ui/react/ContentLeafsContext'
 import React from 'react'
 import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles'
-import { DndProvider } from 'react-dnd'
-import { HTML5Backend } from 'react-dnd-html5-backend'
 import CssBaseline from '@mui/material/CssBaseline'
 import { customTheme } from './theme'
 import { Layout } from './components/Layout'
@@ -115,9 +113,7 @@ export const App: React.ComponentType<{}> = () => {
                             <LocalizationProvider dateAdapter={AdapterMoment}>
                                 <UIMetaProvider t={browserT} widgets={customWidgets}>
                                     <ContentLeafsProvider deco={contentUIDecorators} renderMap={contentUIMapping}>
-                                        <DndProvider backend={HTML5Backend}>
-                                            <Layout/>
-                                        </DndProvider>
+                                        <Layout/>
                                     </ContentLeafsProvider>
                                 </UIMetaProvider>
                             </LocalizationProvider>

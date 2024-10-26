@@ -1,5 +1,5 @@
-import { Node, RootContent, Heading, Literal, Parent, PhrasingContent, Root, List } from 'mdast'
-import { DefListNode, DefListDescriptionNode, DefListTermNode } from 'mdast-util-definition-list'
+import type { Node, RootContent, Heading, Literal, Parent, PhrasingContent, Root, List } from 'mdast'
+import type { DefListNode, DefListDescriptionNode, DefListTermNode } from 'mdast-util-definition-list'
 
 export interface Underline extends Parent {
     type: 'underline'
