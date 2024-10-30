@@ -7,8 +7,9 @@ import { Extension } from 'micromark-util-types'
 import { Resolver } from 'micromark-util-types'
 import { Tokenizer } from 'micromark-util-types'
 import { State } from 'micromark-util-types'
-import { Root } from 'mdast'
-import { Plugin, Processor } from 'unified'
+import type { Root } from 'mdast'
+import type { Plugin } from 'unified'
+import { Processor } from 'unified'
 import {
     Extension as FromMarkdownExtension,
     Handle as FromMarkdownHandle,

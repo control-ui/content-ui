@@ -1,6 +1,6 @@
 import React from 'react'
 import Box from '@mui/material/Box'
-import { ListItem, Root } from 'mdast'
+import type { ListItem, Root } from 'mdast'
 import Typography from '@mui/material/Typography'
 import { ContentLeaf } from '@content-ui/react/ContentLeaf'
 

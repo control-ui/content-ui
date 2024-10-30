@@ -1,6 +1,6 @@
 {
     "name": "@content-ui/react",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "",
     "author": {
         "name": "bemit",
@@ -21,50 +21,51 @@
     "type": "module",
     "exports": {
         "./Utils/copyToClipboard": {
-            "import": "./Utils/copyToClipboard.js",
-            "types": "./Utils/copyToClipboard.d.ts"
+            "types": "./Utils/copyToClipboard.d.ts",
+            "import": "./Utils/copyToClipboard.js"
         },
         "./Utils/isLeafSelected": {
-            "import": "./Utils/isLeafSelected.js",
-            "types": "./Utils/isLeafSelected.d.ts"
+            "types": "./Utils/isLeafSelected.d.ts",
+            "import": "./Utils/isLeafSelected.js"
         },
         "./ContentFileContext": {
-            "import": "./ContentFileContext.js",
-            "types": "./ContentFileContext.d.ts"
+            "types": "./ContentFileContext.d.ts",
+            "import": "./ContentFileContext.js"
         },
         "./ContentLeaf": {
-            "import": "./ContentLeaf.js",
-            "types": "./ContentLeaf.d.ts"
+            "types": "./ContentLeaf.d.ts",
+            "import": "./ContentLeaf.js"
         },
         "./ContentLeafsContext": {
-            "import": "./ContentLeafsContext.js",
-            "types": "./ContentLeafsContext.d.ts"
+            "types": "./ContentLeafsContext.d.ts",
+            "import": "./ContentLeafsContext.js"
         },
         "./ContentSelectionContext": {
-            "import": "./ContentSelectionContext.js",
-            "types": "./ContentSelectionContext.d.ts"
+            "types": "./ContentSelectionContext.d.ts",
+            "import": "./ContentSelectionContext.js"
         },
         "./EngineDecorator": {
-            "import": "./EngineDecorator.js",
-            "types": "./EngineDecorator.d.ts"
+            "types": "./EngineDecorator.d.ts",
+            "import": "./EngineDecorator.js"
         },
         "./LeafSettings": {
-            "import": "./LeafSettings.js",
-            "types": "./LeafSettings.d.ts"
+            "types": "./LeafSettings.d.ts",
+            "import": "./LeafSettings.js"
         },
         "./useContent": {
-            "import": "./useContent.js",
-            "types": "./useContent.d.ts"
+            "types": "./useContent.d.ts",
+            "import": "./useContent.js"
         },
         "./useContentEditor": {
-            "import": "./useContentEditor.js",
-            "types": "./useContentEditor.d.ts"
+            "types": "./useContentEditor.d.ts",
+            "import": "./useContentEditor.js"
         },
         "./useLeafFollower": {
-            "import": "./useLeafFollower.js",
-            "types": "./useLeafFollower.d.ts"
+            "types": "./useLeafFollower.d.ts",
+            "import": "./useLeafFollower.js"
         }
     },
+    "sideEffects": false,
     "dependencies": {
         "vfile": "^6.0.2"
     },

@@ -19,39 +19,40 @@
         "resolveJsonModule": true,
         "isolatedModules": false,
         "noEmit": true,
-        "jsx": "preserve"
-    },
-    "paths": {
-        "@content-ui/input": [
-            "packages/input"
-        ],
-        "@content-ui/input/*": [
-            "packages/input/*"
-        ],
-        "@content-ui/md": [
-            "packages/md"
-        ],
-        "@content-ui/md/*": [
-            "packages/md/*"
-        ],
-        "@content-ui/md-mui": [
-            "packages/md-mui"
-        ],
-        "@content-ui/md-mui/*": [
-            "packages/md-mui/*"
-        ],
-        "@content-ui/react": [
-            "packages/react"
-        ],
-        "@content-ui/react/*": [
-            "packages/react/*"
-        ],
-        "@content-ui/struct": [
-            "packages/struct"
-        ],
-        "@content-ui/struct/*": [
-            "packages/struct/*"
-        ]
+        "jsx": "preserve",
+        "baseUrl": ".",
+        "paths": {
+            "@content-ui/input": [
+                "packages/input"
+            ],
+            "@content-ui/input/*": [
+                "packages/input/*"
+            ],
+            "@content-ui/md": [
+                "packages/md"
+            ],
+            "@content-ui/md/*": [
+                "packages/md/*"
+            ],
+            "@content-ui/md-mui": [
+                "packages/md-mui"
+            ],
+            "@content-ui/md-mui/*": [
+                "packages/md-mui/*"
+            ],
+            "@content-ui/react": [
+                "packages/react"
+            ],
+            "@content-ui/react/*": [
+                "packages/react/*"
+            ],
+            "@content-ui/struct": [
+                "packages/struct"
+            ],
+            "@content-ui/struct/*": [
+                "packages/struct/*"
+            ]
+        }
     },
     "include": [
         "jest.config.ts",

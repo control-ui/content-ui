@@ -29,7 +29,7 @@ npm i -S @content-ui/md @content-ui/react @content-ui/struct @content-ui/md-mui 
 npm i -S react-progress-state @ui-controls/progress @ui-schema/kit-codemirror @codemirror/state
 ```
 
-> all packages are ESM-only, those with the `ESM` flag support strict-ESM for browser + NodeJS
+> all packages are ESM-only, those with the `ESM` flag support strict-ESM for browser + Node.js
 
 See [CustomCodeMirror.tsx](./apps/demo/src/components/CustomCodeMirror.tsx) for an example CodeMirror component, for viewer and input, with nested syntax highlighting and quite some other things.
 
@@ -37,12 +37,9 @@ See [WidgetMarkdownEditor.tsx](./apps/demo/src/components/CustomWidgets/WidgetMa
 
 ## Development
 
-Clone repository, then install all NodeJS deps:
+Clone repository, then install all dependencies:
 
 ```shell
-npm i
-
-cd server/feed
 npm i
 ```
 

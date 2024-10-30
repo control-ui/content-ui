@@ -1,7 +1,7 @@
 import type { Config } from '@jest/types'
 import { createDefaultEsmPreset } from 'ts-jest'
 
-const packages: [name: string, folder?: string][] = [
+const packages: [name: string, directory?: string, sourceDirectory?: string][] = [
     ['@content-ui/diff', 'diff'],
     ['@content-ui/input', 'input'],
     ['@content-ui/md', 'md'],
@@ -10,8 +10,12 @@ const packages: [name: string, folder?: string][] = [
     ['@content-ui/struct', 'struct'],
 ]
 
-const toPackageFolder = (pkg: [name: string, folder?: string]) => {
+const toPackageDirectory = (pkg: [name: string, directory?: string, sourceDirectory?: string]) => {
     return pkg[1] || pkg[0]
+}
+
+const toPackageSourceDirectory = (pkg: [name: string, directory?: string, sourceDirectory?: string]) => {
+    return pkg[2] ? '/' + pkg[2] : ''
 }
 
 // todo: For tests in ESM sometimes `React` is undefined, yet somehow could not make it reproducible.
@@ -23,9 +27,8 @@ const base: Config.InitialProjectOptions = {
     transformIgnorePatterns: [
         `node_modules/?!(${[
             ...packages,
-            ['@mui'] as [name: string, folder?: string],
-            // ['@ui-schema'] as [name: string, folder?: string],
-        ].map(toPackageFolder).join('|')})/`,
+            ['@mui'] as [name: string, directory?: string],
+        ].map(toPackageDirectory).join('|')})/`,
         // `node_modules/?!(@mui)/`,
     ],
     transform: {
@@ -48,8 +51,8 @@ const base: Config.InitialProjectOptions = {
         // '^(\\.{1,2}/.*)\\.ts$': '$1',
         // '^(\\.{1,2}/.*)\\.tsx$': '$1',
         ...packages.reduce((nameMapper, pkg) => {
-            nameMapper[`^${pkg[0]}\\/(.*)$`] = `<rootDir>/packages/${toPackageFolder(pkg)}/$1`
-            nameMapper[`^${pkg[0]}$`] = `<rootDir>/packages/${toPackageFolder(pkg)}`
+            nameMapper[`^${pkg[0]}\\/(.*)$`] = `<rootDir>/packages/${toPackageDirectory(pkg)}${toPackageSourceDirectory(pkg)}/$1`
+            nameMapper[`^${pkg[0]}$`] = `<rootDir>/packages/${toPackageDirectory(pkg)}${toPackageSourceDirectory(pkg)}`
             return nameMapper
         }, {}),
     },
@@ -61,30 +64,39 @@ const base: Config.InitialProjectOptions = {
         'json',
         'node',
     ],
+    extensionsToTreatAsEsm: ['.ts', '.tsx'],
     coveragePathIgnorePatterns: [
         '(tests/.*.mock).(jsx?|tsx?|ts?|js?)$',
         '.*.(test|spec).(js|ts|tsx)$',
         '<rootDir>/apps/demo',
         '<rootDir>/apps/sandbox',
-        '<rootDir>/server/sandbox',
+        '<rootDir>/server/feed',
     ],
-    extensionsToTreatAsEsm: ['.ts', '.tsx'],
+    testPathIgnorePatterns: [
+        '<rootDir>/dist',
+        '<rootDir>/apps/demo/build',
+        '<rootDir>/server/feed/build',
+    ],
+    watchPathIgnorePatterns: [
+        '<rootDir>/dist',
+        '<rootDir>/node_modules',
+        '<rootDir>/apps/.+/node_modules',
+        '<rootDir>/server/.+/node_modules',
+        '<rootDir>/packages/.+/node_modules',
+    ],
+    modulePathIgnorePatterns: [
+        '<rootDir>/dist',
+        '<rootDir>/apps/.+/build',
+        '<rootDir>/server/.+/build',
+    ],
 }
 
 const config: Config.InitialOptions = {
     ...base,
     collectCoverage: true,
     verbose: true,
-    testPathIgnorePatterns: ['<rootDir>/build', '<rootDir>/dist'],
-    modulePathIgnorePatterns: [
-        '<rootDir>/build',
-        '<rootDir>/dist',
-        '<rootDir>/apps/demo/build',
-        '<rootDir>/server/feed/build',
-    ],
     coverageDirectory: '<rootDir>/coverage',
     projects: [
-        // todo: enable app tests again when fixed ESM/CJS issues
         {
             displayName: 'test-apps-demo',
             ...base,
@@ -98,11 +110,11 @@ const config: Config.InitialOptions = {
             displayName: 'test-' + pkg[0],
             ...base,
             moduleDirectories: [
-                'node_modules', '<rootDir>/packages/' + toPackageFolder(pkg) + '/node_modules',
+                'node_modules', '<rootDir>/packages/' + toPackageDirectory(pkg) + '/node_modules',
             ],
             testMatch: [
-                '<rootDir>/packages/' + toPackageFolder(pkg) + '/src/**/*.(test|spec).(js|ts|tsx)',
-                '<rootDir>/packages/' + toPackageFolder(pkg) + '/tests/**/*.(test|spec).(js|ts|tsx)',
+                '<rootDir>/packages/' + toPackageDirectory(pkg) + toPackageSourceDirectory(pkg) + '/**/*.(test|spec).(js|ts|tsx)',
+                '<rootDir>/packages/' + toPackageDirectory(pkg) + '/tests/**/*.(test|spec).(js|ts|tsx)',
             ],
         })),
     ],

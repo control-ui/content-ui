@@ -1,9 +1,9 @@
 import React from 'react'
-import { Typography, TypographyOptions } from '@mui/material/styles/createTypography'
+import { TypographyVariants, TypographyVariantsOptions } from '@mui/material/styles'
 
 export type TypographyCode = {
     fontFamilyCode?: string
     fontSizeCode?: React.CSSProperties['fontSize']
 }
-export type TypographyOptionsWithExtras = TypographyOptions & TypographyCode
-export type TypographyWithExtras = Typography & TypographyCode
+export type TypographyOptionsWithExtras = TypographyVariantsOptions & TypographyCode
+export type TypographyWithExtras = TypographyVariants & TypographyCode

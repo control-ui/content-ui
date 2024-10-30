@@ -1,4 +1,4 @@
-import { RootContent } from 'mdast'
+import type { RootContent } from 'mdast'
 import React, { useMemo, memo, createContext, useContext } from 'react'
 import { useSettings } from '@content-ui/react/LeafSettings'
 import { DecoratorPropsNext, ReactBaseDecorator, ReactDeco } from '@content-ui/react/EngineDecorator'

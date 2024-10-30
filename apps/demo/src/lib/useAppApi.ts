@@ -1,5 +1,3 @@
-// import { useAuthToken } from '@control-ui/auth'
-// import { IAuthTokenMsal } from '@control-ui/auth-msal'
 import { extractHeaders, headersJson, useApi } from 'react-api-fetch'
 import { FetcherFetchMethod } from 'react-api-fetch/fetcher'
 
@@ -16,7 +14,6 @@ export type ApiConnect<D = {}, HR = {}> =
     } & HR>
 
 export const useAppApi = (): ApiConnect => {
-    // const {appToken} = useAuthToken<IAuthTokenMsal>()
     return useApi({
         // bearer: appToken ? 'Bearer ' + appToken : undefined,
         extractHeaders: extractHeaders,

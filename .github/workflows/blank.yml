@@ -19,29 +19,29 @@ jobs:
             matrix:
                 node-version: [ 18.x ]
         steps:
-            -   uses: actions/checkout@v3
+            -   uses: actions/checkout@v4
             -   name: Set Branch
                 id: short_ref
-                run: echo ::set-output name=short_ref::${GITHUB_REF#refs/*/}
+                run: echo "short_ref=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
             -   name: Set git_url_commit
                 id: git_url_commit
-                run: echo ::set-output name=git_url_commit::${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/commit/${GITHUB_SHA}
+                run: echo "git_url_commit=${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/commit/${GITHUB_SHA}" >> $GITHUB_OUTPUT
             -   name: Set git_url_ci_run
                 id: git_url_ci_run
-                run: echo ::set-output name=git_url_ci_run::${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}
+                run: echo "git_url_ci_run=${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}" >> $GITHUB_OUTPUT
             -   name: Set git_commit
                 id: git_commit
-                run: echo ::set-output name=git_commit::${GITHUB_REPOSITORY}/${GITHUB_SHA}
+                run: echo "git_commit=${GITHUB_REPOSITORY}/${GITHUB_SHA}" >> $GITHUB_OUTPUT
             -   name: Set git_ci_run
                 id: git_ci_run
-                run: echo ::set-output name=git_ci_run::${GITHUB_REPOSITORY}/${GITHUB_RUN_ID}
+                run: echo "git_ci_run=${GITHUB_REPOSITORY}/${GITHUB_RUN_ID}" >> $GITHUB_OUTPUT
             -   name: Use Node.js ${{ matrix.node-version }}
-                uses: actions/setup-node@v3
+                uses: actions/setup-node@v4
                 with:
                     node-version: ${{ matrix.node-version }}
 
             -   name: Cache CI node_modules
-                uses: actions/cache@v3
+                uses: actions/cache@v4
                 env:
                     cache-name: cache-node-modules
                 with:
@@ -51,8 +51,6 @@ jobs:
 
             -   name: Install Deps
                 run: |
-                    npm ci
-                    cd server/feed
                     npm ci
 
             -   name: Build
@@ -89,7 +87,7 @@ jobs:
                     NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
             -   name: Upload Artifact APP
-                uses: actions/upload-artifact@v3
+                uses: actions/upload-artifact@v4
                 with:
                     name: app-artifact
                     path: apps/demo/build

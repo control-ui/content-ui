@@ -1,4 +1,4 @@
-import { Parent } from 'mdast'
+import type { Parent } from 'mdast'
 
 export const flattenText = (
     c: Parent,

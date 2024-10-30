@@ -1,6 +1,6 @@
 import React from 'react'
 import { LeafChildNodes } from '@content-ui/md-mui/LeafChildNodes'
-import { Table as MdTable/* TableRow as MdTableRow, TableCell as MdTableCell*/ } from 'mdast'
+import type { Table as MdTable/* TableRow as MdTableRow, TableCell as MdTableCell*/ } from 'mdast'
 import Table from '@mui/material/Table'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'

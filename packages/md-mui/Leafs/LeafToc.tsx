@@ -1,6 +1,6 @@
 import { useContentSelection } from '@content-ui/react/ContentSelectionContext'
 import React from 'react'
-import { Heading, ListItem, Root } from 'mdast'
+import type { Heading, ListItem, Root } from 'mdast'
 import { MuiLink } from '@content-ui/md-mui/MuiComponents/MuiLink'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'

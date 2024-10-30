@@ -1,6 +1,6 @@
 {
     "name": "@content-ui/md",
-    "version": "0.0.8",
+    "version": "0.0.9",
     "description": "",
     "author": {
         "name": "bemit",
@@ -21,26 +21,27 @@
     "type": "module",
     "exports": {
         "./parser/ContentParser": {
-            "import": "./parser/ContentParser.js",
-            "types": "./parser/ContentParser.d.ts"
+            "types": "./parser/ContentParser.d.ts",
+            "import": "./parser/ContentParser.js"
         },
         "./plugins/remarkInsert": {
-            "import": "./plugins/remarkInsert.js",
-            "types": "./plugins/remarkInsert.d.ts"
+            "types": "./plugins/remarkInsert.d.ts",
+            "import": "./plugins/remarkInsert.js"
         },
         "./plugins/remarkMark": {
-            "import": "./plugins/remarkMark.js",
-            "types": "./plugins/remarkMark.d.ts"
+            "types": "./plugins/remarkMark.d.ts",
+            "import": "./plugins/remarkMark.js"
         },
         "./plugins/remarkSubSuper": {
-            "import": "./plugins/remarkSubSuper.js",
-            "types": "./plugins/remarkSubSuper.d.ts"
+            "types": "./plugins/remarkSubSuper.d.ts",
+            "import": "./plugins/remarkSubSuper.js"
         },
         "./plugins/remarkUnderline": {
-            "import": "./plugins/remarkUnderline.js",
-            "types": "./plugins/remarkUnderline.d.ts"
+            "types": "./plugins/remarkUnderline.d.ts",
+            "import": "./plugins/remarkUnderline.js"
         }
     },
+    "sideEffects": false,
     "dependencies": {
         "remark": "^15.0.1",
         "remark-frontmatter": "^5.0.0",

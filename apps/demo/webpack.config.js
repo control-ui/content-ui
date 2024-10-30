@@ -10,6 +10,7 @@ import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin'
 import reactRefreshBabel from 'react-refresh/babel'
 import webpack from 'webpack'
 import * as dotenv from 'dotenv'
+import {TsconfigPathsPlugin} from 'tsconfig-paths-webpack-plugin'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -46,13 +47,8 @@ export default {
             // path.join(baseDir, 'src'),
             'node_modules',
         ],
-        alias: {
-            // note: strict esm in some, not in others, works in monorepo only with aliasing the strict ones
-            '@content-ui/react': path.resolve(baseDir, '../../', 'packages', 'react'),
-            '@content-ui/struct': path.resolve(baseDir, '../../', 'packages', 'struct'),
-            '@content-ui/md-mui': path.resolve(baseDir, '../../', 'packages', 'md-mui'),
-            '@content-ui/md': path.resolve(baseDir, '../../', 'packages', 'md'),
-        },
+        alias: {},
+        plugins: [new TsconfigPathsPlugin({/* options: see below */})],
     },
     target: 'web',
     module: {
@@ -66,6 +62,7 @@ export default {
                         cacheDirectory: true,
                         cacheCompression: false,
                         compact: minimize,
+                        rootMode: 'upward',
                         plugins: isProd ? [] : [reactRefreshBabel],
                     },
                 }],
@@ -113,77 +110,21 @@ export default {
             providedExports: true,
             usedExports: true,
         } : {},
-        splitChunks: isProd ?
-            {
-                chunks: 'all',
-                usedExports: true,
-                maxAsyncRequests: 35,
-                maxInitialRequests: 35,
-                cacheGroups: {
-                    react: {
-                        test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
-                        // reuseExistingChunk: true,
-                        usedExports: true,
-                        name: 'react',
-                        priority: 10,
-                        chunks: 'all',
-                        enforce: true,
-                    },
-                    uic: {
-                        test: /[\\/]node_modules[\\/](@mui|@emotion|@control-ui|@bemit)[\\/]/,
-                        usedExports: true,
-                        name: 'uic',
-                        priority: 9,
-                        chunks: 'all',
-                        minChunks: 1,
-                        minSize: 175000,
-                        maxSize: 475000,
-                        // enforce: true,
-                    },
-                    common: {
-                        test: /[\\/]node_modules[\\/](immutable|react-helmet|react-error-boundary|react-router|react-router-dom|i18next*|react-i18next)[\\/]/,
-                        usedExports: true,
-                        name: 'cmn',
-                        priority: 8,
-                        chunks: 'all',
-                        minChunks: 1,
-                        minSize: 275000,
-                        maxSize: 375000,
-                        // enforce: true,
-                    },
-                    vendor: {
-                        test: /[\\/]node_modules[\\/]/,
-                        reuseExistingChunk: true,
-                        usedExports: true,
-                        name: 'vendor',
-                        chunks: 'all',
-                        priority: -2,
-                        minChunks: 5,
-                        maxSize: 265000,
-                    },
-                    defaultVendors: {
-                        test: /[\\/]node_modules[\\/]/,
-                        priority: -10,
-                        reuseExistingChunk: true,
-                        minSize: 125000,
-                        maxSize: 420000,
-                    },
-                },
-            } :
-            {
-                chunks: 'all',
-                name: false,
-                cacheGroups: {
-                    default: false,
-                    vendors: {
-                        chunks: 'all',
-                        test: /[\\/]node_modules[\\/]/,
-                        reuseExistingChunk: true,
-                        priority: -15,
-                    },
-                },
-            },
     },
+    stats: {
+        chunkRelations: true,
+        excludeModules: [
+            'moment',
+            '@codemirror',
+            '@lezer',
+            // /filter/,
+            // (moduleSource) => true,
+        ],
+        orphanModules: true, // enabled orphan helps to see more in depth details for bundled files
+        // modulesSpace: 99999,
+        nestedModulesSpace: 5,
+    },
+    // stats: 'errors-only',
     devServer: {
         static: [
             {
