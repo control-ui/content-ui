@@ -22,7 +22,7 @@
         "postbuild": "rimraf --glob dist/**/tests",
         "webpack": "cross-env NODE_ENV=production webpack --mode=production",
         "webpack-dev-server": "cross-env NODE_ENV=development webpack-dev-server --mode=development --hot",
-        "build-packages": "npm run tsgen && npm run babel-packages",
+        "build-packages": "npm run babel-packages",
         "babel-packages": "cross-env NODE_ENV=node babel packages -d dist --extensions \".ts,.js,.jsx,.tsx\" --copy-files",
         "licenses-all": "license-checker --json --out licenses.json && node view-licenses.js",
         "licenses": "npm run licenses-all -- --production"

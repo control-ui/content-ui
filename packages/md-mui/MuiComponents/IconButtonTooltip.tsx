@@ -2,7 +2,7 @@ import React from 'react'
 import Tooltip from '@mui/material/Tooltip'
 import Box from '@mui/material/Box'
 import IconButton, { IconButtonProps } from '@mui/material/IconButton'
-import { SxProps } from '@mui/material'
+import { SxProps } from '@mui/material/styles'
 import visuallyHidden from '@mui/utils/visuallyHidden'
 
 export interface IconButtonTooltipProps extends IconButtonProps {

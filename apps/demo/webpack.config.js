@@ -111,6 +111,20 @@ export default {
             usedExports: true,
         } : {},
     },
+    stats: {
+        chunkRelations: true,
+        excludeModules: [
+            'moment',
+            '@codemirror',
+            '@lezer',
+            // /filter/,
+            // (moduleSource) => true,
+        ],
+        orphanModules: true, // enabled orphan helps to see more in depth details for bundled files
+        // modulesSpace: 99999,
+        nestedModulesSpace: 5,
+    },
+    // stats: 'errors-only',
     devServer: {
         static: [
             {

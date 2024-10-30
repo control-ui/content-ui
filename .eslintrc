@@ -137,7 +137,19 @@
                 "@typescript-eslint/ban-ts-comment": "off",
                 "@typescript-eslint/no-inferrable-types": "off",
                 "@typescript-eslint/no-explicit-any": "off",
-                "semi-style": "off"
+                "semi-style": "off",
+                "no-restricted-imports": [
+                    "error",
+                    {
+                        "paths": [
+                            "@mui/material",
+                            "@mui/icon-material"
+                        ],
+                        "patterns": [
+                            "@mui/*/*/*"
+                        ]
+                    }
+                ]
             }
         }
     ]

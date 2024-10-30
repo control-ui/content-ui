@@ -21,20 +21,20 @@
     "type": "module",
     "exports": {
         "./Ast": {
-            "import": "./Ast.js",
-            "types": "./Ast.d.ts"
+            "types": "./Ast.d.ts",
+            "import": "./Ast.js"
         },
         "./diffText": {
-            "import": "./diffText.js",
-            "types": "./diffText.d.ts"
+            "types": "./diffText.d.ts",
+            "import": "./diffText.js"
         },
         "./flattenText": {
-            "import": "./flattenText.js",
-            "types": "./flattenText.d.ts"
+            "types": "./flattenText.d.ts",
+            "import": "./flattenText.js"
         },
         "./textToId": {
-            "import": "./textToId.js",
-            "types": "./textToId.d.ts"
+            "types": "./textToId.d.ts",
+            "import": "./textToId.js"
         }
     },
     "sideEffects": false,
