@@ -1,4 +1,4 @@
-import React from 'react'
+import { useLayoutEffect, useRef } from 'react'
 import Box from '@mui/material/Box'
 import { useContentContext } from '@content-ui/react/ContentFileContext'
 import { ContentProcessor, useContent, WithContent } from '@content-ui/react/useContent'
@@ -11,6 +11,7 @@ import { RendererMemo } from '@content-ui/md-mui/Renderer'
 export interface ViewerProps {
     outdated?: boolean
     processing: WithContent['processing']
+    disableScrollIntoView?: boolean
     m?: number
     mx?: number
     my?: number
@@ -31,22 +32,24 @@ export const Viewer = <P extends ViewerProps>(
     {
         processing,
         outdated,
+        disableScrollIntoView,
         ...props
     }: P,
-): React.ReactNode => {
-    const contentRoot = React.useRef<HTMLDivElement | null>(null)
+) => {
+    const contentRoot = useRef<HTMLDivElement | null>(null)
     const location = useLocation()
     const {root} = useContentContext()
 
     const isReady = Boolean(root)
-    React.useLayoutEffect(() => {
-        const hash = location.hash
-        if(!hash || !isReady) return
-        const targetElement = contentRoot?.current?.querySelector(hash)
+    useLayoutEffect(() => {
+        if(disableScrollIntoView || !isReady) return
+        const hash = location.hash.slice(1)
+        if(!hash) return
+        const targetElement = contentRoot?.current?.querySelector('#' + CSS.escape(hash))
         targetElement?.scrollIntoView({
             behavior: 'smooth',
         })
-    }, [contentRoot, location, isReady])
+    }, [contentRoot, location.hash, isReady, disableScrollIntoView])
 
     return <Box
         {...props}
@@ -75,14 +78,14 @@ export interface ViewerFromTextProps extends Omit<ViewerProps, 'processing' | 'o
     onMount?: boolean
 }
 
-export const ViewerFromText: React.ComponentType<ViewerFromTextProps> = (
+export const ViewerFromText = (
     {
         textValue,
         processor,
         parseDelay,
         onMount = false,
         ...props
-    },
+    }: ViewerFromTextProps,
 ) => {
     const {root, file, processing, outdated} = useContent({
         textValue,
