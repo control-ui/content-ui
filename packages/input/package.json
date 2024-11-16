@@ -27,20 +27,20 @@
         "@ui-controls/progress": "~0.0.4",
         "@content-ui/react": "~0.1.0",
         "@content-ui/md-mui": "~0.1.0",
-        "react": "^17.0 || ^18.0",
-        "react-dom": "^17.0 || ^18.0",
+        "react": "^18.0",
+        "react-dom": "^18.0",
         "@codemirror/state": "^6.0.0"
     },
     "devDependencies": {
         "@mui/icons-material": "^5.10",
         "@mui/material": "^5.1",
         "@ui-schema/kit-codemirror": "~0.2.0",
-        "react-progress-state": "~0.3.1",
+        "react-progress-state": "~0.3.2",
         "@ui-controls/progress": "~0.0.4",
         "@content-ui/react": "~0.1.0",
         "@content-ui/md-mui": "~0.1.0",
-        "react": "^17.0 || ^18.0",
-        "react-dom": "^17.0 || ^18.0",
+        "react": "^18.0",
+        "react-dom": "^18.0",
         "@codemirror/state": "^6.0.0"
     },
     "publishConfig": {
