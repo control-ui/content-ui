@@ -5,7 +5,8 @@ import Helmet from 'react-helmet'
 import { useTranslation } from 'react-i18next'
 import Container from '@mui/material/Container'
 import Grid2 from '@mui/material/Unstable_Grid2'
-import { ViewerFromText } from '@content-ui/md-mui/Viewer'
+import { ViewerBoxRouter } from '@content-ui/md-mui/ViewerBoxRouter'
+import { ViewerFromText } from '@content-ui/react/ViewerFromText'
 
 const md = `# Content-UI Demo
 
@@ -38,6 +39,7 @@ export const PageHome: React.ComponentType = () => {
                 <Grid2 xs={12} md={8} mdOffset={2}>
                     <Paper sx={{px: 1.5, py: 1}}>
                         <ViewerFromText
+                            Viewer={ViewerBoxRouter}
                             processor={ContentParser}
                             textValue={md}
                             onMount

@@ -1,3 +1,4 @@
+import { blockquoteToMarkdown } from '@content-ui/md/plugins/remarkGithubAlert'
 import { Processor, unified } from 'unified'
 import remarkParse from 'remark-parse'
 import remarkPresetLintConsistent from 'remark-preset-lint-consistent'
@@ -6,10 +7,8 @@ import remarkPresetLintNoDuplicateHeadings from 'remark-lint-no-duplicate-headin
 import remarkLintListItemIndent from 'remark-lint-list-item-indent'
 import remarkLintFinalNewline from 'remark-lint-final-newline'
 import remarkFrontmatter from 'remark-frontmatter'
-import remarkDirective from 'remark-directive'
 import remarkEmoji from 'remark-gemoji'
 import { remarkAlert } from 'remark-github-blockquote-alert'
-import { remarkDefinitionList } from 'remark-definition-list'
 import remarkGfm from 'remark-gfm'
 import remarkStringify from 'remark-stringify'
 import type { Root } from 'mdast'
@@ -21,13 +20,8 @@ import { remarkUnderline } from '@content-ui/md/plugins/remarkUnderline'
 
 export const parserFromMarkdown = (parser: Processor) => parser
     .use(remarkParse)
-    .use(remarkPresetLintConsistent)
-    .use(remarkPresetLintRecommended)
-    .use(remarkPresetLintNoDuplicateHeadings)
-    .use(remarkLintListItemIndent, 'one')
-    .use(remarkLintFinalNewline, false)
 
-export const parserInMarkdown = (parser: Processor<Root, Root, Root, undefined, undefined>) => parser
+export const parserInMarkdown = (parser: Processor<Root, undefined, undefined, undefined, undefined>) => parser
     .use(remarkGfm, {
         singleTilde: false,
     })
@@ -49,13 +43,18 @@ export const parserInMarkdown = (parser: Processor<Root, Root, Root, undefined, 
         anywhere: false,
     })
     .use(remarkAlert)
-    .use(remarkDirective)
     .use(remarkEmoji)
     .use(remarkInsert)
     .use(remarkUnderline)
     .use(remarkMark)
     .use(remarkSubSuper)
-    .use(remarkDefinitionList)
+
+export const parserLintInMarkdown = (parser: Processor<Root, Root extends undefined ? undefined : Root, Root, undefined, undefined>) => parser
+    .use(remarkPresetLintConsistent)
+    .use(remarkPresetLintRecommended)
+    .use(remarkPresetLintNoDuplicateHeadings)
+    .use(remarkLintListItemIndent, 'one')
+    .use(remarkLintFinalNewline, false)
 
 export const parserStringifyMarkdown = (parser: Processor<Root, Root extends undefined ? undefined : Root, Root, undefined, undefined>) => parser
     .use(remarkStringify, {
@@ -67,15 +66,20 @@ export const parserStringifyMarkdown = (parser: Processor<Root, Root extends und
         emphasis: '*',
         strong: '*',
         fence: '`',
+        handlers: {
+            blockquote: blockquoteToMarkdown,
+        },
     })
 
 export type ContentParserType = Processor<Root, Root, Root, Root, string>
 
 export const ContentParser: ContentParserType =
     parserStringifyMarkdown(
-        parserInMarkdown(
-            parserFromMarkdown(
-                unified(),
+        parserLintInMarkdown(
+            parserInMarkdown(
+                parserFromMarkdown(
+                    unified(),
+                ),
             ),
         ),
     )

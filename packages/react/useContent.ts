@@ -10,6 +10,7 @@ export interface WithContent {
     root: Root | undefined
     processing: 'loading' | 'success' | 'error'
     outdated?: boolean
+    stringify?: () => string
 }
 
 export const useContent = (
@@ -45,6 +46,7 @@ export const useContent = (
                         root: ast,
                         processing: 'success',
                         outdated: !onMount,
+                        stringify: () => processor.stringify(ast, file),
                     }
                 } catch(e) {
                     console.error('Content processing error in mount', e)
@@ -94,6 +96,7 @@ export const useContent = (
                         root: root,
                         processing: 'success',
                         outdated: false,
+                        stringify: () => processor.stringify(ast, file),
                     })
                 })
                 .catch((e) => {

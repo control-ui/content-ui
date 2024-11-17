@@ -1,4 +1,4 @@
-import { Viewer } from '@content-ui/md-mui/Viewer'
+import { ViewerBoxRouter } from '@content-ui/md-mui/ViewerBoxRouter'
 import { renderMapping } from '@content-ui/md-mui/LeafsMarkdown'
 import { ContentParser } from '@content-ui/md/parser/ContentParser'
 import { ContentFileProvider } from '@content-ui/react/ContentFileContext'
@@ -34,7 +34,7 @@ This is **rendered static on server**.
                         root={root}
                         file={file}
                     >
-                        <Viewer
+                        <ViewerBoxRouter
                             outdated={false}
                             processing={'success'}
                         />

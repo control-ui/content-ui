@@ -98,7 +98,7 @@ export const PageForm: React.ComponentType = () => {
         </Helmet>
 
         <Container maxWidth={'lg'} fixed>
-            <Paper sx={{overflow: 'auto'}}>
+            <Paper>
                 <Box my={1}>
                     <Button onClick={() => setEdit(r => !r)}>
                         {edit ? 'read' : 'edit'}

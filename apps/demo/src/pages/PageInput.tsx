@@ -1,9 +1,10 @@
-import { ContentParser } from '@content-ui/md/parser/ContentParser'
+import { ContentParserExtended } from '@content-ui/md/parser/ContentParserExtended'
 import { ContentSelectionProvider } from '@content-ui/react/ContentSelectionContext'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import Button from '@mui/material/Button'
 import IcVisibility from '@mui/icons-material/Visibility'
 import IcVisibilityOff from '@mui/icons-material/VisibilityOff'
+import IcConvert from '@mui/icons-material/SyncAlt'
 import { useTheme } from '@mui/material/styles'
 import React, { useState } from 'react'
 import Helmet from 'react-helmet'
@@ -12,7 +13,7 @@ import Grid2 from '@mui/material/Unstable_Grid2'
 import { ContentInput } from '@content-ui/input/ContentInput'
 import { CustomCodeMirror, getHighlight } from '../components/CustomCodeMirror'
 import Box from '@mui/material/Box'
-import { Viewer } from '@content-ui/md-mui/Viewer'
+import { ViewerBoxRouter } from '@content-ui/md-mui/ViewerBoxRouter'
 import { SettingsProvider } from '@content-ui/react/LeafSettings'
 import { useContentEditor } from '@content-ui/input/useContentEditor'
 import { useContent } from '@content-ui/react/useContent'
@@ -66,7 +67,7 @@ export const PageInput: React.ComponentType = () => {
         typeof value === 'string' ? value : '',
         setValue,
     )
-    const {processing, outdated, root, file} = useContent({
+    const {processing, outdated, root, file, stringify} = useContent({
         textValue,
         // for direct preview, the parseDelay should be as low as possible,
         // with disabled preview it's better to use `600` for less unnecessary processing
@@ -76,8 +77,8 @@ export const PageInput: React.ComponentType = () => {
                     textValue.length > 3500 ? 280 :
                         40,
         autoProcess,
-        onMount: true,
-        processor: ContentParser,
+        onMount: false,
+        processor: ContentParserExtended,
     })
 
     const extensions = React.useMemo(() => {
@@ -107,11 +108,13 @@ export const PageInput: React.ComponentType = () => {
                         headlineLinkable
                         headlineSelectable
                         headlineSelectableOnHover
+                        // linkAnchorToHref={anchor => window.location.pathname + anchor}
                     >
                         <Grid2 container spacing={2} sx={{overflow: 'auto', flexWrap: {xs: 'wrap', md: 'nowrap'}}}>
                             <Grid2 xs={12} md={6} sx={{overflow: 'auto', scrollbarWidth: 'thin', maxHeight: {md: '100%'}}}>
                                 <ContentInput
                                     CodeMirror={CustomCodeMirror}
+                                    ViewerBox={ViewerBoxRouter}
                                     onChange={handleOnChange}
                                     extensions={extensions}
                                     textValue={textValue}
@@ -120,7 +123,17 @@ export const PageInput: React.ComponentType = () => {
                                     outdated={outdated}
                                     autoProcess={autoProcess}
                                     setAutoProcess={setAutoProcess}
+                                    onReformat={stringify ? () => setValue(stringify?.() || '') : undefined}
                                 />
+                                <Button
+                                    startIcon={<IcConvert/>}
+                                    disabled={!stringify}
+                                    onClick={() => setValue(stringify?.() || '')}
+                                    variant={'outlined'} size={'small'}
+                                    sx={{mt: 2, mb: 1, ml: 1}}
+                                >
+                                    {'reformat'}
+                                </Button>
                             </Grid2>
                             <Grid2
                                 xs={12} md={6}
@@ -133,7 +146,7 @@ export const PageInput: React.ComponentType = () => {
                                     backgroundColor: 'background.paper',
                                 }}
                             >
-                                <Viewer
+                                <ViewerBoxRouter
                                     outdated={outdated}
                                     processing={processing}
                                 />

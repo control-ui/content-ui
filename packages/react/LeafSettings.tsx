@@ -1,4 +1,4 @@
-import React from 'react'
+import { createContext, PropsWithChildren, useContext, useMemo } from 'react'
 
 export type LeafsSettings = {
     followEditor?: boolean
@@ -19,36 +19,43 @@ export type LeafsSettings = {
      * But will use a normal anchor tag, instead of react-router.
      */
     linkNotBlank?: string | RegExp
+
+    /**
+     * Convert pure anchor links `#tag` to a different target.
+     * - when using react-router, the Link component automatically creates a `href` relative to the open page
+     * - when using native `a` elements, it must be manually transformed
+     */
+    linkAnchorToHref?: (anchor: string) => string
     //headlineOnClick?: (hNode: TocHNode) => void
     //headlineOnCopy?: (doCopy: () => void) => void
 }
 
-export const LeafsSettingsContext = React.createContext<{ settings: LeafsSettings }>({settings: {}})
+export const LeafsSettingsContext = createContext<{ settings: LeafsSettings }>({settings: {}})
 
-export const useSettings = (): LeafsSettings => React.useContext(LeafsSettingsContext).settings
+export const useSettings = (): LeafsSettings => useContext(LeafsSettingsContext).settings
 
 export const SettingsProvider = (
     {
         children,
         headlineLinkable, headlineSelectable, headlineSelectableOnHover, headlineOffset,
-        linkBase, linkNotBlank,
+        linkBase, linkNotBlank, linkAnchorToHref,
         dense,
         followEditor,
-    }: React.PropsWithChildren<LeafsSettings>,
+    }: PropsWithChildren<LeafsSettings>,
 ) => {
 
-    const ctx = React.useMemo(() => {
+    const ctx = useMemo(() => {
         return {
             settings: {
                 headlineLinkable, headlineSelectable, headlineSelectableOnHover, headlineOffset,
-                linkBase, linkNotBlank,
+                linkBase, linkNotBlank, linkAnchorToHref,
                 dense,
                 followEditor,
             },
         }
     }, [
         headlineLinkable, headlineSelectable, headlineSelectableOnHover, headlineOffset,
-        linkBase, linkNotBlank,
+        linkBase, linkNotBlank, linkAnchorToHref,
         dense,
         followEditor,
     ])

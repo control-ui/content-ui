@@ -1,3 +1,4 @@
+import { MuiLink } from '@content-ui/md-mui/MuiComponents/MuiLink'
 import React, { useState } from 'react'
 import {
     contentUIDecorators,
@@ -25,6 +26,7 @@ const contentUIMapping: typeof renderMapping = {
     components: {
         ...renderMapping.components,
         Code: CustomCodeMirror,
+        Link: MuiLink,
     },
 }
 

@@ -1,4 +1,4 @@
-import { ContentParser } from '@content-ui/md/parser/ContentParser'
+import { ContentParserExtended } from '@content-ui/md/parser/ContentParserExtended'
 import { SettingsProvider } from '@content-ui/react/LeafSettings'
 import Paper from '@mui/material/Paper'
 import React from 'react'
@@ -20,7 +20,8 @@ import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
 import Box from '@mui/material/Box'
-import { ViewerFromText } from '@content-ui/md-mui/Viewer'
+import { ViewerBoxRouter } from '@content-ui/md-mui/ViewerBoxRouter'
+import { ViewerFromText } from '@content-ui/react/ViewerFromText'
 
 export const PageComplex: React.ComponentType = () => {
     const {t} = useTranslation('translation')
@@ -129,7 +130,8 @@ export const PageComplex: React.ComponentType = () => {
                                     headlineSelectableOnHover
                                 >
                                     <ViewerFromText
-                                        processor={ContentParser}
+                                        Viewer={ViewerBoxRouter}
+                                        processor={ContentParserExtended}
                                         textValue={contentDetails.file}
                                         parseDelay={0}
                                         onMount

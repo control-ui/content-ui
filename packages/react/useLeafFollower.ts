@@ -1,11 +1,11 @@
-import React from 'react'
+import { useRef, useEffect } from 'react'
 import { useSettings } from '@content-ui/react/LeafSettings'
 
 export const useLeafFollower = <E extends HTMLElement = HTMLElement>(selected: boolean | undefined) => {
-    const elemRef = React.useRef<E | null>(null)
+    const elemRef = useRef<E | null>(null)
     const {followEditor} = useSettings()
 
-    React.useEffect(() => {
+    useEffect(() => {
         if(!followEditor || !selected) return
         elemRef.current?.scrollIntoView({
             behavior: 'smooth',

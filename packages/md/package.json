@@ -1,6 +1,6 @@
 {
     "name": "@content-ui/md",
-    "version": "0.0.10",
+    "version": "0.0.11",
     "description": "",
     "author": {
         "name": "bemit",
@@ -23,6 +23,10 @@
         "./parser/ContentParser": {
             "types": "./parser/ContentParser.d.ts",
             "import": "./parser/ContentParser.js"
+        },
+        "./plugins/remarkGithubAlert": {
+            "types": "./plugins/remarkGithubAlert.d.ts",
+            "import": "./plugins/remarkGithubAlert.js"
         },
         "./plugins/remarkInsert": {
             "types": "./plugins/remarkInsert.d.ts",
@@ -68,8 +72,7 @@
         "@types/mdast": "^4.0.0",
         "unified": "^11.0.0",
         "vfile": "^6.0.2",
-        "vfile-reporter": "^8.0.0",
-        "yaml": "^2.1.1"
+        "vfile-reporter": "^8.0.0"
     },
     "peerDependencies": {
     },
