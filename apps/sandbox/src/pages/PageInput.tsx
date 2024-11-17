@@ -59,7 +59,7 @@ export const PageInput: React.ComponentType = () => {
         autoProcess,
         setAutoProcess,
     } = useContentEditor(typeof value === 'string' ? value : '', setValue)
-    const {processing, outdated, root, file} = useContent({
+    const {processing, outdated, root, file, stringify} = useContent({
         textValue,
         // for direct preview, the parseDelay should be as low as possible,
         // with disabled preview it's better to use `600` for less unnecessary processing
@@ -125,6 +125,7 @@ export const PageInput: React.ComponentType = () => {
                                         outdated={outdated}
                                         autoProcess={autoProcess}
                                         setAutoProcess={setAutoProcess}
+                                        onReformat={stringify ? () => setValue(stringify?.() || '') : undefined}
                                     />
                                 </Grid2>
                                 <Grid2

@@ -1,5 +1,6 @@
 import type { Node, RootContent, Heading, Literal, Parent, PhrasingContent, Root, List } from 'mdast'
 import type { DefListNode, DefListDescriptionNode, DefListTermNode } from 'mdast-util-definition-list'
+import type { LeafDirective, ContainerDirective, TextDirective } from 'mdast-util-directive'
 
 export interface Underline extends Parent {
     type: 'underline'
@@ -61,6 +62,7 @@ export type CustomMdAstContent =
     | Mark
     | TocList | TocListItem
     | DefListNode | DefListTermNode | DefListDescriptionNode
+    | LeafDirective | ContainerDirective | TextDirective
 
 export type CustomMdAstNodes = CustomMdAstContent | Root
 

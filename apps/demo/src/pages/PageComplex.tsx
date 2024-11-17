@@ -1,4 +1,4 @@
-import { ContentParser } from '@content-ui/md/parser/ContentParser'
+import { ContentParserExtended } from '@content-ui/md/parser/ContentParserExtended'
 import { SettingsProvider } from '@content-ui/react/LeafSettings'
 import Paper from '@mui/material/Paper'
 import React from 'react'
@@ -131,7 +131,7 @@ export const PageComplex: React.ComponentType = () => {
                                 >
                                     <ViewerFromText
                                         Viewer={ViewerBoxRouter}
-                                        processor={ContentParser}
+                                        processor={ContentParserExtended}
                                         textValue={contentDetails.file}
                                         parseDelay={0}
                                         onMount

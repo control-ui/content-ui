@@ -20,12 +20,14 @@ export const InputWarnings: React.ComponentType<{
     showLintText?: boolean
     pl?: number
     pr?: number
+    ml?: number
+    mr?: number
 }> = (
     {
         fileMessages,
         processing,
         showIcon, showLoading, showLintText,
-        pr, pl,
+        pr, pl, ml, mr,
     },
 ) => {
     const {palette} = useTheme()
@@ -39,7 +41,7 @@ export const InputWarnings: React.ComponentType<{
                         palette.mode === 'dark' ? 'warning.main' : 'warning.dark' :
                         palette.mode === 'dark' ? 'info.light' : 'info.main'
                 }
-                sx={{display: 'flex', alignItems: 'center', pl, pr}}
+                sx={{display: 'flex', alignItems: 'center', ml, mr, pl, pr}}
             >
                 {showIcon && hasWarnings ?
                     <IcWarning
@@ -60,7 +62,7 @@ export const InputWarnings: React.ComponentType<{
                 <Collapse in={processing}>
                     <Typography
                         variant={'caption'} color={'secondary'}
-                        sx={{display: 'flex', alignItems: 'center', pl, pr}}
+                        sx={{display: 'flex', alignItems: 'center', ml, mr, pl, pr}}
                     >
                         <CircularProgress size={14} color={'secondary'}/>
                         <span style={{paddingLeft: 4, whiteSpace: 'pre'}}>

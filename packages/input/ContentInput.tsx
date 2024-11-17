@@ -1,5 +1,8 @@
 import { ViewerBox, ViewerBoxProps } from '@content-ui/md-mui/ViewerBox'
+import IcAutoFixNormal from '@mui/icons-material/AutoFixNormal'
 import { useContentSelection } from '@content-ui/react/ContentSelectionContext'
+import IconButton from '@mui/material/IconButton'
+import Tooltip from '@mui/material/Tooltip'
 import { ComponentType, CSSProperties, MutableRefObject, useMemo } from 'react'
 import { CodeMirrorComponentProps } from '@ui-schema/kit-codemirror/CodeMirror'
 import { Extension } from '@codemirror/state'
@@ -28,6 +31,7 @@ export interface ViewEditorProps extends Pick<WithContentEditor, 'autoProcess' |
     ViewerBox?: ComponentType<ViewerBoxProps>
     // passed to the `CodeMirror` component
     editorStyle?: CSSProperties
+    onReformat?: () => void
 }
 
 export const ContentInput = (
@@ -43,6 +47,7 @@ export const ContentInput = (
         autoProcess, setAutoProcess,
         bigSize,
         ViewerBox: ViewerBoxProp = ViewerBox,
+        onReformat,
         ...props
     }: ViewEditorProps & Omit<ViewerBoxProps, 'needsProcessing' | 'editorSelection' | 'onChange'>,
 ) => {
@@ -75,8 +80,20 @@ export const ContentInput = (
                     <InputWarnings
                         fileMessages={file?.messages}
                         processing={processing === 'loading'}
-                        pr={0.5}
+                        mr={0.5}
                     />}
+
+                {onReformat ?
+                    <Tooltip title={'reformat'} disableInteractive>
+                        <IconButton
+                            onClick={() => onReformat()} size={'small'}
+                            color={'secondary'}
+                            sx={{padding: 0.5, mr: 0.5}}
+                        >
+                            <IcAutoFixNormal fontSize={'small'}/>
+                        </IconButton>
+                    </Tooltip> : null}
+
                 <IconButtonProgress
                     tooltip={
                         bigSize ? 'auto processing disabled, content too big' :
@@ -88,7 +105,7 @@ export const ContentInput = (
                     onClick={() => setAutoProcess(p => p === -1 ? 0 : -1)}
                     disabled={bigSize}
                     boxSx={{alignItems: 'center'}}
-                    style={{padding: 4}}
+                    sx={{padding: 0.5}}
                 >
                     <IcAutoProcess fontSize={'small'}/>
                 </IconButtonProgress>

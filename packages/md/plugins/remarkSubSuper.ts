@@ -233,11 +233,11 @@ export const superToMarkdown: ToMarkdownExtension & { handlers: Partial<Handlers
     handlers: {super: handleSuper},
 }
 
-function handleSuper(...[node, , context, safeOptions]: Parameters<ToMarkdownHandle>): ReturnType<ToMarkdownHandle> {
-    const tracker = track(safeOptions)
-    const exit = context.enter('sub' as ConstructName)
+function handleSuper(...[node, , state, info]: Parameters<ToMarkdownHandle>): ReturnType<ToMarkdownHandle> {
+    const tracker = state.createTracker(info)
+    const exit = state.enter('sub' as ConstructName)
     let value = tracker.move('^')
-    value += containerPhrasing(node, context, {
+    value += state.containerPhrasing(node, state, {
         ...tracker.current(),
         before: value,
         after: '^',

@@ -1,9 +1,10 @@
-import { ContentParser } from '@content-ui/md/parser/ContentParser'
+import { ContentParserExtended } from '@content-ui/md/parser/ContentParserExtended'
 import { ContentSelectionProvider } from '@content-ui/react/ContentSelectionContext'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import Button from '@mui/material/Button'
 import IcVisibility from '@mui/icons-material/Visibility'
 import IcVisibilityOff from '@mui/icons-material/VisibilityOff'
+import IcConvert from '@mui/icons-material/SyncAlt'
 import { useTheme } from '@mui/material/styles'
 import React, { useState } from 'react'
 import Helmet from 'react-helmet'
@@ -66,7 +67,7 @@ export const PageInput: React.ComponentType = () => {
         typeof value === 'string' ? value : '',
         setValue,
     )
-    const {processing, outdated, root, file} = useContent({
+    const {processing, outdated, root, file, stringify} = useContent({
         textValue,
         // for direct preview, the parseDelay should be as low as possible,
         // with disabled preview it's better to use `600` for less unnecessary processing
@@ -76,8 +77,8 @@ export const PageInput: React.ComponentType = () => {
                     textValue.length > 3500 ? 280 :
                         40,
         autoProcess,
-        onMount: true,
-        processor: ContentParser,
+        onMount: false,
+        processor: ContentParserExtended,
     })
 
     const extensions = React.useMemo(() => {
@@ -122,7 +123,17 @@ export const PageInput: React.ComponentType = () => {
                                     outdated={outdated}
                                     autoProcess={autoProcess}
                                     setAutoProcess={setAutoProcess}
+                                    onReformat={stringify ? () => setValue(stringify?.() || '') : undefined}
                                 />
+                                <Button
+                                    startIcon={<IcConvert/>}
+                                    disabled={!stringify}
+                                    onClick={() => setValue(stringify?.() || '')}
+                                    variant={'outlined'} size={'small'}
+                                    sx={{mt: 2, mb: 1, ml: 1}}
+                                >
+                                    {'reformat'}
+                                </Button>
                             </Grid2>
                             <Grid2
                                 xs={12} md={6}
