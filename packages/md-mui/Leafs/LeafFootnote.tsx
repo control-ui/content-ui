@@ -1,9 +1,12 @@
+import { MuiContentRenderComponentsLinks } from '@content-ui/md-mui/LeafsComponents'
+import { ReactDeco } from '@content-ui/react/EngineDecorator'
+import { useSettings } from '@content-ui/react/LeafSettings'
+import Link from '@mui/material/Link'
 import React from 'react'
 import { LeafChildNodes } from '@content-ui/md-mui/LeafChildNodes'
-import { MuiLink } from '@content-ui/md-mui/MuiComponents/MuiLink'
 import IcGoTo from '@mui/icons-material/SubdirectoryArrowLeft'
 import Typography from '@mui/material/Typography'
-import { ContentLeafProps } from '@content-ui/react/ContentLeafsContext'
+import { ContentLeafMatchParams, ContentLeafProps, ContentLeafsPropsMapping, LeafsRenderMapping, ReactLeafsNodeSpec, useContentLeafs } from '@content-ui/react/ContentLeafsContext'
 import { useTheme } from '@mui/material/styles'
 import type { Theme } from '@mui/material/styles'
 import { TypographyWithExtras } from '@content-ui/md-mui/MuiComponents/Theme'
@@ -13,6 +16,14 @@ export const footnoteContainerId = 'footnote-label'
 
 export const LeafFootnoteDefinition: React.FC<ContentLeafProps<'footnoteDefinition'>> = ({child}) => {
     const {typography} = useTheme<Theme & { typography: TypographyWithExtras }>()
+    const {linkAnchorToHref} = useSettings()
+    const {renderMap} = useContentLeafs<
+        ContentLeafsPropsMapping, MuiContentRenderComponentsLinks, ReactDeco<{}, {}>,
+        LeafsRenderMapping<ReactLeafsNodeSpec<ContentLeafsPropsMapping>, MuiContentRenderComponentsLinks, ContentLeafMatchParams>
+    >()
+    const MuiLink = renderMap.components.Link || Link
+
+    const footnoteRef = '#' + userContentPrefix + 'fnref-' + child?.identifier
     return <Typography
         component={'li'} variant={'body1'} gutterBottom
         sx={{px: 0.5, listStyleType: 'none', ml: -3}}
@@ -32,7 +43,7 @@ export const LeafFootnoteDefinition: React.FC<ContentLeafProps<'footnoteDefiniti
             </div>
 
             <MuiLink
-                href={'#' + userContentPrefix + 'fnref-' + child?.identifier}
+                href={linkAnchorToHref ? linkAnchorToHref(footnoteRef) : footnoteRef}
                 aria-label={'Back to content'}
                 sx={{
                     py: 0.25,
@@ -46,8 +57,15 @@ export const LeafFootnoteDefinition: React.FC<ContentLeafProps<'footnoteDefiniti
 }
 
 export const LeafFootnoteReference: React.FC<ContentLeafProps<'footnoteReference'>> = ({child}) => {
+    const {linkAnchorToHref} = useSettings()
+    const {renderMap} = useContentLeafs<
+        ContentLeafsPropsMapping, MuiContentRenderComponentsLinks, ReactDeco<{}, {}>,
+        LeafsRenderMapping<ReactLeafsNodeSpec<ContentLeafsPropsMapping>, MuiContentRenderComponentsLinks, ContentLeafMatchParams>
+    >()
+    const MuiLink = renderMap.components.Link || Link
+    const footnoteRef = '#' + userContentPrefix + 'fn-' + child.identifier
     return <MuiLink
-        href={'#' + userContentPrefix + 'fn-' + child.identifier}
+        href={linkAnchorToHref ? linkAnchorToHref(footnoteRef) : footnoteRef}
         id={userContentPrefix + 'fnref-' + child.identifier}
         aria-describedby={footnoteContainerId}// todo: validate the aria selector
         sx={{

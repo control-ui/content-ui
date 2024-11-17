@@ -12,7 +12,7 @@ import Grid2 from '@mui/material/Unstable_Grid2'
 import { ContentInput } from '@content-ui/input/ContentInput'
 import { CustomCodeMirror, getHighlight } from '../components/CustomCodeMirror'
 import Box from '@mui/material/Box'
-import { Viewer } from '@content-ui/md-mui/Viewer'
+import { ViewerBoxRouter } from '@content-ui/md-mui/ViewerBoxRouter'
 import { SettingsProvider } from '@content-ui/react/LeafSettings'
 import { useContentEditor } from '@content-ui/input/useContentEditor'
 import { useContent } from '@content-ui/react/useContent'
@@ -107,11 +107,13 @@ export const PageInput: React.ComponentType = () => {
                         headlineLinkable
                         headlineSelectable
                         headlineSelectableOnHover
+                        // linkAnchorToHref={anchor => window.location.pathname + anchor}
                     >
                         <Grid2 container spacing={2} sx={{overflow: 'auto', flexWrap: {xs: 'wrap', md: 'nowrap'}}}>
                             <Grid2 xs={12} md={6} sx={{overflow: 'auto', scrollbarWidth: 'thin', maxHeight: {md: '100%'}}}>
                                 <ContentInput
                                     CodeMirror={CustomCodeMirror}
+                                    ViewerBox={ViewerBoxRouter}
                                     onChange={handleOnChange}
                                     extensions={extensions}
                                     textValue={textValue}
@@ -133,7 +135,7 @@ export const PageInput: React.ComponentType = () => {
                                     backgroundColor: 'background.paper',
                                 }}
                             >
-                                <Viewer
+                                <ViewerBoxRouter
                                     outdated={outdated}
                                     processing={processing}
                                 />

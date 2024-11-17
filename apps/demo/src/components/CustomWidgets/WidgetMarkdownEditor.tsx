@@ -1,3 +1,4 @@
+import { ViewerBoxRouter } from '@content-ui/md-mui/ViewerBoxRouter'
 import { ContentParser } from '@content-ui/md/parser/ContentParser'
 import { ContentSelectionProvider } from '@content-ui/react/ContentSelectionContext'
 import { UIMetaReadContextType } from '@ui-schema/ui-schema/UIMetaReadContext'
@@ -125,6 +126,7 @@ export const WidgetMarkdownEditor: React.ComponentType<WidgetProps & WithScalarV
                         preview={preview}
                         refWarningBox={refWarningBox}
                         CodeMirror={CustomCodeMirror}
+                        ViewerBox={ViewerBoxRouter}
                         onChange={readOnly ? undefined : handleOnChange}
                         extensions={extensions}
                         textValue={textValue}

@@ -1,5 +1,6 @@
+import { ViewerBox, ViewerBoxProps } from '@content-ui/md-mui/ViewerBox'
 import { useContentSelection } from '@content-ui/react/ContentSelectionContext'
-import React from 'react'
+import { ComponentType, CSSProperties, MutableRefObject, useMemo } from 'react'
 import { CodeMirrorComponentProps } from '@ui-schema/kit-codemirror/CodeMirror'
 import { Extension } from '@codemirror/state'
 import Box from '@mui/material/Box'
@@ -13,23 +14,23 @@ import IcAutoProcess from '@mui/icons-material/ModelTraining'
 import { CodeMirrorOnChange } from '@ui-schema/kit-codemirror/useCodeMirror'
 import { useContentContext } from '@content-ui/react/ContentFileContext'
 import { WithContent } from '@content-ui/react/useContent'
-import { Viewer, ViewerProps } from '@content-ui/md-mui/Viewer'
 
 export interface ViewEditorProps extends Pick<WithContentEditor, 'autoProcess' | 'setAutoProcess'>, Omit<WithContent, 'file' | 'root'> {
-    CodeMirror: React.FC<CodeMirrorComponentProps>
+    CodeMirror: ComponentType<CodeMirrorComponentProps>
     extensions?: Extension[]
     preview?: boolean
-    refWarningBox?: React.MutableRefObject<HTMLDivElement | null>
+    refWarningBox?: MutableRefObject<HTMLDivElement | null>
     onChange?: CodeMirrorOnChange
     valid?: boolean
     textValue: string
     bigSize?: boolean
     noLint?: boolean
+    ViewerBox?: ComponentType<ViewerBoxProps>
     // passed to the `CodeMirror` component
-    editorStyle?: React.CSSProperties
+    editorStyle?: CSSProperties
 }
 
-export const ContentInput: React.ComponentType<ViewEditorProps & Omit<ViewerProps, 'needsProcessing' | 'editorSelection'>> = (
+export const ContentInput = (
     {
         valid,
         preview,
@@ -41,17 +42,18 @@ export const ContentInput: React.ComponentType<ViewEditorProps & Omit<ViewerProp
         processing, noLint, outdated,
         autoProcess, setAutoProcess,
         bigSize,
+        ViewerBox: ViewerBoxProp = ViewerBox,
         ...props
-    },
+    }: ViewEditorProps & Omit<ViewerBoxProps, 'needsProcessing' | 'editorSelection' | 'onChange'>,
 ) => {
     const {file} = useContentContext()
     const editorSelection = useContentSelection()
 
-    const classNamesContent = React.useMemo(() => (valid === false ? ['invalid'] : undefined), [valid])
+    const classNamesContent = useMemo(() => (valid === false ? ['invalid'] : undefined), [valid])
 
     return <>
         {preview ?
-            <Viewer
+            <ViewerBoxProp
                 outdated={outdated}
                 processing={processing}
                 {...props}

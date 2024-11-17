@@ -15,10 +15,10 @@ import { LeafTable, LeafTableCell, LeafTableRow } from '@content-ui/md-mui/Leafs
 import { LeafYaml } from '@content-ui/md-mui/Leafs/LeafYaml'
 import { LeafTocListItem } from '@content-ui/md-mui/Leafs/LeafToc'
 import { LeafImage } from '@content-ui/md-mui/Leafs/LeafImage'
-import { ContentRenderComponents, ContentLeafsNodeMapping, LeafsRenderMapping, ContentLeafMatchParams, ContentLeafsPropsMapping } from '@content-ui/react/ContentLeafsContext'
+import { MuiContentRenderComponents } from '@content-ui/md-mui/LeafsComponents'
+import { ContentLeafsNodeMapping, LeafsRenderMapping, ContentLeafMatchParams, ContentLeafsPropsMapping } from '@content-ui/react/ContentLeafsContext'
 import { LeafDefList, LeafDefListDescription, LeafDefListTerm } from '@content-ui/md-mui/Leafs/LeafDefList'
 import { CustomMdAstContent } from '@content-ui/struct/Ast'
-import { ComponentType } from 'react'
 
 const leafs: ContentLeafsNodeMapping<ContentLeafsPropsMapping<CustomMdAstContent>> = {
     break: LeafBr,
@@ -57,17 +57,6 @@ const leafs: ContentLeafsNodeMapping<ContentLeafsPropsMapping<CustomMdAstContent
     linkReference: null,
 }
 
-export interface MuiContentRenderComponents extends ContentRenderComponents {
-    /**
-     * @deprecated use `Code` instead
-     */
-    CodeMirror?: ComponentType<{ value?: string, lang?: string }>
-    /**
-     * @todo support setting focus and retrieving e.g. selections
-     */
-    Code?: ComponentType<{ value?: string, lang?: string }>
-}
-
 export const renderMapping: LeafsRenderMapping<
     ContentLeafsNodeMapping<ContentLeafsPropsMapping<CustomMdAstContent>>,
     MuiContentRenderComponents,
@@ -77,4 +66,3 @@ export const renderMapping: LeafsRenderMapping<
     components: {},
     matchLeaf: (p, l) => l[p.elem],
 }
-

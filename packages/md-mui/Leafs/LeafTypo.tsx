@@ -1,22 +1,21 @@
-import React from 'react'
-import Typography, { TypographyProps } from '@mui/material/Typography'
+import { MuiContentRenderComponentsLinks } from '@content-ui/md-mui/LeafsComponents'
+import { LinkableHeadline } from '@content-ui/md-mui/MuiComponents/LinkableHeadline'
+import { ReactDeco } from '@content-ui/react/EngineDecorator'
+import Typography from '@mui/material/Typography'
 import type { Parent } from 'mdast'
 import { LeafChildNodes } from '@content-ui/md-mui/LeafChildNodes'
 import Link from '@mui/material/Link'
-import IcLink from '@mui/icons-material/Link'
 import IcOpenIn from '@mui/icons-material/OpenInNew'
-import { MuiLink } from '@content-ui/md-mui/MuiComponents/MuiLink'
-import { useNavigate } from 'react-router-dom'
+import { FC } from 'react'
 import Box from '@mui/material/Box'
 import { useTheme } from '@mui/material/styles'
 import { useSettings } from '@content-ui/react/LeafSettings'
-import { ContentLeafProps } from '@content-ui/react/ContentLeafsContext'
+import { ContentLeafMatchParams, ContentLeafProps, ContentLeafsPropsMapping, LeafsRenderMapping, ReactLeafsNodeSpec, useContentLeafs } from '@content-ui/react/ContentLeafsContext'
 import { useLeafFollower } from '@content-ui/react/useLeafFollower'
-import { copyToClipBoard } from '@content-ui/react/Utils/copyToClipboard'
 import { flattenText } from '@content-ui/struct/flattenText'
 import { textToId } from '@content-ui/struct/textToId'
 
-export const LeafP: React.FC<ContentLeafProps<'paragraph'> & { selected?: boolean, dense?: boolean }> = ({child, selected, dense, isLast}) => {
+export const LeafP: FC<ContentLeafProps<'paragraph'> & { selected?: boolean, dense?: boolean }> = ({child, selected, dense, isLast}) => {
     const {palette} = useTheme()
     const pRef = useLeafFollower<HTMLParagraphElement>(selected)
     return <Typography
@@ -32,111 +31,19 @@ export const LeafP: React.FC<ContentLeafProps<'paragraph'> & { selected?: boolea
     </Typography>
 }
 
-export const LeafH: React.FC<ContentLeafProps<'heading'> & { selected?: boolean }> = ({child, selected, isFirst, isLast}) => {
-    const {palette} = useTheme()
-    const {
-        headlineLinkable,
-        headlineSelectable, headlineSelectableOnHover,
-        headlineOffset,
-        // todo: is injected in `ContentRenderer`, move to props
-    } = useSettings()
+export const LeafH: FC<ContentLeafProps<'heading'> & { selected?: boolean }> = ({child, selected, isFirst, isLast}) => {
     const hRef = useLeafFollower<HTMLHeadingElement>(selected)
-    const [copied, setCopied] = React.useState(false)
-    const [showCopy, setShowCopy] = React.useState(false)
-    const timer = React.useRef<number | undefined>(undefined)
-    const id = child ? textToId(flattenText(child as Parent).join('')) : undefined
-    const navigate = useNavigate()
-
-    React.useEffect(() => {
-        return () => window.clearTimeout(timer.current)
-    }, [timer, id])
-
-    const handleCopy = () => {
-        window.clearTimeout(timer.current)
-        copyToClipBoard(window.location.toString().split('#')[0] + '#' + id)
-            .then((hasCopied) => {
-                setCopied(hasCopied)
-                if(hasCopied) {
-                    timer.current = window.setTimeout(() => {
-                        setCopied(false)
-                    }, 2400)
-                }
-                navigate('#' + id)
-            })
-    }
-
-    const depth = child.depth
-
-    const btnCopy = headlineLinkable && headlineSelectable && typeof id === 'string' ?
-        <Box
-            component={'span'}
-            aria-hidden="true"
-            tabIndex={0}
-            onFocus={() => setShowCopy(true)}
-            onBlur={() => setShowCopy(false)}
-            onMouseEnter={() => setShowCopy(true)}
-            onMouseLeave={() => setShowCopy(false)}
-            onKeyDown={(e) => {
-                if(e.key === 'Enter' && !e.ctrlKey) {
-                    handleCopy()
-                }
-            }}
-            onClick={handleCopy}
-            style={{
-                cursor: 'pointer',
-                display: 'inline-flex',
-                opacity: copied ? 1 : showCopy ? 0.875 : headlineLinkable && headlineSelectable && headlineSelectableOnHover ? 0 : 0.425,
-                transition: '0.46ms ease-out opacity',
-                outline: 0,
-                verticalAlign: 'top',
-            }}
-            sx={{
-                backgroundColor: 'background.paper',
-                ml: '-19px',
-                mr: 0,
-                mt: 'auto',
-                mb: 'auto',
-                py: 0.5,
-                px: 0,
-                borderWidth: 1,
-                borderStyle: 'solid',
-                borderColor: 'divider',
-                borderRadius: '6px',
-            }}
-        >
-            <IcLink
-                fontSize={'inherit'} color={copied ? 'primary' : 'secondary'}
-                style={{
-                    transform: 'rotate(-45deg)',
-                    transition: '0.0865s ease-out color',
-                    fontSize: '1rem',
-                }}
-            />
-        </Box> : null
-
-    return <Typography
-        variant={
-            depth + (headlineOffset || 0) <= 6 ?
-                ('h' + (depth + (headlineOffset || 0))) as TypographyProps['variant'] :
-                'h6'
-        }
-        id={headlineLinkable ? id : undefined} ref={hRef}
-        gutterBottom
-        onMouseEnter={headlineLinkable && headlineSelectable ? () => setShowCopy(true) : undefined}
-        onMouseLeave={headlineLinkable && headlineSelectable ? () => setShowCopy(false) : undefined}
-        sx={{
-            mt: isFirst ? undefined : '0.3625em',
-            mb: isLast ? undefined : '0.67215em',
-            // backgroundColor: selected ? 'info.light' : 'default',
-            backgroundColor: selected ? palette.mode === 'dark' ? 'rgba(5, 115, 115, 0.11)' : 'rgba(206, 230, 228, 0.31)' : undefined,
-            boxShadow: selected ? palette.mode === 'dark' ? '-8px 0px 0px 0px rgba(5, 115, 115, 0.11)' : '-8px 0px 0px 0px rgba(206, 230, 228, 0.31)' : undefined,
-            // backgroundColor: selected ? palette.mode === 'dark' ? 'rgba(5, 115, 115, 0.11)' : 'rgba(206, 230, 228, 0.31)' : undefined,
-        }}
-        // color={selected ? 'info.light' : 'default'}
+    const id = textToId(flattenText(child as Parent).join(''))
+    return <LinkableHeadline
+        ref={hRef}
+        id={id}
+        level={child.depth}
+        selected={selected}
+        marginTop={!isFirst}
+        marginBottom={!isLast}
     >
-        {btnCopy}
-        {child ? <span><LeafChildNodes childNodes={child.children}/></span> : null}
-    </Typography>
+        <span><LeafChildNodes childNodes={child.children}/></span>
+    </LinkableHeadline>
 }
 
 const urlIsRelativeTo = (linkBase: string, url: string) => {
@@ -150,9 +57,13 @@ const urlIsRelativeTo = (linkBase: string, url: string) => {
     )
 }
 
-export const LeafLink: React.FC<ContentLeafProps<'link'>> = ({child}) => {
+export const LeafLink: FC<ContentLeafProps<'link'>> = ({child}) => {
     // todo: is injected in `ContentRenderer`, move to props
-    const {linkBase, linkNotBlank} = useSettings()
+    const {linkBase, linkNotBlank, linkAnchorToHref} = useSettings()
+    const {renderMap} = useContentLeafs<
+        ContentLeafsPropsMapping, MuiContentRenderComponentsLinks, ReactDeco<{}, {}>,
+        LeafsRenderMapping<ReactLeafsNodeSpec<ContentLeafsPropsMapping>, MuiContentRenderComponentsLinks, ContentLeafMatchParams>
+    >()
 
     const isHttp = child.url.startsWith('http://') || child.url.startsWith('https://')
     const isControlled = (isHttp && urlIsRelativeTo(linkBase || (window.location.protocol + '//' + window.location.host), child.url))
@@ -183,7 +94,9 @@ export const LeafLink: React.FC<ContentLeafProps<'link'>> = ({child}) => {
         </Link>
     }
 
-    return <MuiLink href={child.url}>
+    const MuiLink = renderMap.components.Link || Link
+
+    return <MuiLink href={linkAnchorToHref && child.url.startsWith('#') ? linkAnchorToHref(child.url) : child.url}>
         <LeafChildNodes childNodes={child.children}/>
     </MuiLink>
 }

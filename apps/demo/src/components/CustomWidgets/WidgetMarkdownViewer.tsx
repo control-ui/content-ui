@@ -5,7 +5,8 @@ import { TransTitle, WidgetProps, WithScalarValue } from '@ui-schema/ui-schema'
 import Box from '@mui/material/Box'
 import FormLabel from '@mui/material/FormLabel'
 import { ValidityHelperText } from '@ui-schema/ds-material/Component/LocaleHelperText'
-import { ViewerFromText } from '@content-ui/md-mui/Viewer'
+import { ViewerBoxRouter } from '@content-ui/md-mui/ViewerBoxRouter'
+import { ViewerFromText } from '@content-ui/react/ViewerFromText'
 import { SettingsProvider } from '@content-ui/react/LeafSettings'
 
 export const WidgetMarkdownViewer: React.ComponentType<WidgetProps & WithScalarValue & UIMetaReadContextType> = (
@@ -31,10 +32,13 @@ export const WidgetMarkdownViewer: React.ComponentType<WidgetProps & WithScalarV
 
         <SettingsProvider
             headlineOffset={1}
+            headlineLinkable
+            headlineSelectable
+            headlineSelectableOnHover
             dense={dense || (readActive && readDense)}
         >
             <ViewerFromText
-                // storeKeys={storeKeys}
+                Viewer={ViewerBoxRouter}
                 processor={ContentParser}
                 textValue={typeof value === 'string' ? value : ''}
                 onMount

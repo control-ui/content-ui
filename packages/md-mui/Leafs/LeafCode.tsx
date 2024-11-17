@@ -5,7 +5,7 @@ import { useLeafFollower } from '@content-ui/react/useLeafFollower'
 import { useTheme } from '@mui/material/styles'
 import type { Theme } from '@mui/material/styles'
 import { TypographyWithExtras } from '@content-ui/md-mui/MuiComponents/Theme'
-import { MuiContentRenderComponents } from '@content-ui/md-mui/LeafsMarkdown'
+import type { MuiContentRenderComponents } from '@content-ui/md-mui/LeafsComponents'
 
 export const LeafCode: React.FC<ContentLeafProps<'code'>> = ({child, selected}) => {
     const cRef = useLeafFollower<HTMLDivElement>(selected)

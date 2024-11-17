@@ -20,7 +20,8 @@ import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
 import Box from '@mui/material/Box'
-import { ViewerFromText } from '@content-ui/md-mui/Viewer'
+import { ViewerBoxRouter } from '@content-ui/md-mui/ViewerBoxRouter'
+import { ViewerFromText } from '@content-ui/react/ViewerFromText'
 
 export const PageComplex: React.ComponentType = () => {
     const {t} = useTranslation('translation')
@@ -129,6 +130,7 @@ export const PageComplex: React.ComponentType = () => {
                                     headlineSelectableOnHover
                                 >
                                     <ViewerFromText
+                                        Viewer={ViewerBoxRouter}
                                         processor={ContentParser}
                                         textValue={contentDetails.file}
                                         parseDelay={0}

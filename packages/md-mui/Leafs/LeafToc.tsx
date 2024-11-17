@@ -1,11 +1,13 @@
+import { MuiContentRenderComponentsLinks } from '@content-ui/md-mui/LeafsComponents'
 import { useContentSelection } from '@content-ui/react/ContentSelectionContext'
-import React from 'react'
+import { ReactDeco } from '@content-ui/react/EngineDecorator'
+import Link from '@mui/material/Link'
+import { createContext, FC, PropsWithChildren, useContext, useMemo, useState } from 'react'
 import type { Heading, ListItem, Root } from 'mdast'
-import { MuiLink } from '@content-ui/md-mui/MuiComponents/MuiLink'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import { ContentLeaf } from '@content-ui/react/ContentLeaf'
-import { ContentLeafPayload, ContentLeafsPropsMapping } from '@content-ui/react/ContentLeafsContext'
+import { ContentLeafMatchParams, ContentLeafPayload, ContentLeafsPropsMapping, LeafsRenderMapping, ReactLeafsNodeSpec, useContentLeafs } from '@content-ui/react/ContentLeafsContext'
 import { useSettings } from '@content-ui/react/LeafSettings'
 import { flattenText } from '@content-ui/struct/flattenText'
 import { textToId } from '@content-ui/struct/textToId'
@@ -14,22 +16,29 @@ import type { Theme } from '@mui/material/styles'
 import { TypographyWithExtras } from '@content-ui/md-mui/MuiComponents/Theme'
 import { TocHNode, TocListItem } from '@content-ui/struct/Ast'
 
-export const LeafTocListItem: React.FC<ContentLeafPayload<TocListItem> & { textVariant?: 'body1' | 'body2' | 'caption' }> = ({child, textVariant}) => {
+export const LeafTocListItem: FC<ContentLeafPayload<TocListItem> & { textVariant?: 'body1' | 'body2' | 'caption' }> = ({child, textVariant}) => {
     const editorSelection = useContentSelection()
     const {smallList, showLines, onClick} = useToc()
     // todo: is injected in `ContentRenderer`, move to props
-    const {headlineLinkable} = useSettings()
+    const {headlineLinkable, linkAnchorToHref} = useSettings()
+    const {renderMap} = useContentLeafs<
+        ContentLeafsPropsMapping, MuiContentRenderComponentsLinks, ReactDeco<{}, {}>,
+        LeafsRenderMapping<ReactLeafsNodeSpec<ContentLeafsPropsMapping>, MuiContentRenderComponentsLinks, ContentLeafMatchParams>
+    >()
     const {typography} = useTheme<Theme & { typography: TypographyWithExtras }>()
-    const [focus, setFocus] = React.useState(false)
+    const [focus, setFocus] = useState(false)
     const selectedByLine = child && (
         editorSelection?.startLine === child?.headline.headline.position?.start?.line ||
         editorSelection?.endLine === child?.headline.headline.position?.end?.line
     )
+    const MuiLink = renderMap.components.Link || Link
+
+    const id = headlineLinkable ? '#' + textToId(child?.headline.flatText.join('')) : undefined
     return child ? <Typography component={'li'} variant={textVariant || (smallList ? 'body2' : 'body1')} sx={{pl: 0.5}}>
         <Box style={{display: 'inline-flex'}}>
-            {headlineLinkable ?
+            {id ?
                 <MuiLink
-                    href={'#' + textToId(child?.headline.flatText.join(''))}
+                    href={linkAnchorToHref ? linkAnchorToHref(id) : id}
                     color={selectedByLine ? 'primary' : 'inherit'}
                     underline={'hover'}
                     style={{
@@ -81,7 +90,7 @@ export const LeafTocListItem: React.FC<ContentLeafPayload<TocListItem> & { textV
 /**
  * @todo refactor as Leaf component
  */
-export const LeafTocList: React.FC<{
+export const LeafTocList: FC<{
     headLines: TocHNode[]
     depth: number
     dense?: boolean
@@ -119,12 +128,12 @@ export interface LeafTocContextType {
     onClick?: (hNode: TocHNode) => void
 }
 
-export const LeafTocContext = React.createContext<LeafTocContextType>({})
+export const LeafTocContext = createContext<LeafTocContextType>({})
 
-export const useToc = (): LeafTocContextType => React.useContext(LeafTocContext)
+export const useToc = (): LeafTocContextType => useContext(LeafTocContext)
 
-export const TocProvider: React.FC<React.PropsWithChildren<LeafTocContextType>> = ({children, showLines, smallList, onClick}) => {
-    const ctx = React.useMemo(
+export const TocProvider: FC<PropsWithChildren<LeafTocContextType>> = ({children, showLines, smallList, onClick}) => {
+    const ctx = useMemo(
         () => ({showLines, smallList, onClick}),
         [showLines, smallList, onClick],
     )
@@ -134,7 +143,7 @@ export const TocProvider: React.FC<React.PropsWithChildren<LeafTocContextType>> 
 export const defaultTocIds: string[] = ['table-of-content', 'toc']
 
 export const useLeafToc = (root: Root | undefined, tocIds?: string[]) => {
-    const headlines = React.useMemo(() => {
+    const headlines = useMemo(() => {
         if(!root?.children) return []
 
         const headLines = root.children
@@ -158,7 +167,7 @@ export const useLeafToc = (root: Root | undefined, tocIds?: string[]) => {
         }, [] as TocHNode[])
     }, [root])
 
-    const tocInject = React.useMemo(() => {
+    const tocInject = useMemo(() => {
         if(headlines.length === 0) return undefined
 
         const afterHeadline = !tocIds || tocIds.length === 0 ? undefined :
@@ -188,7 +197,7 @@ export interface LeafTocProps {
 /**
  * @todo move to components mapping
  */
-export const LeafToc: React.FC<LeafTocContextType & LeafTocProps> = (
+export const LeafToc: FC<LeafTocContextType & LeafTocProps> = (
     {
         smallList, showLines, onClick,
         tocInject, headlines,

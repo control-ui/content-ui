@@ -1,17 +1,17 @@
 import { Transaction } from '@codemirror/state'
 import { ContentSelection } from '@content-ui/react/ContentSelectionContext'
-import React from 'react'
+import { Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } from 'react'
 import { CodeMirrorOnChange } from '@ui-schema/kit-codemirror/useCodeMirror'
 
 export type WithContentEditor = {
     editorSelection: ContentSelection | undefined
-    setEditorSelection: React.Dispatch<React.SetStateAction<ContentSelection | undefined>>
+    setEditorSelection: Dispatch<SetStateAction<ContentSelection | undefined>>
 
     lines: number
     textValue: string
     bigSize: boolean
     autoProcess: number
-    setAutoProcess: React.Dispatch<React.SetStateAction<number>>
+    setAutoProcess: Dispatch<SetStateAction<number>>
     handleOnChange: CodeMirrorOnChange
 }
 
@@ -19,19 +19,19 @@ export const useContentEditor = (
     textValue: string,
     onChange: (newValue: string) => void,
 ): WithContentEditor => {
-    const [editorSelection, setEditorSelection] = React.useState<ContentSelection | undefined>(undefined)
+    const [editorSelection, setEditorSelection] = useState<ContentSelection | undefined>(undefined)
 
     const bigSize = textValue.length > 50000
-    const [autoProcess, setAutoProcess] = React.useState(bigSize ? 0 : -1)
+    const [autoProcess, setAutoProcess] = useState(bigSize ? 0 : -1)
 
-    const valueTextRef = React.useRef(textValue)
+    const valueTextRef = useRef(textValue)
     valueTextRef.current = textValue
 
-    React.useEffect(() => {
+    useEffect(() => {
         setAutoProcess(bigSize ? 0 : -1)
     }, [bigSize, setAutoProcess])
 
-    const handleOnChange: CodeMirrorOnChange = React.useCallback((v, newValue) => {
+    const handleOnChange: CodeMirrorOnChange = useCallback((v, newValue) => {
         if(v.view.hasFocus) {
             const startLine = v.state.doc.lineAt(v.state.selection.main.from)
             const endLine = v.state.doc.lineAt(v.state.selection.main.to)
