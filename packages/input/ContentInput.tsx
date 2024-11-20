@@ -99,7 +99,7 @@ export const ContentInput = (
                         bigSize ? 'auto processing disabled, content too big' :
                             autoProcess === -1 ? 'disable auto processing' : 'enable auto processing'
                     }
-                    progress={autoProcess === -1 ? processing === 'loading' ? 'start' : processing === 'error' ? 'error' : true : false}
+                    progress={autoProcess === -1 ? processing : 'none'}
                     size={'small'}
                     color={autoProcess === -1 ? 'success' : 'secondary'}
                     onClick={() => setAutoProcess(p => p === -1 ? 0 : -1)}
@@ -115,7 +115,7 @@ export const ContentInput = (
         {bigSize || autoProcess >= 0 ?
             <Box my={1}>
                 <ButtonProgress
-                    progress={processing === 'loading' ? 'start' : processing === 'error' ? 'error' : true}
+                    progress={processing}
                     size={'small'} variant={'outlined'} color={'primary'}
                     onClick={() => setAutoProcess(p => p + 1)}
                     startIcon={<IcRefresh/>}

@@ -4,7 +4,7 @@ import Box from '@mui/material/Box'
 import { config } from '../config'
 import { useAppApi } from '../lib/useAppApi'
 import { ButtonProgress } from '@ui-controls/progress/ButtonProgress'
-import { ps, useProgress } from 'react-progress-state'
+import { ps, useProgress } from 'react-progress-state/useProgressNext'
 import { CustomCodeMirror } from './CustomCodeMirror'
 import { json } from '@codemirror/lang-json'
 
@@ -30,7 +30,7 @@ export const ApiPing: React.ComponentType = () => {
                 const pid = startLoading()
                 fetch(config.API_HOST + '/ping')
                     .then(r => {
-                        const isPid = setLoading(ps.done, undefined, pid)
+                        const isPid = setLoading(ps.success, undefined, pid)
                         if(!isPid) return
                         setPing(r.data)
                     })

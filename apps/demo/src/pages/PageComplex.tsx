@@ -6,7 +6,7 @@ import Helmet from 'react-helmet'
 import { useTranslation } from 'react-i18next'
 import Container from '@mui/material/Container'
 import Grid2 from '@mui/material/Unstable_Grid2'
-import { ps, useProgress } from 'react-progress-state'
+import { ps, useProgress } from 'react-progress-state/useProgressNext'
 import { useAppApi } from '../lib/useAppApi'
 import { config } from '../config'
 import LinearProgress from '@mui/material/LinearProgress'
@@ -36,7 +36,7 @@ export const PageComplex: React.ComponentType = () => {
         const pid = startLoading()
         fetch<{ files: { name: string }[] }>(config.API_HOST + '/contents')
             .then((r) => {
-                const isPid = setLoading(ps.done, undefined, pid)
+                const isPid = setLoading(ps.success, undefined, pid)
                 if(!isPid) return
                 setContentList(r.data)
             })
@@ -50,7 +50,7 @@ export const PageComplex: React.ComponentType = () => {
         const pid = startLoadingDetails()
         fetch<{}>(config.API_HOST + '/contents/' + contentId)
             .then((r) => {
-                const isPid = setLoadingDetails(ps.done, undefined, pid)
+                const isPid = setLoadingDetails(ps.success, undefined, pid)
                 if(!isPid) return
                 setContentDetails(r.data)
             })
@@ -106,8 +106,8 @@ export const PageComplex: React.ComponentType = () => {
                             </IconButtonProgress>
                         </Grid2>
 
-                        {loading.progress === ps.start || loadingDetails.progress === ps.start ?
-                            <LinearProgress/> : null}
+                        {loading.progress === ps.loading || loadingDetails.progress === ps.loading ?
+                            <LinearProgress sx={{width: '100%', mb: -0.5}}/> : null}
 
                         {loading.progress === ps.error ?
                             <Grid2 xs={12}>
