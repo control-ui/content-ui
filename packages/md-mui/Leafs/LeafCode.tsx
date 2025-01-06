@@ -7,7 +7,7 @@ import type { Theme } from '@mui/material/styles'
 import { TypographyWithExtras } from '@content-ui/md-mui/MuiComponents/Theme'
 import type { MuiContentRenderComponents } from '@content-ui/md-mui/LeafsComponents'
 
-export const LeafCode: React.FC<ContentLeafProps<'code'>> = ({child, selected}) => {
+export const LeafCode: React.FC<ContentLeafProps<'code'> & { dense?: boolean }> = ({child, selected, dense}) => {
     const cRef = useLeafFollower<HTMLDivElement>(selected)
     const {renderMap: {components}} = useContentLeafs<ContentLeafsPropsMapping, MuiContentRenderComponents>()
 
@@ -20,6 +20,7 @@ export const LeafCode: React.FC<ContentLeafProps<'code'>> = ({child, selected}) 
             <Code
                 value={child.value}
                 lang={child?.lang || undefined}
+                dense={dense}
             /> :
             <pre><code>{child.value}</code></pre>}
     </Box>
@@ -33,6 +34,7 @@ export const LeafCodeInline: React.FC<ContentLeafProps<'inlineCode'>> = ({child}
         py={0.25}
         sx={{
             fontFamily: typography?.fontFamilyCode,
+            // todo: this may not be consistent with `dense`, inheriting directly from settings or using `em` may be safer
             fontSize: typography?.fontSizeCode,
             border: 0,
             backgroundColor: 'background.default',

@@ -1,4 +1,5 @@
-import React from 'react'
+import { useSettings } from '@content-ui/react/LeafSettings'
+import React, { FC, useState } from 'react'
 import Box from '@mui/material/Box'
 import YAML from 'yaml'
 import IcDataObject from '@mui/icons-material/DataObject'
@@ -9,8 +10,9 @@ import Collapse from '@mui/material/Collapse'
 import { ContentLeafProps, ContentLeafsPropsMapping, useContentLeafs } from '@content-ui/react/ContentLeafsContext'
 import type { MuiContentRenderComponents } from '@content-ui/md-mui/LeafsComponents'
 
-export const LeafYaml: React.FC<ContentLeafProps<'yaml'>> = ({child}) => {
-    const [showData, setShowData] = React.useState(false)
+export const LeafYaml: FC<ContentLeafProps<'yaml'> & { dense?: boolean }> = ({child, dense}) => {
+    const [showData, setShowData] = useState(false)
+    const {fmHide} = useSettings()
     const {renderMap: {components}} = useContentLeafs<ContentLeafsPropsMapping, MuiContentRenderComponents>()
 
     const parsedData = React.useMemo(() => {
@@ -23,7 +25,16 @@ export const LeafYaml: React.FC<ContentLeafProps<'yaml'>> = ({child}) => {
         }
     }, [child])
 
-    if(!child) return null
+    if(
+        (
+            typeof fmHide === 'string' ?
+                fmHide === 'always' ||
+                (fmHide === 'first' && child.position?.start?.line === 1) : false
+        )
+        || (
+            typeof fmHide === 'function' ? fmHide(child) : false
+        )
+    ) return null
 
     const Code = components.Code
         // eslint-disable-next-line deprecation/deprecation
@@ -43,6 +54,7 @@ export const LeafYaml: React.FC<ContentLeafProps<'yaml'>> = ({child}) => {
                     <Code
                         value={child.value}
                         lang={'yaml'}
+                        dense={dense}
                     /> :
                     <pre><code>{child.value}</code></pre>}
             </Box>
