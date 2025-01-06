@@ -7,6 +7,7 @@ export type LeafsSettings = {
     headlineSelectableOnHover?: boolean
     headlineOffset?: number
     dense?: boolean
+    fmHide?: 'always' | 'first' | ((node) => boolean)
     /**
      * Absolute links will use react-router if starting with this base.
      * The base URL must be absolute and without trailing slash.
