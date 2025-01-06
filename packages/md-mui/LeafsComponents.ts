@@ -15,5 +15,5 @@ export interface MuiContentRenderComponents extends ContentRenderComponents, Mui
     /**
      * @todo support setting focus and retrieving e.g. selections
      */
-    Code?: ComponentType<{ value?: string, lang?: string }>
+    Code?: ComponentType<{ value?: string, lang?: string, dense?: boolean }>
 }
