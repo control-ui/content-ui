@@ -31,6 +31,10 @@ export const LeafP: FC<ContentLeafProps<'paragraph'> & { selected?: boolean, den
     </Typography>
 }
 
+/**
+ * Headline component with link support.
+ * Only copies link, does not navigate the user to it on copy.
+ */
 export const LeafH: FC<ContentLeafProps<'heading'> & { selected?: boolean }> = ({child, selected, isFirst, isLast}) => {
     const hRef = useLeafFollower<HTMLHeadingElement>(selected)
     const id = textToId(flattenText(child as Parent).join(''))

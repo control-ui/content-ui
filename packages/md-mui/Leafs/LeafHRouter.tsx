@@ -8,6 +8,9 @@ import { ContentLeafProps } from '@content-ui/react/ContentLeafsContext'
 import { flattenText } from '@content-ui/struct/flattenText'
 import { textToId } from '@content-ui/struct/textToId'
 
+/**
+ * Heading component with react-router. Navigates the user to the location when the link was copied.
+ */
 export const LeafHRouter: FC<ContentLeafProps<'heading'> & { selected?: boolean }> = ({child, selected, isFirst, isLast}) => {
     const hRef = useLeafFollower<HTMLHeadingElement>(selected)
     const navigate = useNavigate()

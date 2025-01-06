@@ -1,3 +1,4 @@
+import Tooltip from '@mui/material/Tooltip'
 import Typography, { TypographyProps } from '@mui/material/Typography'
 import IcLink from '@mui/icons-material/Link'
 import { forwardRef, PropsWithChildren, useEffect, useRef, useState } from 'react'
@@ -59,48 +60,65 @@ export const LinkableHeadline = forwardRef<HTMLHeadingElement, PropsWithChildren
     const btnCopy = headlineLinkable && headlineSelectable && typeof id === 'string' ?
         <Box
             component={'span'}
-            aria-hidden="true"
-            tabIndex={0}
-            onFocus={() => setShowCopy(true)}
-            onBlur={() => setShowCopy(false)}
-            onMouseEnter={() => setShowCopy(true)}
-            onMouseLeave={() => setShowCopy(false)}
-            onKeyDown={(e) => {
-                if(e.key === 'Enter' && !e.ctrlKey) {
-                    handleCopy()
-                }
-            }}
-            onClick={handleCopy}
-            style={{
-                cursor: 'pointer',
-                display: 'inline-flex',
-                opacity: copied ? 1 : showCopy ? 0.875 : headlineLinkable && headlineSelectable && headlineSelectableOnHover ? 0 : 0.425,
-                transition: '0.46ms ease-out opacity',
-                outline: 0,
-                verticalAlign: 'top',
-            }}
             sx={{
-                backgroundColor: 'background.paper',
-                ml: '-19px',
-                mr: 0,
-                mt: 'auto',
-                mb: 'auto',
-                py: 0.5,
-                px: 0,
-                borderWidth: 1,
-                borderStyle: 'solid',
-                borderColor: 'divider',
-                borderRadius: '6px',
+                display: 'inline-block',
+                width: 0,
+                height: 0,
+                overflow: 'visible',
             }}
         >
-            <IcLink
-                fontSize={'inherit'} color={copied ? 'primary' : 'secondary'}
-                style={{
-                    transform: 'rotate(-45deg)',
-                    transition: '0.0865s ease-out color',
-                    fontSize: '1rem',
-                }}
-            />
+            <Tooltip
+                title={copied ? 'link copied' : ''}
+                arrow
+            >
+                <Box
+                    component={'span'}
+                    aria-hidden="true"
+                    tabIndex={0}
+                    onFocus={() => setShowCopy(true)}
+                    onBlur={() => setShowCopy(false)}
+                    onMouseEnter={() => setShowCopy(true)}
+                    onMouseLeave={() => setShowCopy(false)}
+                    onKeyDown={(e) => {
+                        if(e.key === 'Enter' && !e.ctrlKey) {
+                            handleCopy()
+                        }
+                    }}
+                    onClick={handleCopy}
+                    style={{
+                        cursor: 'pointer',
+                        display: 'inline-flex',
+                        opacity: copied ? 1 : showCopy ? 0.875 : headlineLinkable && headlineSelectable && headlineSelectableOnHover ? 0 : 0.425,
+                        transition: '0.46ms ease-out opacity',
+                        outline: 0,
+                        verticalAlign: 'top',
+                    }}
+                    sx={{
+                        backgroundColor: copied ? 'success.main' : 'background.paper',
+                        color: copied ? 'success.contrastText' : undefined,
+                        ml: -2,
+                        mr: 0,
+                        mt: 'auto',
+                        mb: 'auto',
+                        py: 0.5,
+                        px: '1px',
+                        borderWidth: 1,
+                        borderStyle: 'solid',
+                        borderColor: 'divider',
+                        borderRadius: '6px',
+                    }}
+                >
+                    <IcLink
+                        fontSize={'inherit'}
+                        color={copied ? 'inherit' : 'secondary'}
+                        style={{
+                            transform: 'rotate(-45deg)',
+                            transition: '0.0865s ease-out color',
+                            fontSize: '0.875rem',
+                        }}
+                    />
+                </Box>
+            </Tooltip>
         </Box> : null
 
     return <Typography
