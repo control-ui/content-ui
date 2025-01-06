@@ -39,9 +39,6 @@ export const TableSettingsProvider = (
 
 
 export const LeafTable: FC<ContentLeafProps<'table'>> = ({child}) => {
-    console.log('child-t', child)
-    // todo: align exists on table level, not on cell level
-    //const align = c.align
     const headerRow = child.children.slice(0, 1)
     const contentRows = child.children.slice(1)
     return <Table
