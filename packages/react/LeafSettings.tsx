@@ -40,6 +40,7 @@ export const SettingsProvider = (
         children,
         headlineLinkable, headlineSelectable, headlineSelectableOnHover, headlineOffset,
         linkBase, linkNotBlank, linkAnchorToHref,
+        fmHide,
         dense,
         followEditor,
     }: PropsWithChildren<LeafsSettings>,
@@ -50,6 +51,7 @@ export const SettingsProvider = (
             settings: {
                 headlineLinkable, headlineSelectable, headlineSelectableOnHover, headlineOffset,
                 linkBase, linkNotBlank, linkAnchorToHref,
+                fmHide,
                 dense,
                 followEditor,
             },
@@ -57,6 +59,7 @@ export const SettingsProvider = (
     }, [
         headlineLinkable, headlineSelectable, headlineSelectableOnHover, headlineOffset,
         linkBase, linkNotBlank, linkAnchorToHref,
+        fmHide,
         dense,
         followEditor,
     ])
