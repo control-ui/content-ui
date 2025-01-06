@@ -69,6 +69,10 @@ export interface LeafsEngine<TDeco extends ReactDeco<{}, {}, {}>, TRender extend
 export interface ContentLeafPayload<TChild extends { type: string } = { type: string }> {
     elem: TChild['type']
     child: TChild
+    /**
+     * A childs index, only passed down if specified by parent, for performance reasons.
+     */
+    index?: number
     selected?: boolean
     // `true` when first Leaf inside the parent level
     isFirst?: boolean

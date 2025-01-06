@@ -43,12 +43,12 @@ Some note with some content.
 
 With even more sentences, words and other things.
 
-| Time | Name |
-| ---- | ---- |
-| 8am  | Morning |
-| 12am | Noon |
-| 6pm  | Evening |
-| 10pm | Night |
+| Time | Name | Score |
+| ---- | ---- | ----: |
+| 8am  | Morning | 10 |
+| 12am | Noon | 40 |
+| 6pm  | Evening | 20 |
+| 10pm | Night | 30 |
 
 `
 
