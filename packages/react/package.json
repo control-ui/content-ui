@@ -1,6 +1,6 @@
 {
     "name": "@content-ui/react",
-    "version": "0.1.4",
+    "version": "0.1.5",
     "description": "",
     "author": {
         "name": "bemit",
@@ -63,6 +63,10 @@
         "./useLeafFollower": {
             "types": "./useLeafFollower.d.ts",
             "import": "./useLeafFollower.js"
+        },
+        "./useMemoObject": {
+            "types": "./useMemoObject.d.ts",
+            "import": "./useMemoObject.js"
         },
         "./ViewerFromText": {
             "types": "./ViewerFromText.d.ts",

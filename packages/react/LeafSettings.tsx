@@ -1,5 +1,9 @@
+import { useMemoObject } from '@content-ui/react/useMemoObject'
 import { createContext, PropsWithChildren, useContext, useMemo } from 'react'
 
+/**
+ * @todo split up "base" vs custom, like MUI specific and allow overwriting via generics
+ */
 export type LeafsSettings = {
     followEditor?: boolean
     headlineLinkable?: boolean
@@ -38,31 +42,15 @@ export const useSettings = (): LeafsSettings => useContext(LeafsSettingsContext)
 export const SettingsProvider = (
     {
         children,
-        headlineLinkable, headlineSelectable, headlineSelectableOnHover, headlineOffset,
-        linkBase, linkNotBlank, linkAnchorToHref,
-        fmHide,
-        dense,
-        followEditor,
+        ...props
     }: PropsWithChildren<LeafsSettings>,
 ) => {
-
+    const settings = useMemoObject(props)
     const ctx = useMemo(() => {
         return {
-            settings: {
-                headlineLinkable, headlineSelectable, headlineSelectableOnHover, headlineOffset,
-                linkBase, linkNotBlank, linkAnchorToHref,
-                fmHide,
-                dense,
-                followEditor,
-            },
+            settings: settings,
         }
-    }, [
-        headlineLinkable, headlineSelectable, headlineSelectableOnHover, headlineOffset,
-        linkBase, linkNotBlank, linkAnchorToHref,
-        fmHide,
-        dense,
-        followEditor,
-    ])
+    }, [settings])
 
     return <LeafsSettingsContext.Provider value={ctx}>{children}</LeafsSettingsContext.Provider>
 }
