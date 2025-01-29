@@ -98,8 +98,13 @@ export const PageForm: React.ComponentType = () => {
         </Helmet>
 
         <Container maxWidth={'lg'} fixed>
-            <Paper>
-                <Box my={1}>
+            <Paper
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                }}
+            >
+                <Box my={1} mx={1.5}>
                     <Button onClick={() => setEdit(r => !r)}>
                         {edit ? 'read' : 'edit'}
                     </Button>
@@ -116,7 +121,7 @@ export const PageForm: React.ComponentType = () => {
                         import example
                     </Button>
                 </Box>
-                <Box mx={1.5} mb={1}>
+                <Box mx={1.5} pt={1} pb={1} mb={1}>
                     <UIMetaProvider<UIMetaReadContextType & { isVirtual?: boolean }>
                         widgets={rtdWidgets} t={tUI}
                         readDense={readDense} readActive={!edit}

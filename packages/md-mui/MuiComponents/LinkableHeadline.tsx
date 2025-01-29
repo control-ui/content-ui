@@ -40,7 +40,7 @@ export const LinkableHeadline = forwardRef<HTMLHeadingElement, PropsWithChildren
 
     useEffect(() => {
         return () => window.clearTimeout(timer.current)
-    }, [timer, id])
+    }, [id])
 
     const handleCopy = () => {
         if(!id) return
@@ -51,7 +51,7 @@ export const LinkableHeadline = forwardRef<HTMLHeadingElement, PropsWithChildren
                 if(hasCopied) {
                     timer.current = window.setTimeout(() => {
                         setCopied(false)
-                    }, 2400)
+                    }, 1800)
                 }
                 onCopied?.(id)
             })
@@ -133,8 +133,8 @@ export const LinkableHeadline = forwardRef<HTMLHeadingElement, PropsWithChildren
         onMouseEnter={headlineLinkable && headlineSelectable ? () => setShowCopy(true) : undefined}
         onMouseLeave={headlineLinkable && headlineSelectable ? () => setShowCopy(false) : undefined}
         sx={{
-            mt: marginTop ? undefined : '0.3625em',
-            mb: marginBottom ? undefined : '0.67215em',
+            mt: marginTop ? '0.3625em' : undefined,
+            mb: marginBottom ? '0.67215em' : undefined,
             // backgroundColor: selected ? 'info.light' : 'default',
             backgroundColor: selected ? palette.mode === 'dark' ? 'rgba(5, 115, 115, 0.11)' : 'rgba(206, 230, 228, 0.31)' : undefined,
             boxShadow: selected ? palette.mode === 'dark' ? '-8px 0px 0px 0px rgba(5, 115, 115, 0.11)' : '-8px 0px 0px 0px rgba(206, 230, 228, 0.31)' : undefined,
