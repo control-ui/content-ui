@@ -1,6 +1,6 @@
 {
     "name": "@content-ui/react",
-    "version": "0.1.5",
+    "version": "0.1.6",
     "description": "",
     "author": {
         "name": "bemit",
@@ -24,9 +24,21 @@
             "types": "./Utils/copyToClipboard.d.ts",
             "import": "./Utils/copyToClipboard.js"
         },
+        "./Utils/getScrollableParent": {
+            "types": "./Utils/getScrollableParent.d.ts",
+            "import": "./Utils/getScrollableParent.js"
+        },
         "./Utils/isLeafSelected": {
             "types": "./Utils/isLeafSelected.d.ts",
             "import": "./Utils/isLeafSelected.js"
+        },
+        "./Utils/scrollIntoViewSafe": {
+            "types": "./Utils/scrollIntoViewSafe.d.ts",
+            "import": "./Utils/scrollIntoViewSafe.js"
+        },
+        "./Utils/scrollIntoViewWithMargin": {
+            "types": "./Utils/scrollIntoViewWithMargin.d.ts",
+            "import": "./Utils/scrollIntoViewWithMargin.js"
         },
         "./ContentFileContext": {
             "types": "./ContentFileContext.d.ts",
