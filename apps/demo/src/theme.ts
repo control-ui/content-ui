@@ -21,8 +21,10 @@ const universal: Pick<ThemeOptions, 'palette' | 'breakpoints'> & { typography: T
     typography: {
         fontSize: 14,
         fontFamily: fontBody,
+
         fontFamilyCode: fontMono,
         fontSizeCode: '0.875em',
+
         h1: {
             fontFamily: fontHeading,
             fontSize: '2.45rem',

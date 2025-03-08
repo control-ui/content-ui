@@ -1,11 +1,12 @@
 import { ContentParserExtended } from '@content-ui/md/parser/ContentParserExtended'
 import { ContentSelectionProvider } from '@content-ui/react/ContentSelectionContext'
+import { scrollIntoViewWithMargin } from '@content-ui/react/Utils/scrollIntoViewWithMargin'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import Button from '@mui/material/Button'
 import IcVisibility from '@mui/icons-material/Visibility'
 import IcVisibilityOff from '@mui/icons-material/VisibilityOff'
 import { useTheme } from '@mui/material/styles'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import Helmet from 'react-helmet'
 import { useTranslation } from 'react-i18next'
 import Grid2 from '@mui/material/Unstable_Grid2'
@@ -54,9 +55,13 @@ With even more sentences, words and other things.
 
 export const PageInput: React.ComponentType = () => {
     const {t} = useTranslation('translation')
-    const [value, setValue] = React.useState(md)
     const {breakpoints} = useTheme()
     const isMediumScreen = useMediaQuery(breakpoints.up('md'))
+
+    const scrollContainerRef = useRef<HTMLDivElement>(null)
+
+    const [value, setValue] = useState(md)
+
     const {
         textValue,
         handleOnChange,
@@ -104,6 +109,8 @@ export const PageInput: React.ComponentType = () => {
                 >
                     <SettingsProvider
                         followEditor={isMediumScreen}
+                        scrollContainer={scrollContainerRef}
+                        onFollowElement={scrollIntoViewWithMargin}
                         headlineLinkable
                         headlineSelectable
                         headlineSelectableOnHover
@@ -126,6 +133,7 @@ export const PageInput: React.ComponentType = () => {
                                 />
                             </Grid2>
                             <Grid2
+                                ref={scrollContainerRef}
                                 xs={12} md={6}
                                 sx={{
                                     overflowY: 'auto',

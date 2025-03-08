@@ -20,7 +20,7 @@ const isObjectChanged = (
 /**
  * Memo on a single object, returned object will only change if any of the properties are not equal (===).
  *
- *  Does not compare order of properties.
+ * Does not compare order of properties.
  */
 export function useMemoObject<O extends object>(currentObject: O) {
     const obj = useRef(currentObject)
