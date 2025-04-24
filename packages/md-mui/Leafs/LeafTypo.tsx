@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography'
 import type { Parent } from 'mdast'
 import { LeafChildNodes } from '@content-ui/md-mui/LeafChildNodes'
 import Link from '@mui/material/Link'
-import IcOpenIn from '@mui/icons-material/OpenInNew'
+import IcOpenInNew from '@mui/icons-material/OpenInNew'
 import { FC } from 'react'
 import Box from '@mui/material/Box'
 import { useTheme } from '@mui/material/styles'
@@ -82,9 +82,11 @@ export const LeafLink: FC<ContentLeafProps<'link'>> = ({child}) => {
         (child.url.startsWith('ftp://') || child.url.startsWith('ftps://'))
         || (isHttp && !isControlled && !notBlank)
     ) {
+        const onlyImage = child.children.length === 1 && child.children[0]?.type === 'image'
         return <Link href={child.url} target={'_blank'} rel={'noreferrer noopener'}>
             <LeafChildNodes childNodes={child.children}/>
-            <Box component={'small'} sx={{pl: '3px'}}><IcOpenIn fontSize={'inherit'} color={'inherit'} style={{verticalAlign: 'middle', opacity: 0.625}}/></Box>
+            {onlyImage ? null :
+                <Box component={'small'} sx={{pl: '3px'}}><IcOpenInNew fontSize={'inherit'} color={'inherit'} style={{verticalAlign: 'middle', opacity: 0.625}}/></Box>}
         </Link>
     }
 
