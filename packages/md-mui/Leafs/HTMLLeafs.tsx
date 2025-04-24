@@ -38,4 +38,13 @@ export const LeafSuper: React.FC<ContentLeafPayload<Super>> = ({child}) =>
 export const LeafMark: React.FC<ContentLeafPayload<Mark>> = ({child}) =>
     <Box component={'mark'} sx={{backgroundColor: 'info.light'}} px={0.25} py={0}><LeafChildNodes childNodes={child.children}/></Box>
 
-export const LeafThematicBreak: React.FC<ContentLeafProps<'thematicBreak'>> = () => <Box component={'hr'} sx={{borderColor: 'divider', borderStyle: 'solid'}} my={0.5}/>
+export const LeafThematicBreak: React.FC<ContentLeafProps<'thematicBreak'> & { dense?: boolean }> = ({dense}) =>
+    <Box
+        component={'hr'}
+        sx={{
+            borderColor: 'divider', borderStyle: 'solid',
+            marginInlineStart: 0,
+            marginInlineEnd: 0,
+        }}
+        my={dense ? 0.75 : 1.5}
+    />
