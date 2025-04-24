@@ -24,6 +24,10 @@
             "types": "./parser/ContentParser.d.ts",
             "import": "./parser/ContentParser.js"
         },
+        "./parser/ContentParserExtended": {
+            "types": "./parser/ContentParserExtended.d.ts",
+            "import": "./parser/ContentParserExtended.js"
+        },
         "./plugins/remarkGithubAlert": {
             "types": "./plugins/remarkGithubAlert.d.ts",
             "import": "./plugins/remarkGithubAlert.js"
