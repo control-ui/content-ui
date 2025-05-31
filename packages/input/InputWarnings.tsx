@@ -78,12 +78,14 @@ export const InputWarnings: React.ComponentType<{
     </>
 }
 
-export const InputWarningsDetails: React.ComponentType<{
-    fileMessages: any[] | undefined
-    processing: boolean
-}> = (
+export const InputWarningsDetails = (
     {
         fileMessages,
+        dense,
+    }: {
+        fileMessages: any[] | undefined
+        processing: boolean
+        dense?: boolean
     },
 ) => {
     const {typography} = useTheme<Theme & { typography: TypographyWithExtras }>()
@@ -116,7 +118,7 @@ export const InputWarningsDetails: React.ComponentType<{
                                 {message.position?.end?.line}:{message.position?.end?.column}
                             </code>
                         </TableCell>
-                        <TableCell sx={{py: 0.25}}>
+                        <TableCell sx={{py: 0.25, typography: dense ? 'body2' : 'body1'}}>
                             {message.reason}
                         </TableCell>
                     </TableRow>)}

@@ -38,7 +38,7 @@
         "@mui/icons-material": "^5.10",
         "@mui/lab": "^5.0.0-alpha.80",
         "@mui/material": "^5.1",
-        "@ui-controls/progress": "~0.1.0-alpha.0",
+        "@ui-controls/progress": "~0.1.0-alpha.1",
         "@ui-schema/ds-material": "~0.4.2",
         "@ui-schema/kit-codemirror": "~0.2.0",
         "@ui-schema/material-code": "~0.4.6",

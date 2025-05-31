@@ -34,7 +34,7 @@
         "@mui/lab": "^5.0.0-alpha.80",
         "@mui/material": "^5.1",
         "@mui/x-date-pickers": "^5.0.16",
-        "@ui-controls/progress": "~0.1.0-alpha.0",
+        "@ui-controls/progress": "~0.1.0-alpha.1",
         "@ui-schema/dictionary": "~0.0.12",
         "@ui-schema/ds-material": "~0.4.2",
         "@ui-schema/kit-codemirror": "~0.2.0",
