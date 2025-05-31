@@ -9,7 +9,7 @@
         "server:feed:build": "npm run build -w @content-ui/dev-server-feed",
         "server:feed:webpack": "cross-env NODE_ENV=development webpack --mode=development --config server/feed/webpack.config.js",
         "clean": "rimraf dist && rimraf coverage && rimraf apps/demo/build && rimraf apps/sandbox/dist && rimraf server/feed/build",
-        "clean-modules": "rimraf --glob apps/*/node_modules && rimraf --glob packages/*/node_modules && rimraf --glob server/*/node_modules",
+        "clean-npm": "rimraf --glob apps/*/node_modules && rimraf --glob packages/*/node_modules && rimraf --glob server/*/node_modules",
         "predev": "npm run clean",
         "lint": "cross-env NODE_ENV=test NODE_OPTIONS=\"--max-old-space-size=8192 --no-deprecation --experimental-vm-modules --unhandled-rejections=strict\" eslint -c=.eslintrc --ext=.tsx,.ts --max-warnings=0 'apps' 'packages'",
         "test": "npm run jest -- -c=\"jest.config.ts\" --passWithNoTests",

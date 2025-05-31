@@ -8,10 +8,16 @@ import { ContentLeafProps } from '@content-ui/react/ContentLeafsContext'
 
 export const LeafList: React.FC<ContentLeafProps<'list'>> = ({child}) => {
     const component = child.ordered ? 'ol' : 'ul'
+    const start = child.start
     const dense = 'dense' in child && child.dense
     const inList = 'inList' in child && child.inList
     return <Box
-        component={component}
+        {...component === 'ol' ? {
+            component: component,
+            start: typeof start === 'number' ? start : undefined,
+        } : {
+            component: component,
+        }}
         sx={{
             ml: 0.5,
             mt: dense || inList ? 0.5 : 1.5,

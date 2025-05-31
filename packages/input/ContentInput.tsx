@@ -3,6 +3,7 @@ import IcAutoFixNormal from '@mui/icons-material/AutoFixNormal'
 import { useContentSelection } from '@content-ui/react/ContentSelectionContext'
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
+import Typography from '@mui/material/Typography'
 import { ComponentType, CSSProperties, MutableRefObject, useMemo } from 'react'
 import { CodeMirrorComponentProps } from '@ui-schema/kit-codemirror/CodeMirror'
 import { Extension } from '@codemirror/state'
@@ -87,8 +88,13 @@ export const ContentInput = (
                     <Tooltip title={'reformat'} disableInteractive>
                         <IconButton
                             onClick={() => onReformat()} size={'small'}
-                            color={'secondary'}
-                            sx={{padding: 0.5, mr: 0.5}}
+                            sx={theme => ({
+                                padding: 0.5, mr: 0.5,
+                                color: theme.palette.grey[500],
+                                '&:hover, &:focus-within': {
+                                    color: theme.palette.text.primary,
+                                },
+                            })}
                         >
                             <IcAutoFixNormal fontSize={'small'}/>
                         </IconButton>
@@ -101,11 +107,17 @@ export const ContentInput = (
                     }
                     progress={autoProcess === -1 ? processing : 'none'}
                     size={'small'}
-                    color={autoProcess === -1 ? 'success' : 'secondary'}
+                    color={outdated ? 'info' : autoProcess === -1 ? 'success' : undefined}
                     onClick={() => setAutoProcess(p => p === -1 ? 0 : -1)}
                     disabled={bigSize}
                     boxSx={{alignItems: 'center'}}
-                    sx={{padding: 0.5}}
+                    sx={theme => ({
+                        padding: 0.5,
+                        color: outdated ? 'info.main' : autoProcess === -1 ? 'success.main' : theme.palette.grey[500],
+                        '&:hover, &:focus-within': {
+                            color: outdated ? 'info.main' : autoProcess === -1 ? 'success.main' : theme.palette.text.primary,
+                        },
+                    })}
                 >
                     <IcAutoProcess fontSize={'small'}/>
                 </IconButtonProgress>
@@ -113,7 +125,7 @@ export const ContentInput = (
         />
 
         {bigSize || autoProcess >= 0 ?
-            <Box my={1}>
+            <Box my={1} sx={{display: 'flex', alignItems: 'center', gap: 1}}>
                 <ButtonProgress
                     progress={processing}
                     size={'small'} variant={'outlined'} color={'primary'}
@@ -122,6 +134,13 @@ export const ContentInput = (
                 >
                     process content
                 </ButtonProgress>
+
+                {outdated ?
+                    <Typography
+                        variant={'caption'}
+                        fontWeight={'bold'}
+                        color={'info.main'}
+                    >{'outdated'}</Typography> : null}
             </Box> : null}
 
         <Box

@@ -53,13 +53,13 @@ export type LeafsSettings = {
 
 export const LeafsSettingsContext = createContext<{ settings: LeafsSettings }>({settings: {}})
 
-export const useSettings = (): LeafsSettings => useContext(LeafsSettingsContext).settings
+export const useSettings = <TSettings extends LeafsSettings = LeafsSettings>(): TSettings => useContext(LeafsSettingsContext).settings as TSettings
 
-export const SettingsProvider = (
+export const SettingsProvider = <TSettings extends LeafsSettings = LeafsSettings>(
     {
         children,
         ...props
-    }: PropsWithChildren<LeafsSettings>,
+    }: PropsWithChildren<TSettings>,
 ) => {
     const settings = useMemoObject(props)
     const ctx = useMemo(() => {
