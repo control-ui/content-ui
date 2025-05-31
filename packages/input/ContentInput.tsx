@@ -107,15 +107,15 @@ export const ContentInput = (
                     }
                     progress={autoProcess === -1 ? processing : 'none'}
                     size={'small'}
-                    color={autoProcess === -1 ? 'success' : outdated ? 'info' : undefined}
+                    color={outdated ? 'info' : autoProcess === -1 ? 'success' : undefined}
                     onClick={() => setAutoProcess(p => p === -1 ? 0 : -1)}
                     disabled={bigSize}
                     boxSx={{alignItems: 'center'}}
                     sx={theme => ({
                         padding: 0.5,
-                        color: autoProcess === -1 ? 'success.main' : outdated ? 'info.main' : theme.palette.grey[500],
+                        color: outdated ? 'info.main' : autoProcess === -1 ? 'success.main' : theme.palette.grey[500],
                         '&:hover, &:focus-within': {
-                            color: autoProcess === -1 ? 'success.main' : outdated ? 'info.main' : theme.palette.text.primary,
+                            color: outdated ? 'info.main' : autoProcess === -1 ? 'success.main' : theme.palette.text.primary,
                         },
                     })}
                 >
