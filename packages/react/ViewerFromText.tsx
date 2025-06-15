@@ -14,6 +14,9 @@ export interface ViewerFromTextProps {
      */
     processor: ContentProcessor
     parseDelay?: number
+    adaptiveDelay?: boolean
+    keepDelayActive?: boolean
+    prioritizeLatest?: boolean
     onMount?: boolean
     Viewer: (props: Pick<ViewerProps, 'processing' | 'outdated'>) => ReactNode
 }
@@ -24,6 +27,9 @@ export const ViewerFromText = (
         processor,
         parseDelay,
         onMount = false,
+        adaptiveDelay,
+        keepDelayActive,
+        prioritizeLatest,
         Viewer,
         // note: using children render-prop didn't play well with HMR
         // children = Viewer,
@@ -33,6 +39,9 @@ export const ViewerFromText = (
         textValue,
         processor: processor,
         parseDelay,
+        adaptiveDelay,
+        prioritizeLatest,
+        keepDelayActive,
         onMount,
     })
     return <ContentFileProvider

@@ -54,9 +54,14 @@ export const WidgetMarkdownEditor: React.ComponentType<WidgetProps & WithScalarV
         typeof value === 'string' ? value : '',
         onChangeText,
     )
-    const {processing, root, file} = useContent({
+    const {processing, outdated, root, file} = useContent({
         textValue,
-        parseDelay: textValue.length > 10000 ? 460 : 280,
+        parseDelay:
+            textValue.length > 10000
+                ? 560
+                : 180,
+        adaptiveDelay: true,
+        prioritizeLatest: false,
         autoProcess,
         onMount: true,
         processor: ContentParser,
@@ -132,6 +137,7 @@ export const WidgetMarkdownEditor: React.ComponentType<WidgetProps & WithScalarV
                         textValue={textValue}
                         bigSize={bigSize}
                         processing={processing}
+                        outdated={outdated}
                         autoProcess={autoProcess}
                         setAutoProcess={setAutoProcess}
                         valid={valid}

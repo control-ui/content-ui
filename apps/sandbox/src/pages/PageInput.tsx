@@ -61,16 +61,12 @@ export const PageInput: React.ComponentType = () => {
     } = useContentEditor(typeof value === 'string' ? value : '', setValue)
     const {processing, outdated, root, file, stringify} = useContent({
         textValue,
-        // for direct preview, the parseDelay should be as low as possible,
-        // with disabled preview it's better to use `600` for less unnecessary processing
+        // with adaptiveDelay: true, the parseDelay marks the maximum it should respect
         parseDelay:
             textValue.length > 10000
-                ? 460
-                : textValue.length > 1200
-                    ? 160
-                    : textValue.length > 3500
-                        ? 280
-                        : 40,
+                ? 560
+                : 180,
+        adaptiveDelay: true,
         autoProcess,
         onMount: true,
         processor: ContentParser,

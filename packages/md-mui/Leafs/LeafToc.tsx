@@ -2,19 +2,20 @@ import { MuiContentRenderComponentsLinks } from '@content-ui/md-mui/LeafsCompone
 import { useContentSelection } from '@content-ui/react/ContentSelectionContext'
 import { ReactDeco } from '@content-ui/react/EngineDecorator'
 import Link from '@mui/material/Link'
-import { createContext, FC, PropsWithChildren, useContext, useMemo, useState } from 'react'
+import { createContext, FC, PropsWithChildren, useContext, useMemo } from 'react'
 import type { Heading, ListItem, Root } from 'mdast'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import { ContentLeaf } from '@content-ui/react/ContentLeaf'
-import { ContentLeafMatchParams, ContentLeafPayload, ContentLeafsPropsMapping, LeafsRenderMapping, ReactLeafsNodeSpec, useContentLeafs } from '@content-ui/react/ContentLeafsContext'
+import type { ContentLeafMatchParams, ContentLeafPayload, ContentLeafsPropsMapping, LeafsRenderMapping, ReactLeafsNodeSpec } from '@content-ui/react/ContentLeafsContext'
+import { useContentLeafs } from '@content-ui/react/ContentLeafsContext'
 import { useSettings } from '@content-ui/react/LeafSettings'
 import { flattenText } from '@content-ui/struct/flattenText'
 import { textToId } from '@content-ui/struct/textToId'
 import { useTheme } from '@mui/material/styles'
 import type { Theme } from '@mui/material/styles'
-import { TypographyWithExtras } from '@content-ui/md-mui/MuiComponents/Theme'
-import { TocHNode, TocListItem } from '@content-ui/struct/Ast'
+import type { TypographyWithExtras } from '@content-ui/md-mui/MuiComponents/Theme'
+import type { TocHNode, TocListItem } from '@content-ui/struct/Ast'
 
 export const LeafTocListItem: FC<ContentLeafPayload<TocListItem> & { textVariant?: 'body1' | 'body2' | 'caption' }> = ({child, textVariant}) => {
     const editorSelection = useContentSelection()
@@ -26,7 +27,6 @@ export const LeafTocListItem: FC<ContentLeafPayload<TocListItem> & { textVariant
         LeafsRenderMapping<ReactLeafsNodeSpec<ContentLeafsPropsMapping>, MuiContentRenderComponentsLinks, ContentLeafMatchParams>
     >()
     const {typography} = useTheme<Theme & { typography: TypographyWithExtras }>()
-    const [focus, setFocus] = useState(false)
     const selectedByLine = child && (
         editorSelection?.startLine === child?.headline.headline.position?.start?.line ||
         editorSelection?.endLine === child?.headline.headline.position?.end?.line
@@ -41,14 +41,14 @@ export const LeafTocListItem: FC<ContentLeafPayload<TocListItem> & { textVariant
                     href={linkAnchorToHref ? linkAnchorToHref(id) : id}
                     color={selectedByLine ? 'primary' : 'inherit'}
                     underline={'hover'}
-                    style={{
+                    sx={{
                         border: 0, outline: 0, flexGrow: 1,
                         display: 'flex',
-                        textDecoration: focus ? 'underline' : undefined,
+                        '&:focus': {
+                            textDecoration: 'underline',
+                        },
                     }}
                     onClick={() => onClick?.(child?.headline)}
-                    onFocus={() => setFocus(true)}
-                    onBlur={() => setFocus(false)}
                 >
                     {child.headline.flatText.join('')}
                 </MuiLink> :
@@ -69,6 +69,7 @@ export const LeafTocListItem: FC<ContentLeafPayload<TocListItem> & { textVariant
                         fontWeight: selectedByLine ? 'bold' : undefined,
                     }}
                     color={selectedByLine ? 'primary' : 'inherit'}
+                    title={'line in source document'}
                 >
                     {'L'}
                     {child.headline.headline.position?.start?.line}
