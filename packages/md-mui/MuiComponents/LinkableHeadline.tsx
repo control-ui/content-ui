@@ -68,8 +68,10 @@ export const LinkableHeadline = forwardRef<HTMLHeadingElement, PropsWithChildren
             }}
         >
             <Tooltip
-                title={copied ? 'link copied' : ''}
+                title={copied ? 'link copied' : 'copy link to headline'}
                 arrow
+                enterDelay={copied ? 0 : 220}
+                enterNextDelay={copied ? 0 : 220}
             >
                 <Box
                     component={'span'}
@@ -106,6 +108,9 @@ export const LinkableHeadline = forwardRef<HTMLHeadingElement, PropsWithChildren
                         borderStyle: 'solid',
                         borderColor: 'divider',
                         borderRadius: '6px',
+                        '&:hover, &:focus': {
+                            borderColor: 'primary.main',
+                        },
                     }}
                 >
                     <IcLink
