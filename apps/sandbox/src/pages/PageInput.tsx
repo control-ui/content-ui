@@ -2,7 +2,7 @@ import { ViewerBoxRouter } from '@content-ui/md-mui/ViewerBoxRouter'
 import { ContentParser } from '@content-ui/md/parser/ContentParser'
 import { ContentSelectionProvider } from '@content-ui/react/ContentSelectionContext'
 import React from 'react'
-import Grid2 from '@mui/material/Unstable_Grid2'
+import Grid from '@mui/material/Grid'
 import { ContentInput } from '@content-ui/input/ContentInput'
 import { CustomCodeMirror, getHighlight } from '../components/CustomCodeMirror'
 import Box from '@mui/material/Box'
@@ -96,14 +96,13 @@ export const PageInput: React.ComponentType = () => {
                             headlineSelectable
                             headlineSelectableOnHover
                         >
-                            <Grid2
+                            <Grid
                                 container
                                 spacing={2}
                                 sx={{overflow: 'auto', flexWrap: {xs: 'wrap', md: 'nowrap'}}}
                             >
-                                <Grid2
-                                    xs={12}
-                                    md={6}
+                                <Grid
+                                    size={{xs: 12, md: 6}}
                                     sx={{
                                         overflow: 'auto',
                                         scrollbarWidth: 'thin',
@@ -123,10 +122,9 @@ export const PageInput: React.ComponentType = () => {
                                         setAutoProcess={setAutoProcess}
                                         onReformat={stringify ? () => setValue(stringify?.() || '') : undefined}
                                     />
-                                </Grid2>
-                                <Grid2
-                                    xs={12}
-                                    md={6}
+                                </Grid>
+                                <Grid
+                                    size={{xs: 12, md: 6}}
                                     sx={{
                                         overflowY: 'auto',
                                         scrollbarWidth: 'thin',
@@ -140,8 +138,8 @@ export const PageInput: React.ComponentType = () => {
                                         outdated={outdated}
                                         processing={processing}
                                     />
-                                </Grid2>
-                            </Grid2>
+                                </Grid>
+                            </Grid>
                         </SettingsProvider>
                     </ContentSelectionProvider>
                 </ContentFileProvider>

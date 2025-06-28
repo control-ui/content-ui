@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useRef, useState, MutableRefObject } from 'react'
+import { useEffect, useCallback, useRef, useState, RefObject } from 'react'
 import { Processor } from 'unified'
 import { VFile } from 'vfile'
 import type { Root } from 'mdast'
@@ -56,7 +56,7 @@ export const useContent = (
 ): WithContent & {
     processText: () => void
     // exposing to allow resetting manually
-    delayActiveRef: MutableRefObject<boolean>
+    delayActiveRef: RefObject<boolean>
 } => {
     const [contentState, setContentState] = useState<WithContent>(() => {
         if(onMount) {

@@ -5,7 +5,7 @@ import React from 'react'
 import Helmet from 'react-helmet'
 import { useTranslation } from 'react-i18next'
 import Container from '@mui/material/Container'
-import Grid2 from '@mui/material/Unstable_Grid2'
+import Grid from '@mui/material/Grid'
 import { ps, useProgress } from 'react-progress-state/useProgressNext'
 import { useAppApi } from '../lib/useAppApi'
 import { config } from '../config'
@@ -77,8 +77,8 @@ export const PageComplex: React.ComponentType = () => {
         <Container maxWidth={'lg'} fixed>
             <Box mt={1}>
                 <Paper sx={{px: 1.5, py: 1}}>
-                    <Grid2 container spacing={2}>
-                        <Grid2 xs={12} sx={{display: 'flex'}}>
+                    <Grid container spacing={2}>
+                        <Grid size={12} sx={{display: 'flex'}}>
                             <FormControl fullWidth size={'small'} sx={{mr: 1}}>
                                 <InputLabel id="content-selector">Content</InputLabel>
                                 <Select
@@ -104,30 +104,38 @@ export const PageComplex: React.ComponentType = () => {
                             >
                                 <IcRefresh/>
                             </IconButtonProgress>
-                        </Grid2>
+                        </Grid>
 
                         {loading.progress === ps.loading || loadingDetails.progress === ps.loading ?
                             <LinearProgress sx={{width: '100%', mb: -0.5}}/> : null}
 
                         {loading.progress === ps.error ?
-                            <Grid2 xs={12}>
+                            <Grid size={12}>
                                 <Alert severity={'error'}>
                                     <AlertTitle>Failed to load content list.</AlertTitle>
                                 </Alert>
-                            </Grid2> : null}
+                            </Grid> : null}
                         {content && loadingDetails.progress === ps.error ?
-                            <Grid2 xs={12}>
+                            <Grid size={12}>
                                 <Alert severity={'error'}>
                                     <AlertTitle>Failed to load content details for <code>{content}</code>.</AlertTitle>
                                 </Alert>
-                            </Grid2> : null}
+                            </Grid> : null}
 
                         {contentDetails?.file ?
-                            <Grid2 xs={12}>
-                                <SettingsProvider
+                            <Grid size={12}>
+                                {/* todo: NoInfer works, if no generic is specified at all! but once added, it allows any prop
+                                  *       does not matter if:
+                                  *       - <TSettings = unknown>
+                                  *       - <TSettings extends object>
+                                  *       - <TSettings extends object = Record<string, unknown>>
+                                  */}
+                                <SettingsProvider/*<{ linkRefs?: object }>*/
                                     headlineLinkable
                                     headlineSelectable
                                     headlineSelectableOnHover
+                                    //linkRefs={{}}
+                                    // xyz={{}}
                                 >
                                     <ViewerFromText
                                         Viewer={ViewerBoxRouter}
@@ -137,12 +145,12 @@ export const PageComplex: React.ComponentType = () => {
                                         onMount
                                     />
                                 </SettingsProvider>
-                            </Grid2> : null}
+                            </Grid> : null}
 
-                        <Grid2 xs={12} md={8} mdOffset={2}>
+                        <Grid size={{xs: 12, md: 8}} offset={2}>
                             <ApiPing/>
-                        </Grid2>
-                    </Grid2>
+                        </Grid>
+                    </Grid>
                 </Paper>
             </Box>
         </Container>

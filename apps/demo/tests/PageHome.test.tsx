@@ -10,7 +10,7 @@ import I18NextChainedBackend from 'i18next-chained-backend'
 import resourcesToBackend from 'i18next-resources-to-backend'
 import { Suspense } from 'react'
 import { initReactI18next } from 'react-i18next'
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter } from 'react-router'
 import { contentUIMapping } from '../src/components/ContentUI'
 import { PageHome } from '../src/pages/PageHome'
 

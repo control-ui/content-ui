@@ -68,7 +68,7 @@ export default function({types: t}) {
             !source.endsWith('.mjs') &&
             (
                 /node_modules/.test(source)
-                || source.startsWith('@mui')
+                // || source.startsWith('@mui')
                 || source.startsWith('react-helmet')
             )
         )
