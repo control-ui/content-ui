@@ -1,11 +1,10 @@
 import Box from '@mui/material/Box'
-import React from 'react'
+import React, { useCallback } from 'react'
 import {
     lineNumbers, highlightActiveLineGutter, highlightSpecialChars,
     drawSelection, dropCursor,
     rectangularSelection, highlightActiveLine, keymap,
     EditorView, highlightWhitespace, tooltips, highlightTrailingWhitespace,
-    // crosshairCursor,
 } from '@codemirror/view'
 import {
     foldGutter, indentOnInput, syntaxHighlighting,
@@ -16,10 +15,12 @@ import { history, defaultKeymap, historyKeymap, indentWithTab } from '@codemirro
 import { highlightSelectionMatches, searchKeymap } from '@codemirror/search'
 import { closeBrackets, autocompletion, closeBracketsKeymap, completionKeymap } from '@codemirror/autocomplete'
 import { lintKeymap } from '@codemirror/lint'
-import { Compartment, EditorState, Extension } from '@codemirror/state'
+import { Compartment, EditorState, Extension, Prec } from '@codemirror/state'
 import { CodeMirrorComponentProps, CodeMirrorProps } from '@ui-schema/kit-codemirror/CodeMirror'
-import { EditorThemeCustomStyles, useEditorTheme } from '@ui-schema/material-code/useEditorTheme'
-import { useHighlightStyle } from '@ui-schema/material-code/useHighlightStyle'
+// todo: as this repo uses stricter ESM resolving, yet material-code has no exports yet,
+//       it will resolve the CJS version and break codemirror, thus hard wiring the ESM version for the moment
+import { EditorThemeCustomStyles, useEditorTheme } from '@ui-schema/material-code/esm/useEditorTheme'
+import { useHighlightStyle } from '@ui-schema/material-code/esm/useHighlightStyle'
 import { json } from '@codemirror/lang-json'
 import { javascript } from '@codemirror/lang-javascript'
 import { html } from '@codemirror/lang-html'
@@ -40,14 +41,14 @@ import { powerShell } from '@codemirror/legacy-modes/mode/powershell'
 import { http } from '@codemirror/legacy-modes/mode/http'
 import { yaml } from '@codemirror/legacy-modes/mode/yaml'
 import { YAMLFrontMatter, Footnote, Mark, Hashtag, Mention, Insert } from './lezerMarkdown'
-import { useCodeMirror, useEditorClasses, useExtension } from '@ui-schema/kit-codemirror'
+import { useCodeMirror } from '@ui-schema/kit-codemirror/useCodeMirror'
+import { useExtension } from '@ui-schema/kit-codemirror/useExtension'
 import { MuiCodeMirrorStyleProps } from '@ui-schema/material-code'
 import { useTheme } from '@mui/material/styles'
 
 const mdLang0 = markdown({
     base: markdownLanguage,
     codeLanguages: [
-        // adding yaml before `languages`, overwrites the included very-basic yaml language
         LanguageDescription.of({
             name: 'YAML',
             alias: ['yaml', 'yml'],
@@ -57,20 +58,14 @@ const mdLang0 = markdown({
         }),
     ],
     extensions: [
-        //GFM, Subscript, Superscript,
         YAMLFrontMatter({allBlocks: true}),
         Footnote, Mark, Insert, Hashtag, Mention,
     ],
-    /*extensions: [
-        YAMLFrontMatter,
-        Footnote,
-    ],*/
 })
 
 const mdLang = markdown({
     base: markdownLanguage,
     codeLanguages: [
-        // adding yaml before `languages`, overwrites the included very-basic yaml language
         LanguageDescription.of({
             name: 'YAML',
             alias: ['yaml', 'yml'],
@@ -78,11 +73,6 @@ const mdLang = markdown({
             extensions: ['yaml', 'yml'],
             support: new LanguageSupport(StreamLanguage.define(yaml)),
         }),
-        // todo: solve "markdown highlighting in codeblocks inside markdown",
-        //       didn't seem possible without adding a further one,
-        //       nested fence-codeblocks are impossible due to markdown,
-        //       so that should be enough and the nested MD could even be "without nested code support"
-        //       except for yaml/frontmatter
         LanguageDescription.of({
             name: 'Markdown',
             alias: ['md', 'markdown'],
@@ -92,14 +82,9 @@ const mdLang = markdown({
         ...languages,
     ],
     extensions: [
-        //GFM, Subscript, Superscript,
         YAMLFrontMatter({allBlocks: true}),
         Footnote, Mark, Insert, Hashtag, Mention,
     ],
-    /*extensions: [
-        YAMLFrontMatter,
-        Footnote,
-    ],*/
 })
 
 export const getHighlight = (lang: string | undefined): Extension | undefined => {
@@ -113,19 +98,12 @@ export const getHighlight = (lang: string | undefined): Extension | undefined =>
         case 'javascript':
             return javascript()
         case 'jsx':
-            return javascript({
-                jsx: true,
-            })
+            return javascript({jsx: true})
         case 'ts':
         case 'typescript':
-            return javascript({
-                typescript: true,
-            })
+            return javascript({typescript: true})
         case 'tsx':
-            return javascript({
-                jsx: true,
-                typescript: true,
-            })
+            return javascript({jsx: true, typescript: true})
         case 'twig':
         case 'html':
             return html()
@@ -184,7 +162,6 @@ export const getHighlight = (lang: string | undefined): Extension | undefined =>
             return sql()
         case 'md':
         case 'markdown':
-            // return markdown()
             return mdLang
         case 'lezer':
             return lezer()
@@ -197,32 +174,22 @@ export type CustomCodeMirrorProps = CodeMirrorComponentProps & MuiCodeMirrorStyl
     dense?: boolean
     onViewLifecycle?: CodeMirrorProps['onViewLifecycle']
     style?: React.CSSProperties
-    // containerRef?: React.MutableRefObject<HTMLDivElement | null>
     lang?: string
     extraMods?: boolean
-    /**
-     * @todo implement a user notification, if the first tab in the session, remind to use ESC+TAB
-     *       needs sessionStorage/localStorage
-     */
     enableTabIndent?: boolean
     highlightWhitespaces?: boolean
     autoFocus?: boolean | number
     paddingBottom?: boolean | number | string
     id?: string
-    /**
-     * @experimental
-     */
     enableSpellCheck?: boolean
 }
 
-
 export const CustomCodeMirror: React.FC<CustomCodeMirrorProps> = (
     {
-        // values we want to override in this component
         value, extensions, lang,
         dense, variant: customVariant,
-        classNamesContent, onChange,
-        onViewLifecycle, effects,
+        classNameContent, onChange,
+        onViewLifecycle,
         style,
         highlightWhitespaces,
         autoFocus,
@@ -234,43 +201,20 @@ export const CustomCodeMirror: React.FC<CustomCodeMirrorProps> = (
     },
 ) => {
     const containerRef = React.useRef<HTMLDivElement | null>(null)
-    // containerRef.current ||= containerRefProps?.current || null
-    // refs for extensions need to be created before the extension
-    const editorAttributesCompartment = React.useRef<Compartment>(new Compartment())
-    const contentAttributesCompartment = React.useRef<Compartment>(new Compartment())
-    const keymapCompartment = React.useRef<Compartment>(new Compartment())
-    const highlightCompartment = React.useRef<Compartment>(new Compartment())
-    const highlightWhitespaceCompartment = React.useRef<Compartment>(new Compartment())
-    const highlightTrailingWhitespaceCompartment = React.useRef<Compartment>(new Compartment())
-    // todo: that `objet.values` here doesn't get changes when value keeps the same but property name has changed
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    const editorStyle = React.useMemo<React.CSSProperties>(() => style || {}, [Object.values(style || {})])
     const {palette} = useTheme()
+
+    const editorStyle = React.useMemo<React.CSSProperties>(() => style || {}, [style])
 
     const customStyles = React.useMemo<Partial<EditorThemeCustomStyles>>(() => ({
         activeSelection: palette.mode === 'dark' ? '#182f2f' : 'rgba(210,243,239,0.76)',
         activeLine: palette.mode === 'dark' ? 'rgba(5, 115, 115, 0.11)' : 'rgba(216,234,231,0.34)',
         paddingBottom: paddingBottom,
-        // activeSelection: '#ffffff',
-        // activeLine: '#ffffff',
-        // textColor: '#ffffff',
     }), [palette.mode, paddingBottom])
+
     const theme = useEditorTheme(typeof onChange === 'undefined', dense, customVariant, customStyles as EditorThemeCustomStyles)
-
     const highlightStyle = useHighlightStyle({headlineUnderline: false})
-    const {init: initHighlightExt, effects: effectsHighlightExt} = useExtension(
-        () => syntaxHighlighting(highlightStyle || defaultHighlightStyle, {fallback: true}),
-        [highlightStyle],
-    )
-    const {init: initThemeExt, effects: effectsThemeExt} = useExtension(
-        () => theme,
-        [theme],
-    )
-    const effectsRef = React.useRef<((editor: EditorView) => void)[]>(effects || [])
 
-    const extensionsAll = React.useMemo(() => [
-        editorAttributesCompartment.current.of(EditorView.editorAttributes.of({})),
-        contentAttributesCompartment.current.of(EditorView.contentAttributes.of({})),
+    const baseExtensions = React.useMemo(() => [
         lineNumbers(),
         EditorView.lineWrapping,
         highlightActiveLineGutter(),
@@ -287,129 +231,68 @@ export const CustomCodeMirror: React.FC<CustomCodeMirrorProps> = (
         rectangularSelection(),
         highlightActiveLine(),
         highlightSelectionMatches(),
-        keymapCompartment.current.of([]),
-        highlightCompartment.current.of([]),
-        highlightWhitespaceCompartment.current.of([]),
-        highlightTrailingWhitespaceCompartment.current.of([]),
         ...extraMods ? [
             codeFolding(),
-            // hoverTooltip(),
             tooltips(),
         ] : [],
-        // indentUnit.of('    '),
-        // todo: csv with tab requires keeping them as is
         new Compartment().of(EditorState.tabSize.of(4)),
-        initHighlightExt(),
-        initThemeExt(),
         ...(extensions || []),
-        // todo: if any unmounting of these extensions is concurrently with an remote change, it may not be registered
-        //       refactor the whole extensions to a combined part, which is reconciled "manually" in sync and on effects
-    ], [extraMods, initHighlightExt, initThemeExt, extensions])
+    ], [extraMods, extensions])
 
-    // attach parent plugin effects first
-    React.useMemo(() => {
-        if(!effects) return effectsRef.current
-        effectsRef.current.push(...effects)
-    }, [effects])
-
-    // attach each plugin effect separately (thus only the one which changes get reconfigured)
-    React.useMemo(() => {
-        if(!effectsHighlightExt) return
-        effectsRef.current.push(...effectsHighlightExt)
-    }, [effectsHighlightExt])
-    React.useMemo(() => {
-        if(!effectsThemeExt) return
-        effectsRef.current.push(...effectsThemeExt)
-    }, [effectsThemeExt])
-
-    const editor = useCodeMirror(
+    const [editorRef] = useCodeMirror({
         onChange,
-        value,
-        extensionsAll,
-        effectsRef.current.splice(0, effectsRef.current.length),
+        value: value || '',
+        extensions: baseExtensions,
         containerRef,
-        undefined,
         onViewLifecycle,
-    )
+    })
 
-    // but extensions need to receive both: Compartment and Editor (and optionally their values)
-    // to be able to dispatch the correct effects
-    useEditorClasses(editorAttributesCompartment.current, editor, classNamesContent)
+    useExtension(useCallback(() => classNameContent ? Prec.lowest(EditorView.editorAttributes.of({class: classNameContent})) : [], [classNameContent]), editorRef)
+    useExtension(useCallback(() => syntaxHighlighting(highlightStyle || defaultHighlightStyle, {fallback: true}), [highlightStyle]), editorRef)
+    useExtension(useCallback(() => theme, [theme]), editorRef)
 
-    React.useEffect(() => {
-        if(!editor || !enableSpellCheck) return
-        // todo: spell check is working in e.g. Chrome but uses the device lang instead of app/component
-        const contentAttributesCompartmentTmp = contentAttributesCompartment.current
-        editor.dispatch({
-            // https://github.com/codemirror/dev/issues/1020
-            effects: contentAttributesCompartmentTmp
-                .reconfigure(
-                    enableSpellCheck ?
-                        EditorView.contentAttributes.of({autocorrect: 'on', autocapitalize: 'on', spellcheck: 'true'}) :
-                        EditorView.contentAttributes.of({}),
-                ),
-        })
-        return () => editor.dispatch({
-            // https://github.com/codemirror/dev/issues/1020
-            // ...enableSpellCheck ?
-            //     [EditorView.contentAttributes.of({autocorrect: 'on', autocapitalize: 'on', spellcheck: 'true'})] : [],
-            effects: contentAttributesCompartmentTmp
-                .reconfigure(EditorView.contentAttributes.of({})),
-        })
-    }, [editor, enableSpellCheck])
+    useExtension(useCallback(() =>
+            enableSpellCheck ?
+                EditorView.contentAttributes.of({autocorrect: 'on', autocapitalize: 'on', spellcheck: 'true'}) :
+                EditorView.contentAttributes.of({})
+        , [enableSpellCheck]), editorRef)
 
-    React.useEffect(() => {
-        if(!editor) return
-        editor.dispatch({
-            effects: highlightWhitespaceCompartment.current
-                .reconfigure(onChange && highlightWhitespaces ? highlightWhitespace() : []),
-        })
-    }, [editor, highlightWhitespaceCompartment, highlightWhitespaces, onChange])
+    useExtension(useCallback(() => {
+        return onChange && highlightWhitespaces ? highlightWhitespace() : []
+    }, [onChange, highlightWhitespaces]), editorRef)
 
-    React.useEffect(() => {
-        if(!editor) return
-
+    useExtension(useCallback(() => {
         const highlightExt = lang && getHighlight(lang)
-        editor.dispatch({
-            effects: highlightCompartment.current
-                .reconfigure(highlightExt ? [highlightExt] : []),
-        })
-    }, [editor, highlightCompartment, lang])
+        return highlightExt ? [highlightExt] : []
+    }, [lang]), editorRef)
 
-    React.useEffect(() => {
-        if(!editor) return
+    useExtension(useCallback(() => {
+        return keymap.of([
+            ...closeBracketsKeymap,
+            ...defaultKeymap.filter(k => k.key !== 'Mod-Enter'),
+            ...searchKeymap,
+            ...historyKeymap,
+            ...foldKeymap,
+            ...completionKeymap,
+            ...lintKeymap,
+            ...enableTabIndent ? [indentWithTab] : [],
+        ])
+    }, [enableTabIndent]), editorRef)
 
-        editor.dispatch({
-            effects: keymapCompartment.current
-                .reconfigure([
-                    keymap.of([
-                        ...closeBracketsKeymap,
-                        ...defaultKeymap.filter(k => k.key !== 'Mod-Enter'),
-                        ...searchKeymap,
-                        ...historyKeymap,
-                        ...foldKeymap,
-                        ...completionKeymap,
-                        ...lintKeymap,
-                        ...enableTabIndent ? [indentWithTab] : [],
-                    ]),
-                ]),
-        })
-    }, [editor, keymapCompartment, enableTabIndent])
+    useExtension(useCallback(() => {
+        return onChange && extraMods ? highlightTrailingWhitespace() : []
+    }, [onChange, extraMods]), editorRef)
 
 
     React.useEffect(() => {
-        if(!editor) return
-        editor.dispatch({
-            effects: highlightTrailingWhitespaceCompartment.current
-                .reconfigure(onChange && extraMods ? highlightTrailingWhitespace() : []),
-        })
-    }, [editor, highlightTrailingWhitespaceCompartment, onChange, extraMods])
-
-
-    React.useEffect(() => {
+        const editor = editorRef.current
         if(!editor || !autoFocus) return
         const autoFocusDelay = typeof autoFocus === 'number' ? autoFocus : 75
         const setFocus = () => {
+            if(editor.hasFocus) {
+                window.clearInterval(timer)
+                return
+            }
             editor.focus()
             if(editor.hasFocus) {
                 const length = editor.state.doc.length
@@ -419,17 +302,14 @@ export const CustomCodeMirror: React.FC<CustomCodeMirrorProps> = (
         }
         const timer = window.setInterval(setFocus, autoFocusDelay)
         return () => window.clearInterval(timer)
-    }, [editor, autoFocus])
+    }, [editorRef, autoFocus])
 
-    // todo: optimize font size config at theme ext hook
-    // return <div ref={containerRef} style={{...editorStyle, fontSize: '0.8784rem'}}/>
     return <Box
         id={id}
         ref={containerRef}
         sx={{
             fontSize: '0.913rem', ...editorStyle,
             position: onChange ? editorStyle?.position : 'relative',
-            // position: onChange || !showCopyButton ? editorStyle?.position : 'relative',
             '.cm__actions': {display: 'none'},
             '&:hover .cm__actions': {display: 'flex'},
         }}

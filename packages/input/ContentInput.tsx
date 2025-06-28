@@ -55,7 +55,7 @@ export const ContentInput = (
     const {file} = useContentContext()
     const editorSelection = useContentSelection()
 
-    const classNamesContent = useMemo(() => (valid === false ? ['invalid'] : undefined), [valid])
+    const classNameContent = useMemo(() => (valid === false ? 'invalid' : undefined), [valid])
 
     return <>
         {preview ?
@@ -68,7 +68,7 @@ export const ContentInput = (
                 value={textValue}
                 onChange={onChange}
                 extensions={extensions}
-                classNamesContent={classNamesContent}
+                classNameContent={classNameContent}
                 style={editorStyle}
             />}
 

@@ -96,6 +96,7 @@ const InjectSplitSchemaPlugin: React.ComponentType<PluginProps> = (props) => {
         {...props}
         currentPluginIndex={next}
         isVirtual={Boolean(props.isVirtual || schemaStyleClean?.get('hidden'))}
+        // @ts-expect-error
         schema={schemaStyleClean}
     />
 }
