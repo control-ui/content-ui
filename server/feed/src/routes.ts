@@ -2,6 +2,7 @@ import { Express } from 'express'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { contentHandler } from './handler/ContentHandler.js'
+// import { reactHandler } from './handler/ReactHandler.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 

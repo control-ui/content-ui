@@ -11,7 +11,7 @@ import { render } from '@testing-library/react'
 import { renderMapping } from '@content-ui/md-mui/LeafsMarkdown'
 import { ViewerContent } from '@content-ui/md-mui/ViewerContent'
 import { ViewerFromText } from '@content-ui/react/ViewerFromText'
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter } from 'react-router'
 
 // npm run test -- --testPathPattern=ViewerFrom --no-cache
 // rm -rf node_modules/.cache && npm run test -- --testPathPattern=ViewerFrom --no-cache

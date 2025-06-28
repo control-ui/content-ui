@@ -4,7 +4,7 @@ import React from 'react'
 import Helmet from 'react-helmet'
 import { useTranslation } from 'react-i18next'
 import Container from '@mui/material/Container'
-import Grid2 from '@mui/material/Unstable_Grid2'
+import Grid from '@mui/material/Grid'
 import { ViewerBoxRouter } from '@content-ui/md-mui/ViewerBoxRouter'
 import { ViewerFromText } from '@content-ui/react/ViewerFromText'
 
@@ -35,8 +35,8 @@ export const PageHome: React.ComponentType = () => {
         </Helmet>
 
         <Container maxWidth={'lg'} fixed>
-            <Grid2 container spacing={2}>
-                <Grid2 xs={12} md={8} mdOffset={2}>
+            <Grid container spacing={2}>
+                <Grid size={{xs: 12, md: 8}} offset={2}>
                     <Paper sx={{px: 1.5, py: 1}}>
                         <ViewerFromText
                             Viewer={ViewerBoxRouter}
@@ -45,8 +45,8 @@ export const PageHome: React.ComponentType = () => {
                             onMount
                         />
                     </Paper>
-                </Grid2>
-            </Grid2>
+                </Grid>
+            </Grid>
         </Container>
     </>
 }

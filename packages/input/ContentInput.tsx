@@ -4,7 +4,7 @@ import { useContentSelection } from '@content-ui/react/ContentSelectionContext'
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
-import { ComponentType, CSSProperties, MutableRefObject, useMemo } from 'react'
+import { ComponentType, CSSProperties, RefObject, useMemo } from 'react'
 import { CodeMirrorComponentProps } from '@ui-schema/kit-codemirror/CodeMirror'
 import { Extension } from '@codemirror/state'
 import Box from '@mui/material/Box'
@@ -23,7 +23,7 @@ export interface ViewEditorProps extends Pick<WithContentEditor, 'autoProcess' |
     CodeMirror: ComponentType<CodeMirrorComponentProps>
     extensions?: Extension[]
     preview?: boolean
-    refWarningBox?: MutableRefObject<HTMLDivElement | null>
+    refWarningBox?: RefObject<HTMLDivElement | null>
     onChange?: CodeMirrorOnChange
     valid?: boolean
     textValue: string

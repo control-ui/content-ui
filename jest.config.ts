@@ -24,10 +24,11 @@ const toPackageSourceDirectory = (pkg: [name: string, directory?: string, source
 //       - not depending on disabling transform of packages
 const base: Config.InitialProjectOptions = {
     cacheDirectory: '<rootDir>/node_modules/.cache/jest-tmp',
+    setupFiles: ['<rootDir>/setupJest.mjs'],
     transformIgnorePatterns: [
         `node_modules/?!(${[
             ...packages,
-            ['@mui'] as [name: string, directory?: string],
+            // ['@mui'] as [name: string, directory?: string],
         ].map(toPackageDirectory).join('|')})/`,
         // `node_modules/?!(@mui)/`,
     ],
@@ -55,6 +56,7 @@ const base: Config.InitialProjectOptions = {
             nameMapper[`^${pkg[0]}$`] = `<rootDir>/packages/${toPackageDirectory(pkg)}${toPackageSourceDirectory(pkg)}`
             return nameMapper
         }, {}),
+        // '^react-router$': 'react-router/dist/development/main.js',
     },
     moduleFileExtensions: [
         'ts',

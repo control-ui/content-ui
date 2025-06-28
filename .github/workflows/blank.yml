@@ -17,7 +17,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                node-version: [ 18.x ]
+                node-version: [ 24 ]
         steps:
             -   uses: actions/checkout@v4
             -   name: Set Branch
@@ -51,7 +51,7 @@ jobs:
 
             -   name: Install Deps
                 run: |
-                    npm ci
+                    npm ci --legacy-peer-deps
 
             -   name: Build
                 env:
