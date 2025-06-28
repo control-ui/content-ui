@@ -130,12 +130,12 @@ export const PageComplex: React.ComponentType = () => {
                                   *       - <TSettings extends object>
                                   *       - <TSettings extends object = Record<string, unknown>>
                                   */}
-                                <SettingsProvider<{ linkRefs?: object }>
+                                <SettingsProvider/*<{ linkRefs?: object }>*/
                                     headlineLinkable
                                     headlineSelectable
                                     headlineSelectableOnHover
                                     //linkRefs={{}}
-                                    xyz={{}}
+                                    // xyz={{}}
                                 >
                                     <ViewerFromText
                                         Viewer={ViewerBoxRouter}
