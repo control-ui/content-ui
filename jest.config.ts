@@ -27,10 +27,12 @@ const base: Config.InitialProjectOptions = {
     setupFiles: ['<rootDir>/setupJest.mjs'],
     transformIgnorePatterns: [
         `node_modules/?!(${[
+            // todo: this was never necessary for packages?! as previously used the wrong dir, impossible that it matched
             ...packages,
             // ['@mui'] as [name: string, directory?: string],
-        ].map(toPackageDirectory).join('|')})/`,
+        ].map(p => p[0]).join('|')})/`,
         // `node_modules/?!(@mui)/`,
+        //`node_modules/?!(@ui-schema/material-code)/`,
     ],
     transform: {
         ...createDefaultEsmPreset({
@@ -46,6 +48,7 @@ const base: Config.InitialProjectOptions = {
                 ],
             },
         }).transform,// ts/tsx to ESM, js/jsx as-is
+        //'^.+/node_modules/@ui-schema/material-code/.+\\.js$': 'babel-jest',
     },
     moduleNameMapper: {
         '^(\\.{1,2}/.*)\\.js$': '$1',
@@ -57,6 +60,15 @@ const base: Config.InitialProjectOptions = {
             return nameMapper
         }, {}),
         // '^react-router$': 'react-router/dist/development/main.js',
+
+        // note: need to use CJS version, as not using `type: module` for better MUI compat.,
+        //      JEST relies on `has the nearest package json 'type: module'` or is it a `.mjs` file,
+        //      while conditional `exports` are enough for bundlers/nodejs to know "i'm coming from module, so i've followed import, so i expect a ESM file"
+        //
+        //      but not for ts-node with "strict esm loader TS moduleResolution Node16", this still needs `type: module` to work.
+        //      plain Node.js works, I think due to the consumer having `type: module`,
+        //      **so that should then be a ts-node/esm bug!** (scheck server/feed/src/cli.ts for demo)
+        '^@ui-schema/material-code\\/(.*)$': '<rootDir>/node_modules/@ui-schema/material-code/$1/index.cjs',
     },
     moduleFileExtensions: [
         'ts',
@@ -66,7 +78,10 @@ const base: Config.InitialProjectOptions = {
         'json',
         'node',
     ],
-    extensionsToTreatAsEsm: ['.ts', '.tsx'],
+    extensionsToTreatAsEsm: [
+        '.ts', '.tsx', '.mts',
+        // '.js'
+    ],
     coveragePathIgnorePatterns: [
         '(tests/.*.mock).(jsx?|tsx?|ts?|js?)$',
         '.*.(test|spec).(js|ts|tsx)$',
@@ -99,20 +114,15 @@ const config: Config.InitialOptions = {
     verbose: true,
     coverageDirectory: '<rootDir>/coverage',
     projects: [
-        // todo: enable app tests again, somehow not working with
-        //       - current esm setup
-        //       - legacy deps
-        //       - missing `exports` here and in ui-schema/material-code
-        //       - ui-schema/ds-material not yet released with 0.5.x compat.
-        // {
-        //     displayName: 'test-apps-demo',
-        //     ...base,
-        //     moduleDirectories: ['node_modules', '<rootDir>/apps/demo/node_modules'],
-        //     testMatch: [
-        //         '<rootDir>/apps/demo/src/**/*.(test|spec).(js|ts|tsx)',
-        //         '<rootDir>/apps/demo/tests/**/*.(test|spec).(js|ts|tsx)',
-        //     ],
-        // },
+        {
+            displayName: 'test-apps-demo',
+            ...base,
+            moduleDirectories: ['node_modules', '<rootDir>/apps/demo/node_modules'],
+            testMatch: [
+                '<rootDir>/apps/demo/src/**/*.(test|spec).(js|ts|tsx)',
+                '<rootDir>/apps/demo/tests/**/*.(test|spec).(js|ts|tsx)',
+            ],
+        },
         ...packages.map(pkg => ({
             displayName: 'test-' + pkg[0],
             ...base,

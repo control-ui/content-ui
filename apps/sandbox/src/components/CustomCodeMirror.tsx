@@ -17,10 +17,8 @@ import { closeBrackets, autocompletion, closeBracketsKeymap, completionKeymap } 
 import { lintKeymap } from '@codemirror/lint'
 import { Compartment, EditorState, Extension, Prec } from '@codemirror/state'
 import { CodeMirrorComponentProps, CodeMirrorProps } from '@ui-schema/kit-codemirror/CodeMirror'
-// todo: as this repo uses stricter ESM resolving, yet material-code has no exports yet,
-//       it will resolve the CJS version and break codemirror, thus hard wiring the ESM version for the moment
-import { EditorThemeCustomStyles, useEditorTheme } from '@ui-schema/material-code/esm/useEditorTheme'
-import { useHighlightStyle } from '@ui-schema/material-code/esm/useHighlightStyle'
+import { EditorThemeCustomStyles, useEditorTheme } from '@ui-schema/material-code/useEditorTheme'
+import { useHighlightStyle } from '@ui-schema/material-code/useHighlightStyle'
 import { json } from '@codemirror/lang-json'
 import { javascript } from '@codemirror/lang-javascript'
 import { html } from '@codemirror/lang-html'
