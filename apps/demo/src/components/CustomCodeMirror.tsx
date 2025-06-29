@@ -17,13 +17,8 @@ import { closeBrackets, autocompletion, closeBracketsKeymap, completionKeymap } 
 import { lintKeymap } from '@codemirror/lint'
 import { EditorState, Extension } from '@codemirror/state'
 import { CodeMirrorComponentProps, CodeMirrorProps } from '@ui-schema/kit-codemirror/CodeMirror'
-// todo: as this repo uses stricter ESM resolving, yet material-code has no exports yet,
-//       it will resolve the CJS version and break codemirror, thus hard wiring the ESM version for the moment;
-//       (but this breaks jest, as it expects CJS, thus tests for home disabled for now)
-import { EditorThemeCustomStyles, useEditorTheme } from '@ui-schema/material-code/esm/useEditorTheme'
-import { useHighlightStyle } from '@ui-schema/material-code/esm/useHighlightStyle'
-// import { EditorThemeCustomStyles, useEditorTheme } from '@ui-schema/material-code/useEditorTheme'
-// import { useHighlightStyle } from '@ui-schema/material-code/useHighlightStyle'
+import { EditorThemeCustomStyles, useEditorTheme } from '@ui-schema/material-code/useEditorTheme'
+import { useHighlightStyle } from '@ui-schema/material-code/useHighlightStyle'
 import { json } from '@codemirror/lang-json'
 import { javascript } from '@codemirror/lang-javascript'
 import { html } from '@codemirror/lang-html'
@@ -46,7 +41,7 @@ import { yaml } from '@codemirror/legacy-modes/mode/yaml'
 import { YAMLFrontMatter, Footnote, Mark, Hashtag, Mention, Insert } from './lezerMarkdown'
 import { useExtension } from '@ui-schema/kit-codemirror/useExtension'
 import { useCodeMirror } from '@ui-schema/kit-codemirror/useCodeMirror'
-import { MuiCodeMirrorStyleProps } from '@ui-schema/material-code'
+import type { MuiCodeMirrorStyleProps } from '@ui-schema/material-code/WidgetCode'
 import { useTheme } from '@mui/material/styles'
 
 const mdLang0 = markdown({
