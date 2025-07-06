@@ -6,13 +6,12 @@ import { it, expect, describe } from '@jest/globals'
 import '@testing-library/jest-dom/jest-globals'
 import { render, screen } from '@testing-library/react'
 import i18n from 'i18next'
-import I18NextChainedBackend from 'i18next-chained-backend'
 import resourcesToBackend from 'i18next-resources-to-backend'
 import { Suspense } from 'react'
 import { initReactI18next } from 'react-i18next'
 import { BrowserRouter } from 'react-router'
-import { contentUIMapping } from '../src/components/ContentUI'
-import { PageHome } from '../src/pages/PageHome'
+import { contentUIMapping } from '../src/components/ContentUI.js'
+import { PageHome } from '../src/pages/PageHome.js'
 
 // rm -rf node_modules/.cache && npm run test -- --testPathPattern=PageHome --no-cache
 
@@ -23,7 +22,7 @@ import { PageHome } from '../src/pages/PageHome'
 
 describe('PageHome', () => {
     i18n
-        .use(I18NextChainedBackend)
+        // .use(I18NextChainedBackend) // chained backend is not esm compatible
         .use(initReactI18next) // passes i18n down to react-i18next
         .init({
             supportedLngs: ['en'],

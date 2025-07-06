@@ -7,11 +7,11 @@ import {
 import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
 import { renderMapping } from '@content-ui/md-mui/LeafsMarkdown'
-import { customTheme } from './theme'
+import { customTheme } from './theme.js'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
-import App from './App'
-import { CustomCodeMirror } from './components/CustomCodeMirror'
+import App from './App.js'
+import { CustomCodeMirror } from './components/CustomCodeMirror.js'
 
 const rootElement = document.getElementById('root')!
 const root = ReactDOM.createRoot(rootElement)

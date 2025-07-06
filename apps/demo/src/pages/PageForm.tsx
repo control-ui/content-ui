@@ -1,6 +1,5 @@
 import Paper from '@mui/material/Paper'
 import React from 'react'
-import Helmet from 'react-helmet'
 import { useTranslation } from 'react-i18next'
 import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
@@ -8,7 +7,7 @@ import Button from '@mui/material/Button'
 import { UIMetaProvider } from '@ui-schema/ui-schema/UIMeta'
 import { createOrderedMap, createStore, injectPluginStack, JsonSchema, onChangeHandler, storeUpdater, UIStoreProvider, UIStoreType, useUIMeta } from '@ui-schema/ui-schema'
 import { UIMetaReadContextType } from '@ui-schema/ui-schema/UIMetaReadContext'
-import { readWidgets } from '../components/UISchema'
+import { readWidgets } from '../components/UISchema.js'
 import { GridContainer } from '@ui-schema/ds-material/GridContainer'
 import { OrderedMap } from 'immutable'
 
@@ -93,9 +92,9 @@ export const PageForm: React.ComponentType = () => {
     }), [widgets, edit])
 
     return <>
-        <Helmet>
+        <>
             <title>{t('brand')} · Content-UI</title>
-        </Helmet>
+        </>
 
         <Container maxWidth={'lg'} fixed>
             <Paper

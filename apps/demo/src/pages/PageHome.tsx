@@ -1,7 +1,6 @@
 import { ContentParser } from '@content-ui/md/parser/ContentParser'
 import Paper from '@mui/material/Paper'
 import React from 'react'
-import Helmet from 'react-helmet'
 import { useTranslation } from 'react-i18next'
 import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
@@ -30,9 +29,9 @@ Last line in text.
 export const PageHome: React.ComponentType = () => {
     const {t} = useTranslation('translation')
     return <>
-        <Helmet>
+        <>
             <title>{t('brand')} · Content-UI</title>
-        </Helmet>
+        </>
 
         <Container maxWidth={'lg'} fixed>
             <Grid container spacing={2}>

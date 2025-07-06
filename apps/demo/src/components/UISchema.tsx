@@ -1,5 +1,5 @@
 import React from 'react'
-import { GroupRendererProps, WidgetsBindingFactory } from '@ui-schema/ui-schema/WidgetsBinding'
+import { GroupRendererProps, WidgetsBindingFactory } from '@ui-schema/ui-schema/WidgetsBinding.js'
 import { MuiWidgetsBindingCustom, MuiWidgetsBindingTypes, widgets } from '@ui-schema/ds-material/widgetsBinding'
 import { TableAdvanced } from '@ui-schema/ds-material/Widgets/TableAdvanced'
 import { SelectChips } from '@ui-schema/ds-material/Widgets/SelectChips'
@@ -7,14 +7,14 @@ import { MuiWidgetBinding, NumberRendererRead, WidgetBooleanRead, WidgetChipsRea
 import { emailValidator, escapePointer, getNextPlugin, PluginProps, useUIMeta, WidgetType } from '@ui-schema/ui-schema'
 import { List, Map, OrderedMap } from 'immutable'
 import { UIMetaReadContextType } from '@ui-schema/ui-schema/UIMetaReadContext'
-import { StringRendererRead, TextRendererRead } from './CustomWidgets/WidgetTextFieldRead'
+import { StringRendererRead, TextRendererRead } from './CustomWidgets/WidgetTextFieldRead.js'
 import Grid, { GridSpacing } from '@mui/material/Grid'
-import { CustomWidgetCode, CustomWidgetCodeSelectable } from './CustomWidgets/WidgetCode'
-import { SimpleListRead } from './CustomWidgets/WidgetSimpleListRead'
-import { CustomDatePicker, CustomDateTimePicker, CustomTimePicker } from './CustomWidgets/WidgetPickers'
-import { CustomTable } from './CustomWidgets/WidgetTable'
-import { WidgetMarkdownViewer } from './CustomWidgets/WidgetMarkdownViewer'
-import { WidgetMarkdownEditor } from './CustomWidgets/WidgetMarkdownEditor'
+import { CustomWidgetCode, CustomWidgetCodeSelectable } from './CustomWidgets/WidgetCode.js'
+import { SimpleListRead } from './CustomWidgets/WidgetSimpleListRead.js'
+import { CustomDatePicker, CustomDateTimePicker, CustomTimePicker } from './CustomWidgets/WidgetPickers.js'
+import { CustomTable } from './CustomWidgets/WidgetTable.js'
+import { WidgetMarkdownViewer } from './CustomWidgets/WidgetMarkdownViewer.js'
+import { WidgetMarkdownEditor } from './CustomWidgets/WidgetMarkdownEditor.js'
 
 export type CustomWidgetsBinding = WidgetsBindingFactory<{}, MuiWidgetsBindingTypes<{}>, MuiWidgetsBindingCustom<{}>>
 

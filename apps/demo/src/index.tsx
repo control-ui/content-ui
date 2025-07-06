@@ -1,7 +1,7 @@
 import React from 'react'
 import { createRoot } from 'react-dom/client'
-import { App } from './App'
-import { ViewSettingsProvider } from './lib/ViewSettings'
+import { App } from './App.js'
+import { ViewSettingsProvider } from './lib/ViewSettings.js'
 
 createRoot(document.querySelector('#root') as Element)
     .render(

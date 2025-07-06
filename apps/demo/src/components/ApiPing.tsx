@@ -1,11 +1,11 @@
 import React from 'react'
 import Paper from '@mui/material/Paper'
 import Box from '@mui/material/Box'
-import { config } from '../config'
-import { useAppApi } from '../lib/useAppApi'
+import { config } from '../config.js'
+import { useAppApi } from '../lib/useAppApi.js'
 import { ButtonProgress } from '@ui-controls/progress/ButtonProgress'
 import { ps, useProgress } from 'react-progress-state/useProgressNext'
-import { CustomCodeMirror } from './CustomCodeMirror'
+import { CustomCodeMirror } from './CustomCodeMirror.js'
 import { json } from '@codemirror/lang-json'
 
 export const ApiPing: React.ComponentType = () => {

@@ -10,7 +10,7 @@ import { css } from '@codemirror/lang-css'
 import { extractValue } from '@ui-schema/ui-schema/UIStore'
 import { WidgetCode } from '@ui-schema/material-code/WidgetCode'
 import { WidgetCodeSelectable } from '@ui-schema/material-code/WidgetCodeSelectable'
-import { CustomCodeMirror } from '../CustomCodeMirror'
+import { CustomCodeMirror } from '../CustomCodeMirror.js'
 
 export const CustomWidgetCode: React.ComponentType<WidgetProps & WithScalarValue> = (props) => {
     const format = props.schema.get('format')

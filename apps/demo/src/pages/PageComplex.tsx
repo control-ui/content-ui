@@ -2,17 +2,16 @@ import { ContentParserExtended } from '@content-ui/md/parser/ContentParserExtend
 import { SettingsProvider } from '@content-ui/react/LeafSettings'
 import Paper from '@mui/material/Paper'
 import React from 'react'
-import Helmet from 'react-helmet'
 import { useTranslation } from 'react-i18next'
 import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
 import { ps, useProgress } from 'react-progress-state/useProgressNext'
-import { useAppApi } from '../lib/useAppApi'
-import { config } from '../config'
+import { useAppApi } from '../lib/useAppApi.js'
+import { config } from '../config.js'
 import LinearProgress from '@mui/material/LinearProgress'
 import Alert from '@mui/material/Alert'
 import AlertTitle from '@mui/material/AlertTitle'
-import { ApiPing } from '../components/ApiPing'
+import { ApiPing } from '../components/ApiPing.js'
 import IcRefresh from '@mui/icons-material/Refresh'
 import { IconButtonProgress } from '@ui-controls/progress/IconButtonProgress'
 import FormControl from '@mui/material/FormControl'
@@ -70,9 +69,9 @@ export const PageComplex: React.ComponentType = () => {
     }, [loadDetails, content])
 
     return <>
-        <Helmet>
+        <>
             <title>{t('brand')} · Content-UI</title>
-        </Helmet>
+        </>
 
         <Container maxWidth={'lg'} fixed>
             <Box mt={1}>
