@@ -1,10 +1,12 @@
 import { parserFromMarkdown, parserInMarkdown, parserLintInMarkdown, parserStringifyMarkdown } from '@content-ui/md/parser/ContentParser'
+import { remarkDetails } from '@content-ui/md/plugins/remarkDetails'
 import { Processor, unified } from 'unified'
 import remarkDirective from 'remark-directive'
 import { remarkDefinitionList } from 'remark-definition-list'
 import type { Root } from 'mdast'
 
 export const parserInMarkdownExtended = (parser: Processor<Root, Root, Root, undefined, undefined>) => parser
+    .use(remarkDetails)
     .use(remarkDirective)
     .use(remarkDefinitionList)
 

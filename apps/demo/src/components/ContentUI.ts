@@ -1,3 +1,4 @@
+import { LeafDetailsSummary } from '@content-ui/md-mui/Leafs/LeafDetailsSummary'
 import { LeafContainerDirective, LeafLeafDirective, LeafTextDirective } from '@content-ui/md-mui/Leafs/LeafDirective'
 import { renderMapping } from '@content-ui/md-mui/LeafsMarkdown'
 import { MuiLink } from '@content-ui/md-mui/MuiComponents/MuiLink'
@@ -10,6 +11,8 @@ export const contentUIMapping: typeof renderMapping = {
         textDirective: LeafTextDirective,
         leafDirective: LeafLeafDirective,
         containerDirective: LeafContainerDirective,
+        // @ts-expect-error
+        details: LeafDetailsSummary,
     },
     components: {
         ...renderMapping.components,

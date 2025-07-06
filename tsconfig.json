@@ -26,31 +26,31 @@
                 "packages/input"
             ],
             "@content-ui/input/*": [
-                "packages/input/*"
+                "packages/input/*.tsx"
             ],
             "@content-ui/md": [
                 "packages/md"
             ],
             "@content-ui/md/*": [
-                "packages/md/*"
+                "packages/md/*.ts"
             ],
             "@content-ui/md-mui": [
                 "packages/md-mui"
             ],
             "@content-ui/md-mui/*": [
-                "packages/md-mui/*"
+                "packages/md-mui/*.tsx"
             ],
             "@content-ui/react": [
                 "packages/react"
             ],
             "@content-ui/react/*": [
-                "packages/react/*"
+                "packages/react/*.tsx"
             ],
             "@content-ui/struct": [
                 "packages/struct"
             ],
             "@content-ui/struct/*": [
-                "packages/struct/*"
+                "packages/struct/*.ts"
             ]
         }
     },

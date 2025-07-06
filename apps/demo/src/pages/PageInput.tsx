@@ -7,11 +7,10 @@ import IcVisibility from '@mui/icons-material/Visibility'
 import IcVisibilityOff from '@mui/icons-material/VisibilityOff'
 import { useTheme } from '@mui/material/styles'
 import React, { useRef, useState } from 'react'
-import Helmet from 'react-helmet'
 import { useTranslation } from 'react-i18next'
 import Grid from '@mui/material/Grid'
 import { ContentInput } from '@content-ui/input/ContentInput'
-import { CustomCodeMirror, getHighlight } from '../components/CustomCodeMirror'
+import { CustomCodeMirror, getHighlight } from '../components/CustomCodeMirror.js'
 import Box from '@mui/material/Box'
 import { ViewerBoxRouter } from '@content-ui/md-mui/ViewerBoxRouter'
 import { SettingsProvider } from '@content-ui/react/LeafSettings'
@@ -95,9 +94,9 @@ export const PageInput: React.ComponentType = () => {
     const [showAst, setShowAst] = useState(false)
 
     return <>
-        <Helmet>
+        <>
             <title>{t('brand')} · Content-UI</title>
-        </Helmet>
+        </>
 
         <Box p={1} sx={{overflow: 'auto', display: 'flex', flexDirection: 'column'}}>
             <ContentFileProvider

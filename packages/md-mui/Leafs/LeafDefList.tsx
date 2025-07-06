@@ -1,4 +1,3 @@
-import { useSettings } from '@content-ui/react/LeafSettings'
 import { DefListDescriptionNode, DefListNode, DefListTermNode } from 'mdast-util-definition-list'
 import React from 'react'
 import Box from '@mui/material/Box'
@@ -8,8 +7,7 @@ import { ContentLeafPayload } from '@content-ui/react/ContentLeafsContext'
 import { LeafChildNodes } from '@content-ui/md-mui/LeafChildNodes'
 import { useLeafFollower } from '@content-ui/react/useLeafFollower'
 
-export const LeafDefList: React.FC<ContentLeafPayload<DefListNode>> = ({child}) => {
-    const {dense} = useSettings()
+export const LeafDefList: React.FC<ContentLeafPayload<DefListNode> & { dense?: boolean }> = ({dense, child}) => {
     // todo: check where the child.dense was used/injected or not all all anymore
     const denseApplied = dense || ('dense' in child && child.dense)
     return <Box

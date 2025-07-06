@@ -1,5 +1,5 @@
 import { ContentParser } from '@content-ui/md/parser/ContentParser'
-import { UIMetaReadContextType } from '@ui-schema/ui-schema/UIMetaReadContext/UIMetaReadContext'
+import { UIMetaReadContextType } from '@ui-schema/ui-schema/UIMetaReadContext'
 import React from 'react'
 import { TransTitle, WidgetProps, WithScalarValue } from '@ui-schema/ui-schema'
 import Box from '@mui/material/Box'

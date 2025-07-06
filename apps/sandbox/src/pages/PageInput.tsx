@@ -4,7 +4,7 @@ import { ContentSelectionProvider } from '@content-ui/react/ContentSelectionCont
 import React from 'react'
 import Grid from '@mui/material/Grid'
 import { ContentInput } from '@content-ui/input/ContentInput'
-import { CustomCodeMirror, getHighlight } from '../components/CustomCodeMirror'
+import { CustomCodeMirror, getHighlight } from '../components/CustomCodeMirror.js'
 import Box from '@mui/material/Box'
 import { SettingsProvider } from '@content-ui/react/LeafSettings'
 import { useContentEditor } from '@content-ui/input/useContentEditor'

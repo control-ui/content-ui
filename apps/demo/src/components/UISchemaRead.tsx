@@ -2,9 +2,9 @@ import React from 'react'
 import { createOrderedMap, createStore, injectPluginStack, onChangeHandler, storeUpdater, UIStoreProvider, useUIMeta } from '@ui-schema/ui-schema'
 import { GridContainer } from '@ui-schema/ds-material/GridContainer'
 import { UIMetaReadContextType } from '@ui-schema/ui-schema/UIMetaReadContext'
-import { StoreSchemaType } from '@ui-schema/ui-schema/CommonTypings'
+import { StoreSchemaType } from '@ui-schema/ui-schema/CommonTypings.js'
 import { UIMetaProvider } from '@ui-schema/ui-schema/UIMeta'
-import { readWidgets } from './UISchema'
+import { readWidgets } from './UISchema.js'
 
 const GridStack = injectPluginStack(GridContainer)
 
