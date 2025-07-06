@@ -6,10 +6,11 @@ import IcUnchecked from '@mui/icons-material/CheckBoxOutlineBlank'
 import { LeafChildNodes } from '@content-ui/md-mui/LeafChildNodes'
 import { ContentLeafProps } from '@content-ui/react/ContentLeafsContext'
 
-export const LeafList: React.FC<ContentLeafProps<'list'>> = ({child}) => {
+export const LeafList: React.FC<ContentLeafProps<'list'> & { dense?: boolean }> = ({dense, child}) => {
     const component = child.ordered ? 'ol' : 'ul'
     const start = child.start
-    const dense = 'dense' in child && child.dense
+    // todo: check where the child.dense was used/injected or not all all anymore
+    const denseApplied = dense || ('dense' in child && child.dense)
     const inList = 'inList' in child && child.inList
     return <Box
         {...component === 'ol' ? {
@@ -20,8 +21,8 @@ export const LeafList: React.FC<ContentLeafProps<'list'>> = ({child}) => {
         }}
         sx={{
             ml: 0.5,
-            mt: dense || inList ? 0.5 : 1.5,
-            mb: dense || inList ? 0.5 : 2,
+            mt: denseApplied || inList ? 0.5 : 1.5,
+            mb: denseApplied || inList ? 0.5 : 2,
             pl: inList ? 1.5 : 3,
         }}
         style={{outline: 0, border: 0}}
