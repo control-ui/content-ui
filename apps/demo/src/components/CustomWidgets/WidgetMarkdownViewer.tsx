@@ -1,7 +1,7 @@
 import { ContentParser } from '@content-ui/md/parser/ContentParser'
-import { UIMetaReadContextType } from '@ui-schema/ui-schema/UIMetaReadContext'
+import { UIMetaReadContextType } from '@ui-schema/react/UIMetaReadContext'
+import { TranslateTitle, WidgetProps } from '@ui-schema/react'
 import React from 'react'
-import { TransTitle, WidgetProps, WithScalarValue } from '@ui-schema/ui-schema'
 import Box from '@mui/material/Box'
 import FormLabel from '@mui/material/FormLabel'
 import { ValidityHelperText } from '@ui-schema/ds-material/Component/LocaleHelperText'
@@ -9,7 +9,7 @@ import { ViewerBoxRouter } from '@content-ui/md-mui/ViewerBoxRouter'
 import { ViewerFromText } from '@content-ui/react/ViewerFromText'
 import { SettingsProvider } from '@content-ui/react/LeafSettings'
 
-export const WidgetMarkdownViewer: React.ComponentType<WidgetProps & WithScalarValue & UIMetaReadContextType> = (
+export const WidgetMarkdownViewer: React.ComponentType<WidgetProps & UIMetaReadContextType> = (
     {
         storeKeys, schema, value, readActive, readDense,
         valid, required, errors, showValidity,
@@ -23,7 +23,7 @@ export const WidgetMarkdownViewer: React.ComponentType<WidgetProps & WithScalarV
         <Box mb={0.5}>
             <FormLabel error={(!valid && showValidity)}>
                 {hideTitle ? null : <>
-                    <TransTitle storeKeys={storeKeys} schema={schema}/>
+                    <TranslateTitle storeKeys={storeKeys} schema={schema}/>
                     {required ? ' *' : null}
                     {readOnly ? <em style={{paddingLeft: 3}}>ro</em> : null}
                 </>}

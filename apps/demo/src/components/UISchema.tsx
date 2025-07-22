@@ -1,25 +1,23 @@
+import { requiredPlugin, validatorPlugin } from '@ui-schema/json-schema'
+import { DefaultHandler, GroupRendererProps, UIMetaContextInternal, useUIMeta, ValidityReporter } from '@ui-schema/react'
+import { schemaPluginsAdapterBuilder } from '@ui-schema/react/SchemaPluginsAdapter'
+import { SchemaPlugin } from '@ui-schema/ui-schema'
+import { SchemaPluginProps } from '@ui-schema/ui-schema/SchemaPlugin'
 import React from 'react'
-import { GroupRendererProps, WidgetsBindingFactory } from '@ui-schema/ui-schema/WidgetsBinding.js'
-import { MuiWidgetsBindingCustom, MuiWidgetsBindingTypes, widgets } from '@ui-schema/ds-material/widgetsBinding'
 import { TableAdvanced } from '@ui-schema/ds-material/Widgets/TableAdvanced'
 import { SelectChips } from '@ui-schema/ds-material/Widgets/SelectChips'
-import { MuiWidgetBinding, NumberRendererRead, WidgetBooleanRead, WidgetChipsRead, WidgetOptionsRead } from '@ui-schema/ds-material'
-import { emailValidator, escapePointer, getNextPlugin, PluginProps, useUIMeta, WidgetType } from '@ui-schema/ui-schema'
-import { List, Map, OrderedMap } from 'immutable'
-import { UIMetaReadContextType } from '@ui-schema/ui-schema/UIMetaReadContext'
-import { StringRendererRead, TextRendererRead } from './CustomWidgets/WidgetTextFieldRead.js'
+import { NumberRendererRead, StringRendererRead, TextRendererRead, WidgetBooleanRead, WidgetChipsRead, WidgetOptionsRead } from '@ui-schema/ds-material'
+import { UIMetaReadContextType } from '@ui-schema/react/UIMetaReadContext'
+import { MuiBinding } from '@ui-schema/ds-material/Binding'
 import Grid, { GridSpacing } from '@mui/material/Grid'
-import { CustomWidgetCode, CustomWidgetCodeSelectable } from './CustomWidgets/WidgetCode.js'
-import { SimpleListRead } from './CustomWidgets/WidgetSimpleListRead.js'
-import { CustomDatePicker, CustomDateTimePicker, CustomTimePicker } from './CustomWidgets/WidgetPickers.js'
-import { CustomTable } from './CustomWidgets/WidgetTable.js'
 import { WidgetMarkdownViewer } from './CustomWidgets/WidgetMarkdownViewer.js'
 import { WidgetMarkdownEditor } from './CustomWidgets/WidgetMarkdownEditor.js'
-
-export type CustomWidgetsBinding = WidgetsBindingFactory<{}, MuiWidgetsBindingTypes<{}>, MuiWidgetsBindingCustom<{}>>
+import { baseComponents, typeWidgets } from '@ui-schema/ds-material/BindingDefault'
+import { bindingExtended } from '@ui-schema/ds-material/BindingExtended'
+import { GridItemPlugin } from '@ui-schema/ds-material/GridItemPlugin'
 
 const GroupRenderer: React.ComponentType<React.PropsWithChildren<GroupRendererProps>> = ({schema, children, noGrid}) => {
-    const {readDense, readActive} = useUIMeta<UIMetaReadContextType>()
+    const {readDense, readActive} = useUIMeta<UIMetaReadContextType & UIMetaContextInternal>()
     return noGrid ? children as unknown as React.ReactElement :
         <Grid
             container
@@ -35,117 +33,82 @@ const GroupRenderer: React.ComponentType<React.PropsWithChildren<GroupRendererPr
         </Grid>
 }
 
-export const SortPlugin: React.ComponentType<PluginProps> = (props) => {
-    const {currentPluginIndex, schema} = props
-
-    const sortedSchema = React.useMemo(() => {
-        if(!schema?.get('sortOrder')) {
-            return schema
-        }
-        const nonSortedProps = (schema.get('properties') as OrderedMap<string, any>)?.keySeq()
-            .filter(k => !(schema.get('sortOrder') as List<string>)?.includes(k))
-        return schema.set(
-            'properties',
-            (schema.get('sortOrder') as List<string>)
-                .filter((key) => typeof schema.getIn(['properties', key]) !== 'undefined')
-                .concat(nonSortedProps)
-                .reduce(
-                    (properties, key) =>
-                        typeof key === 'string' ? properties.set(key, schema.getIn(['properties', key])) : properties,
-                    OrderedMap() as OrderedMap<string, any>,
-                ),
-        )
-    }, [schema])
-
-    const next = currentPluginIndex + 1
-    const Plugin = getNextPlugin(next, props.widgets)
-    return <Plugin {...props} currentPluginIndex={next} schema={sortedSchema}/>
-}
-
-const InjectSplitSchemaPlugin: React.ComponentType<PluginProps> = (props) => {
-    const {
-        schema, storeKeys,
-        currentPluginIndex,
-    } = props
-    // const {styleSchema} = useUIMeta<MetaWithStyleSchema>()
-    const {styleSchema} = useUIMeta<any>()
-    const next = currentPluginIndex + 1
-    const Plugin = getNextPlugin(next, props.widgets)
-    const pointer = storeKeys.size > 0 ? '/' + storeKeys.map(k => escapePointer(String(k))).join('/') : '/'
-
-    const schemaStyleClean = React.useMemo(() => {
-        const schemaStyleLevel = styleSchema?.get(pointer as `/${string}`) as Map<string, any> | undefined
-        let schemaStyleClean
-        if(schemaStyleLevel && Map.isMap(schemaStyleLevel)) {
-            schemaStyleClean = schemaStyleLevel
-                .delete('properties')
-                .delete('items')
-                .delete('if')
-                .delete('else')
-                .delete('then')
-                .delete('not')
-                .delete('allOf')
-                .delete('anyOf')
-                .delete('oneOf')
-                .delete('required')
-        }
-        return schemaStyleClean ? schema.mergeDeep(schemaStyleClean) : schema
-    }, [pointer, schema, styleSchema])
-
-    return <Plugin
-        {...props}
-        currentPluginIndex={next}
-        isVirtual={Boolean(props.isVirtual || schemaStyleClean?.get('hidden'))}
-        // @ts-expect-error
-        schema={schemaStyleClean}
-    />
-}
-
-export const getCustomWidgets: () => CustomWidgetsBinding = () => ({
-    ...widgets,
+export const getCustomBinding: () => MuiBinding = () => ({
+    // ...binding,
+    // GroupRenderer: GroupRenderer,
+    // pluginStack: [
+    //     InjectSplitSchemaPlugin,
+    //     SortPlugin,
+    //     ...widgets.pluginStack,
+    // ],
+    // pluginSimpleStack: [
+    //     emailValidator,
+    //     ...widgets.pluginSimpleStack,
+    // ],
+    // types: widgets.types,
+    // custom: {
+    //     ...widgets.custom,
+    // },
+    ...baseComponents,
     GroupRenderer: GroupRenderer,
-    pluginStack: [
-        InjectSplitSchemaPlugin,
-        SortPlugin,
-        ...widgets.pluginStack,
-    ],
-    pluginSimpleStack: [
-        emailValidator,
-        ...widgets.pluginSimpleStack,
-    ],
-    types: widgets.types,
-    custom: {
-        ...widgets.custom,
+
+    // Widget mapping by schema type or custom ID.
+    widgets: {
+        ...typeWidgets,
+        ...bindingExtended,
+
         SelectChips: SelectChips,
-        Table: CustomTable,
+        // Table: CustomTable,
         TableAdvanced: TableAdvanced,
-        Time: CustomTimePicker,
-        Date: CustomDatePicker,
-        DateTime: CustomDateTimePicker,
+        // Time: CustomTimePicker,
+        // Date: CustomDatePicker,
+        // DateTime: CustomDateTimePicker,
         Markdown: WidgetMarkdownEditor,
     },
+
+    // Plugins that wrap each rendered widget.
+    widgetPlugins: [
+        DefaultHandler, // handles `default` keyword
+
+        // Runs SchemaPlugins, connects to SchemaResource (if enabled)
+        schemaPluginsAdapterBuilder([
+            // runs `validate` and related schema postprocessing
+            validatorPlugin,
+
+            // injects the `required` prop
+            requiredPlugin,
+
+            {
+                handle: ({schema, readDense}) => ({
+                    schema: readDense ? schema.setIn(['view', 'dense'], readDense) : schema,
+                }),
+            } satisfies SchemaPlugin<SchemaPluginProps & UIMetaReadContextType>,
+        ]),
+
+        // SchemaGridHandler, // MUI v5/6 Grid item
+        GridItemPlugin, // MUI v7 Grid item
+
+        ValidityReporter, // keeps `valid`/`errors` in sync with `store`
+    ],
 })
 
 export const readWidgets: any = {
-    types: {
-        string: StringRendererRead,
-        number: NumberRendererRead,
-        integer: NumberRendererRead,
-        boolean: WidgetBooleanRead,
-    },
-    custom: {
-        Text: TextRendererRead,
-        Select: WidgetOptionsRead,
-        SelectMulti: WidgetOptionsRead,
-        SelectChips: WidgetChipsRead,
-        OptionsRadio: WidgetOptionsRead,
-        OptionsCheck: WidgetOptionsRead,
-        SimpleList: SimpleListRead,
-        Code: CustomWidgetCode as WidgetType<UIMetaReadContextType, MuiWidgetBinding>,
-        CodeSelectable: CustomWidgetCodeSelectable as WidgetType<UIMetaReadContextType, MuiWidgetBinding>,
-        Time: TextRendererRead,
-        Date: TextRendererRead,
-        DateTime: TextRendererRead,
-        Markdown: WidgetMarkdownViewer,
-    },
+    ...typeWidgets,
+    string: StringRendererRead,
+    number: NumberRendererRead,
+    integer: NumberRendererRead,
+    boolean: WidgetBooleanRead,
+    Text: TextRendererRead,
+    Select: WidgetOptionsRead,
+    SelectMulti: WidgetOptionsRead,
+    SelectChips: WidgetChipsRead,
+    OptionsRadio: WidgetOptionsRead,
+    OptionsCheck: WidgetOptionsRead,
+    // SimpleList: SimpleListRead,
+    // Code: CustomWidgetCode,
+    // CodeSelectable: CustomWidgetCodeSelectable,
+    // Time: TextRendererRead,
+    // Date: TextRendererRead,
+    // DateTime: TextRendererRead,
+    Markdown: WidgetMarkdownViewer,
 }

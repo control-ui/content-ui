@@ -1,12 +1,10 @@
+import { createStore, onChangeHandler, storeUpdater, UIStoreProvider, useUIMeta, WidgetEngine } from '@ui-schema/react'
+import { UIMetaProvider } from '@ui-schema/react/UIMeta'
+import { UIMetaReadContextType } from '@ui-schema/react/UIMetaReadContext'
+import { createOrderedMap, SomeSchema } from '@ui-schema/ui-schema'
 import React from 'react'
-import { createOrderedMap, createStore, injectPluginStack, onChangeHandler, storeUpdater, UIStoreProvider, useUIMeta } from '@ui-schema/ui-schema'
 import { GridContainer } from '@ui-schema/ds-material/GridContainer'
-import { UIMetaReadContextType } from '@ui-schema/ui-schema/UIMetaReadContext'
-import { StoreSchemaType } from '@ui-schema/ui-schema/CommonTypings.js'
-import { UIMetaProvider } from '@ui-schema/ui-schema/UIMeta'
 import { readWidgets } from './UISchema.js'
-
-const GridStack = injectPluginStack(GridContainer)
 
 export const UISchemaRead = (
     {
@@ -14,7 +12,7 @@ export const UISchemaRead = (
         readDense,
     }: Omit<UIMetaReadContextType, 'readActive'> & { schema: any | undefined, data: any, read?: any },
 ): React.ReactElement => {
-    const {widgets, t} = useUIMeta()
+    const {binding, t, validate} = useUIMeta()
     const [store, setStore] = React.useState(() => createStore(undefined))
 
     const onChange: onChangeHandler = React.useCallback(
@@ -27,25 +25,27 @@ export const UISchemaRead = (
         setStore(s => s.set('values', data ? createOrderedMap(data) : undefined))
     }, [data])
 
-    const customWidgetsRtd = React.useMemo(() => ({
-        ...widgets,
-        types: readWidgets.types,
-        custom: readWidgets.custom,
-    }), [widgets])
+    const customBindingRtd = React.useMemo(() => ({
+        ...binding,
+        widgets: readWidgets,
+    }), [binding])
 
-    const storeSchema = React.useMemo(() => schema ? createOrderedMap(schema) as StoreSchemaType : undefined, [schema])
+    const storeSchema = React.useMemo(() => schema ? createOrderedMap(schema) as SomeSchema : undefined, [schema])
 
     // <UIMetaProvider<UIMetaReadContextType & MetaWithStyleSchema>
     return <>
         <UIMetaProvider<UIMetaReadContextType & any>
-            widgets={customWidgetsRtd}
+            binding={customBindingRtd}
             t={t}
+            validate={validate}
             readDense={readDense}
             readActive
             styleSchema={read}
         >
             <UIStoreProvider store={store} onChange={onChange} showValidity>
-                {storeSchema ? <GridStack isRoot schema={storeSchema as StoreSchemaType}/> : null}
+                <GridContainer>
+                    {storeSchema ? <WidgetEngine isRoot schema={storeSchema}/> : null}
+                </GridContainer>
             </UIStoreProvider>
         </UIMetaProvider>
     </>

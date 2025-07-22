@@ -20,8 +20,6 @@ import { useContentContext } from '@content-ui/react/ContentFileContext'
 import { WithContent } from '@content-ui/react/useContent'
 
 export interface ViewEditorProps extends Pick<WithContentEditor, 'autoProcess' | 'setAutoProcess'>, Omit<WithContent, 'file' | 'root'> {
-    CodeMirror: ComponentType<CodeMirrorComponentProps>
-    extensions?: Extension[]
     preview?: boolean
     refWarningBox?: RefObject<HTMLDivElement | null>
     onChange?: CodeMirrorOnChange
@@ -30,27 +28,44 @@ export interface ViewEditorProps extends Pick<WithContentEditor, 'autoProcess' |
     bigSize?: boolean
     noLint?: boolean
     ViewerBox?: ComponentType<ViewerBoxProps>
-    // passed to the `CodeMirror` component
-    editorStyle?: CSSProperties
     onReformat?: () => void
+    /**
+     * @deprecated use `CodeMirrorProps` instead
+     */
+    extensions?: Extension[]
+    /**
+     * passed to the `CodeMirror` component
+     *
+     * @deprecated use `CodeMirrorProps` instead
+     */
+    editorStyle?: CSSProperties
 }
 
-export const ContentInput = (
+type CodeMirrorControlledProps =
+    'value' |
+    'onChange' |
+    'classNameContent'
+
+export const ContentInput = <TCodeMirrorProps extends Omit<CodeMirrorComponentProps, CodeMirrorControlledProps> = Omit<CodeMirrorComponentProps, CodeMirrorControlledProps>>(
     {
         valid,
         preview,
         textValue, onChange,
         refWarningBox,
-        extensions,
-        editorStyle,
+        // eslint-disable-next-line deprecation/deprecation
+        extensions, editorStyle,
         CodeMirror,
+        codeMirrorProps,
         processing, noLint, outdated,
         autoProcess, setAutoProcess,
         bigSize,
         ViewerBox: ViewerBoxProp = ViewerBox,
         onReformat,
         ...props
-    }: ViewEditorProps & Omit<ViewerBoxProps, 'needsProcessing' | 'editorSelection' | 'onChange'>,
+    }: {
+        CodeMirror: ComponentType<TCodeMirrorProps>
+        codeMirrorProps?: TCodeMirrorProps
+    } & ViewEditorProps & Omit<ViewerBoxProps, 'needsProcessing' | 'editorSelection' | 'onChange'>,
 ) => {
     const {file} = useContentContext()
     const editorSelection = useContentSelection()
@@ -65,11 +80,12 @@ export const ContentInput = (
                 {...props}
             /> :
             <CodeMirror
+                extensions={extensions}
+                style={editorStyle}
+                {...codeMirrorProps as (TCodeMirrorProps & CodeMirrorComponentProps) || {}}
                 value={textValue}
                 onChange={onChange}
-                extensions={extensions}
                 classNameContent={classNameContent}
-                style={editorStyle}
             />}
 
         <InputBottomBar

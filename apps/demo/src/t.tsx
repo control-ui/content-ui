@@ -1,5 +1,5 @@
 import { makeTranslator, createMap, Translator } from '@ui-schema/ui-schema'
-import { ERROR_EMAIL_INVALID } from '@ui-schema/ui-schema/Validators/EmailValidator'
+import { ERROR_EMAIL_INVALID } from '@ui-schema/json-schema/Validators/EmailValidator'
 import * as en from '@ui-schema/dictionary/en'
 import * as de from '@ui-schema/dictionary/de'
 

@@ -68,7 +68,15 @@ const base: Config.InitialProjectOptions = {
         //      but not for ts-node with "strict esm loader TS moduleResolution Node16", this still needs `type: module` to work.
         //      plain Node.js works, I think due to the consumer having `type: module`,
         //      **so that should then be a ts-node/esm bug!** (scheck server/feed/src/cli.ts for demo)
+        //     ---
+        //     BUT why isn't this needed for mui v7? which also has `exports` but no `type: module`
+        //     - it is only needed for `apps/demo/tests/PageHome.test.tsx`
+        //     - the tests in `packages/md-mui` run successfully without this alias!
         '^@ui-schema/material-code\\/(.*)$': '<rootDir>/node_modules/@ui-schema/material-code/$1/index.cjs',
+
+        // the kit-codemirror alias is needed when that package has no `type: module`, here jest somehow still resolves `/esm/*.js` by `exports`,
+        // but with
+        // '^@ui-schema/kit-codemirror\\/(.*)$': '<rootDir>/node_modules/@ui-schema/kit-codemirror/$1/index.cjs',
     },
     moduleFileExtensions: [
         'ts',
@@ -93,6 +101,8 @@ const base: Config.InitialProjectOptions = {
         '<rootDir>/dist',
         '<rootDir>/apps/demo/build',
         '<rootDir>/server/feed/build',
+        '<rootDir>/apps/sandbox',
+        '<rootDir>/server/feed',
     ],
     watchPathIgnorePatterns: [
         '<rootDir>/dist',
@@ -100,11 +110,15 @@ const base: Config.InitialProjectOptions = {
         '<rootDir>/apps/.+/node_modules',
         '<rootDir>/server/.+/node_modules',
         '<rootDir>/packages/.+/node_modules',
+        '<rootDir>/apps/sandbox',
+        '<rootDir>/server/feed',
     ],
     modulePathIgnorePatterns: [
         '<rootDir>/dist',
         '<rootDir>/apps/.+/build',
         '<rootDir>/server/.+/build',
+        '<rootDir>/apps/sandbox',
+        '<rootDir>/server/feed',
     ],
 }
 
