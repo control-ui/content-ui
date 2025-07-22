@@ -1,6 +1,6 @@
 {
     "name": "@content-ui/input",
-    "version": "0.2.1",
+    "version": "0.2.2",
     "description": "",
     "author": {
         "name": "bemit",
@@ -18,17 +18,19 @@
         "url": "https://github.com/control-ui/content-ui.git",
         "directory": "packages/input"
     },
+    "type": "module",
     "exports": {
         "./*": {
             "types": "./*.d.ts",
             "import": "./*.js"
-        }
+        },
+        "./package.json": "./package.json"
     },
     "sideEffects": false,
     "devDependencies": {
         "@mui/icons-material": "^7.1",
         "@mui/material": "^7.1",
-        "@ui-schema/kit-codemirror": "^1.0.0-alpha.1",
+        "@ui-schema/kit-codemirror": "^1.0.0-alpha.2",
         "react-progress-state": "~0.3.3",
         "@ui-controls/progress": "~0.1.0",
         "@content-ui/react": "~0.1.3",

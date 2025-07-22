@@ -1,6 +1,6 @@
 {
     "name": "@content-ui/react",
-    "version": "0.1.9",
+    "version": "0.1.10",
     "description": "",
     "author": {
         "name": "bemit",
@@ -83,7 +83,8 @@
         "./ViewerFromText": {
             "types": "./ViewerFromText.d.ts",
             "import": "./ViewerFromText.js"
-        }
+        },
+        "./package.json": "./package.json"
     },
     "sideEffects": false,
     "devDependencies": {

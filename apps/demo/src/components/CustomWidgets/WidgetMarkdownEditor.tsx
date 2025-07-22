@@ -1,9 +1,9 @@
 import { ViewerBoxRouter } from '@content-ui/md-mui/ViewerBoxRouter'
 import { ContentParser } from '@content-ui/md/parser/ContentParser'
 import { ContentSelectionProvider } from '@content-ui/react/ContentSelectionContext'
-import { UIMetaReadContextType } from '@ui-schema/ui-schema/UIMetaReadContext'
+import { TranslateTitle, WidgetProps } from '@ui-schema/react'
+import { UIMetaReadContextType } from '@ui-schema/react/UIMetaReadContext'
 import React from 'react'
-import { TransTitle, WidgetProps, WithScalarValue } from '@ui-schema/ui-schema'
 import { SettingsProvider } from '@content-ui/react/LeafSettings'
 import Box from '@mui/material/Box'
 import FormLabel from '@mui/material/FormLabel'
@@ -19,7 +19,7 @@ import { useContentEditor } from '@content-ui/input/useContentEditor'
 import { useContent } from '@content-ui/react/useContent'
 import { ContentFileProvider } from '@content-ui/react/ContentFileContext'
 
-export const WidgetMarkdownEditor: React.ComponentType<WidgetProps & WithScalarValue & { readOnly?: boolean } & UIMetaReadContextType> = (
+export const WidgetMarkdownEditor: React.ComponentType<WidgetProps & { readOnly?: boolean } & UIMetaReadContextType> = (
     {
         storeKeys, schema, value,
         valid, required, showValidity,
@@ -93,7 +93,7 @@ export const WidgetMarkdownEditor: React.ComponentType<WidgetProps & WithScalarV
             <Box mb={0.5} style={{display: 'flex', alignItems: 'center'}}>
                 <FormLabel error={(!valid && showValidity)} style={{marginRight: 'auto'}}>
                     {hideTitle ? null : <>
-                        <TransTitle storeKeys={storeKeys} schema={schema}/>
+                        <TranslateTitle storeKeys={storeKeys} schema={schema}/>
                         {required ? ' *' : null}
                     </>}
                 </FormLabel>
@@ -131,9 +131,12 @@ export const WidgetMarkdownEditor: React.ComponentType<WidgetProps & WithScalarV
                         preview={preview}
                         refWarningBox={refWarningBox}
                         CodeMirror={CustomCodeMirror}
+                        codeMirrorProps={{
+                            extensions: extensions,
+                            dense: Boolean(schema.getIn(['view', 'dense'])),
+                        }}
                         ViewerBox={ViewerBoxRouter}
                         onChange={readOnly ? undefined : handleOnChange}
-                        extensions={extensions}
                         textValue={textValue}
                         bigSize={bigSize}
                         processing={processing}

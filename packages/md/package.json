@@ -1,6 +1,6 @@
 {
     "name": "@content-ui/md",
-    "version": "0.0.13",
+    "version": "0.0.14",
     "description": "",
     "author": {
         "name": "bemit",
@@ -47,7 +47,8 @@
         "./plugins/remarkUnderline": {
             "types": "./plugins/remarkUnderline.d.ts",
             "import": "./plugins/remarkUnderline.js"
-        }
+        },
+        "./package.json": "./package.json"
     },
     "sideEffects": false,
     "dependencies": {

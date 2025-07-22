@@ -1,4 +1,5 @@
 import { contentUIDecorators, ContentLeafsProvider } from '@content-ui/react/ContentLeafsContext'
+import { Validator } from '@ui-schema/json-schema'
 import React from 'react'
 import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
@@ -9,18 +10,26 @@ import { initReactI18next, useTranslation } from 'react-i18next'
 import { BrowserRouter } from 'react-router-dom'
 import resourcesToBackend from 'i18next-resources-to-backend'
 import CircularProgress from '@mui/material/CircularProgress'
-import { UIMetaProvider } from '@ui-schema/ui-schema/UIMeta'
+import { UIMetaProvider } from '@ui-schema/react/UIMeta'
 import { SnackProvider } from 'react-use-snack/SnackProvider'
 import { browserT } from './t.js'
-import { getCustomWidgets } from './components/UISchema.js'
+import { getCustomBinding } from './components/UISchema.js'
 import { useViewSettings } from './lib/ViewSettings.js'
 import I18NextChainedBackend from 'i18next-chained-backend/dist/esm/i18nextChainedBackend.js'
 import I18NextLocalStorageBackend from 'i18next-localstorage-backend'
 import I18nextBrowserLanguageDetector from 'i18next-browser-languagedetector'
-import { UIApiProvider } from '@ui-schema/ui-schema/UIApi'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import { contentUIMapping } from './components/ContentUI.js'
+import { standardValidators } from '@ui-schema/json-schema/StandardValidators'
+import { requiredValidatorLegacy } from '@ui-schema/json-schema/Validators/RequiredValidatorLegacy'
+
+const validator = Validator([
+    ...standardValidators,
+    requiredValidatorLegacy, // opinionated validator, HTML-like, empty-string = invalid
+])
+
+const validate = validator.validate
 
 const themes = customTheme()
 
@@ -70,11 +79,7 @@ i18n
         },
     })
 
-const customWidgets = getCustomWidgets()
-
-const loadSchema = (url: string) => {
-    return fetch(url).then(r => r.json())
-}
+const customBinding = getCustomBinding()
 
 export const App: React.ComponentType<{}> = () => {
     const {theme, lang} = useViewSettings()
@@ -105,19 +110,17 @@ export const App: React.ComponentType<{}> = () => {
             <BrowserRouter>
                 <React.Suspense fallback={<CircularProgress/>}>
                     <SnackProvider>
-                        <UIApiProvider
-                            loadSchema={loadSchema}
-                            /* disables localStorage cache of e.g. loaded schemas */
-                            noCache
-                        >
-                            <LocalizationProvider dateAdapter={AdapterMoment}>
-                                <UIMetaProvider t={browserT} widgets={customWidgets}>
-                                    <ContentLeafsProvider deco={contentUIDecorators} renderMap={contentUIMapping}>
-                                        <Layout/>
-                                    </ContentLeafsProvider>
-                                </UIMetaProvider>
-                            </LocalizationProvider>
-                        </UIApiProvider>
+                        <LocalizationProvider dateAdapter={AdapterMoment}>
+                            <UIMetaProvider
+                                t={browserT}
+                                binding={customBinding}
+                                validate={validate}
+                            >
+                                <ContentLeafsProvider deco={contentUIDecorators} renderMap={contentUIMapping}>
+                                    <Layout/>
+                                </ContentLeafsProvider>
+                            </UIMetaProvider>
+                        </LocalizationProvider>
                     </SnackProvider>
                 </React.Suspense>
             </BrowserRouter>

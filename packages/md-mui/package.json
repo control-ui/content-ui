@@ -1,6 +1,6 @@
 {
     "name": "@content-ui/md-mui",
-    "version": "0.1.11",
+    "version": "0.1.12",
     "description": "",
     "author": {
         "name": "bemit",
@@ -18,11 +18,13 @@
         "url": "https://github.com/control-ui/content-ui.git",
         "directory": "packages/md-mui"
     },
+    "type": "module",
     "exports": {
         "./*": {
             "types": "./*.d.ts",
             "import": "./*.js"
-        }
+        },
+        "./package.json": "./package.json"
     },
     "sideEffects": false,
     "devDependencies": {
