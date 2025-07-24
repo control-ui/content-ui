@@ -1,7 +1,11 @@
 import { ViewerBoxRouter } from '@content-ui/md-mui/ViewerBoxRouter'
 import { ContentParser } from '@content-ui/md/parser/ContentParser'
 import { ContentSelectionProvider } from '@content-ui/react/ContentSelectionContext'
-import React from 'react'
+import { scrollIntoViewWithMargin } from '@content-ui/react/Utils/scrollIntoViewWithMargin'
+import Button from '@mui/material/Button'
+import IcVisibility from '@mui/icons-material/Visibility'
+import IcVisibilityOff from '@mui/icons-material/VisibilityOff'
+import React, { useRef, useState } from 'react'
 import Grid from '@mui/material/Grid'
 import { ContentInput } from '@content-ui/input/ContentInput'
 import { CustomCodeMirror, getHighlight } from '../components/CustomCodeMirror.js'
@@ -48,9 +52,13 @@ With even more sentences, words and other things.
 `
 
 export const PageInput: React.ComponentType = () => {
-    const [value, setValue] = React.useState(md)
     const {breakpoints} = useTheme()
     const isMediumScreen = useMediaQuery(breakpoints.up('md'))
+
+    const scrollContainerRef = useRef<HTMLDivElement>(null)
+
+    const [value, setValue] = useState(md)
+
     const {
         textValue,
         handleOnChange,
@@ -67,6 +75,7 @@ export const PageInput: React.ComponentType = () => {
                 ? 560
                 : 180,
         adaptiveDelay: true,
+        prioritizeLatest: false,
         autoProcess,
         onMount: true,
         processor: ContentParser,
@@ -76,6 +85,8 @@ export const PageInput: React.ComponentType = () => {
         const highlight = getHighlight('md')
         return [...(highlight ? [highlight] : [])]
     }, [])
+
+    const [showAst, setShowAst] = useState(false)
 
     return (
         <>
@@ -92,6 +103,8 @@ export const PageInput: React.ComponentType = () => {
                     >
                         <SettingsProvider
                             followEditor={isMediumScreen}
+                            scrollContainer={scrollContainerRef}
+                            onFollowElement={scrollIntoViewWithMargin}
                             headlineLinkable
                             headlineSelectable
                             headlineSelectableOnHover
@@ -113,7 +126,10 @@ export const PageInput: React.ComponentType = () => {
                                         CodeMirror={CustomCodeMirror}
                                         ViewerBox={ViewerBoxRouter}
                                         onChange={handleOnChange}
-                                        extensions={extensions}
+                                        codeMirrorProps={{
+                                            extensions: extensions,
+                                            variant: 'embed',
+                                        }}
                                         textValue={textValue}
                                         bigSize={bigSize}
                                         processing={processing}
@@ -124,13 +140,18 @@ export const PageInput: React.ComponentType = () => {
                                     />
                                 </Grid>
                                 <Grid
+                                    ref={scrollContainerRef}
                                     size={{xs: 12, md: 6}}
                                     sx={{
                                         overflowY: 'auto',
                                         scrollbarWidth: 'thin',
                                         maxHeight: {md: '100%'},
-                                        // viewer with bigger paddings for headline buttons
-                                        px: {md: 2, lg: 3},
+                                        py: 2,
+                                        px: {
+                                            xs: 2,
+                                            // bigger paddings for linkable headline buttons
+                                            lg: 3,
+                                        },
                                         backgroundColor: 'background.paper',
                                     }}
                                 >
@@ -138,6 +159,19 @@ export const PageInput: React.ComponentType = () => {
                                         outdated={outdated}
                                         processing={processing}
                                     />
+                                    <Button
+                                        startIcon={showAst ? <IcVisibilityOff/> : <IcVisibility/>}
+                                        onClick={() => setShowAst(s => !s)}
+                                        variant={'outlined'}
+                                        sx={{mt: 2, mb: 1}}
+                                    >
+                                        {'AST'}
+                                    </Button>
+                                    {showAst ?
+                                        <CustomCodeMirror
+                                            value={JSON.stringify(root || null, undefined, 4)}
+                                            lang={'json'}
+                                        /> : null}
                                 </Grid>
                             </Grid>
                         </SettingsProvider>

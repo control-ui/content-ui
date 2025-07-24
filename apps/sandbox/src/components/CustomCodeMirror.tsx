@@ -23,12 +23,6 @@ import { json } from '@codemirror/lang-json'
 import { javascript } from '@codemirror/lang-javascript'
 import { html } from '@codemirror/lang-html'
 import { css } from '@codemirror/lang-css'
-import { python } from '@codemirror/lang-python'
-import { wast } from '@codemirror/lang-wast'
-import { rust } from '@codemirror/lang-rust'
-import { xml } from '@codemirror/lang-xml'
-import { php } from '@codemirror/lang-php'
-import { MariaSQL, Cassandra, MySQL, PostgreSQL, MSSQL, StandardSQL, sql } from '@codemirror/lang-sql'
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown'
 import { languages } from '@codemirror/language-data'
 import { lezer } from '@codemirror/lang-lezer'
@@ -105,11 +99,6 @@ export const getHighlight = (lang: string | undefined): Extension | undefined =>
         case 'twig':
         case 'html':
             return html()
-        case 'rss':
-        case 'wsl':
-        case 'xsd':
-        case 'xml':
-            return xml()
         case 'bash':
         case 'sh':
         case 'zsh':
@@ -132,32 +121,6 @@ export const getHighlight = (lang: string | undefined): Extension | undefined =>
             return StreamLanguage.define(yaml)
         case 'css':
             return css()
-        case 'python':
-            return python()
-        case 'wast':
-            return wast()
-        case 'rust':
-            return rust()
-        case 'injectablephp':
-        case 'php':
-            return php()
-        case 'mysql':
-            return sql({dialect: MySQL})
-        case 'ms sql':
-        case 'mssql':
-            return sql({dialect: MSSQL})
-        case 'mariasql':
-            return sql({dialect: MariaSQL})
-        case 'postgresql':
-            return sql({dialect: PostgreSQL})
-        case 'cassandra':
-        case 'cql':
-            return sql({dialect: Cassandra})
-        case 'bigquery':
-        case 'standardsql':
-            return sql({dialect: StandardSQL})
-        case 'sql':
-            return sql()
         case 'md':
         case 'markdown':
             return mdLang
