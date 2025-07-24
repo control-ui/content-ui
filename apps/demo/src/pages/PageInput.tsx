@@ -121,7 +121,10 @@ export const PageInput: React.ComponentType = () => {
                                     CodeMirror={CustomCodeMirror}
                                     ViewerBox={ViewerBoxRouter}
                                     onChange={handleOnChange}
-                                    extensions={extensions}
+                                    codeMirrorProps={{
+                                        extensions: extensions,
+                                        variant: 'embed',
+                                    }}
                                     textValue={textValue}
                                     bigSize={bigSize}
                                     processing={processing}
@@ -138,8 +141,12 @@ export const PageInput: React.ComponentType = () => {
                                     overflowY: 'auto',
                                     scrollbarWidth: 'thin',
                                     maxHeight: {md: '100%'},
-                                    // viewer with bigger paddings for headline buttons
-                                    px: {md: 2, lg: 3},
+                                    py: 2,
+                                    px: {
+                                        xs: 2,
+                                        // bigger paddings for linkable headline buttons
+                                        lg: 3,
+                                    },
                                     backgroundColor: 'background.paper',
                                 }}
                             >
