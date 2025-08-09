@@ -11,7 +11,7 @@ export const RouterLink = forwardRef<HTMLAnchorElement, LinkProps>(function NavL
     {href, ...props},
     ref,
 ) {
-    return <LinkBase ref={ref} {...props} to={href}/>
+    return <LinkBase {...props} ref={ref} to={href}/>
 })
 
 export const MuiLink = forwardRef<HTMLAnchorElement, Omit<MuiLinkProps, 'component' | 'ref'> & Pick<LinkProps, 'href'>>(function MuiLink(

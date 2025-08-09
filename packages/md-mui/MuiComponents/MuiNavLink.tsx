@@ -9,7 +9,8 @@ export const MuiNavLink = forwardRef<HTMLAnchorElement, MuiNavLinkProps>(functio
         children, exact,
         ...props
     },
+    ref,
 ) {
     const match = useMatch(props.href + (exact ? '' : props.href.endsWith('/') ? '*' : '/*'))
-    return <MuiLink {...props} underline={match ? 'always' : 'hover'} component={RouterLink}>{children}</MuiLink>
+    return <MuiLink {...props} ref={ref} underline={match ? 'always' : 'hover'} component={RouterLink}>{children}</MuiLink>
 })
