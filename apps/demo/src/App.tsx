@@ -12,7 +12,7 @@ import CircularProgress from '@mui/material/CircularProgress'
 import { UIMetaProvider } from '@ui-schema/react/UIMeta'
 import { SnackProvider } from 'react-use-snack/SnackProvider'
 import { browserT } from './t.js'
-import { getCustomBinding } from './components/UISchema.js'
+import { customBinding } from './components/UISchema.js'
 import { useViewSettings } from './lib/ViewSettings.js'
 import I18NextChainedBackend from 'i18next-chained-backend/dist/esm/i18nextChainedBackend.js'
 import I18NextLocalStorageBackend from 'i18next-localstorage-backend'
@@ -77,8 +77,6 @@ i18n
             caches: ['localStorage', 'sessionStorage'],
         },
     })
-
-const customBinding = getCustomBinding()
 
 export const App: React.ComponentType<{}> = () => {
     const {theme, lang} = useViewSettings()

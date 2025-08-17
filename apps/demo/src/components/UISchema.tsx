@@ -8,12 +8,13 @@ import { TableAdvanced } from '@ui-schema/ds-material/Widgets/TableAdvanced'
 import { SelectChips } from '@ui-schema/ds-material/Widgets/SelectChips'
 import { NumberRendererRead, StringRendererRead, TextRendererRead, WidgetBooleanRead, WidgetChipsRead, WidgetOptionsRead } from '@ui-schema/ds-material'
 import { UIMetaReadContextType } from '@ui-schema/react/UIMetaReadContext'
-import { MuiBinding } from '@ui-schema/ds-material/Binding'
+import { MuiBinding } from '@ui-schema/ds-material/BindingType'
 import Grid, { GridSpacing } from '@mui/material/Grid'
 import { WidgetMarkdownViewer } from './CustomWidgets/WidgetMarkdownViewer.js'
 import { WidgetMarkdownEditor } from './CustomWidgets/WidgetMarkdownEditor.js'
-import { baseComponents, typeWidgets } from '@ui-schema/ds-material/BindingDefault'
-import { bindingExtended } from '@ui-schema/ds-material/BindingExtended'
+import { bindingComponents } from '@ui-schema/ds-material/Binding/Components'
+import { widgetsDefault } from '@ui-schema/ds-material/Binding/WidgetsDefault'
+import { widgetsExtended } from '@ui-schema/ds-material/Binding/WidgetsExtended'
 import { GridItemPlugin } from '@ui-schema/ds-material/GridItemPlugin'
 
 const GroupRenderer: React.ComponentType<React.PropsWithChildren<GroupRendererProps>> = ({schema, children, noGrid}) => {
@@ -33,7 +34,7 @@ const GroupRenderer: React.ComponentType<React.PropsWithChildren<GroupRendererPr
         </Grid>
 }
 
-export const getCustomBinding: () => MuiBinding = () => ({
+export const customBinding: MuiBinding = {
     // ...binding,
     // GroupRenderer: GroupRenderer,
     // pluginStack: [
@@ -49,13 +50,13 @@ export const getCustomBinding: () => MuiBinding = () => ({
     // custom: {
     //     ...widgets.custom,
     // },
-    ...baseComponents,
+    ...bindingComponents,
     GroupRenderer: GroupRenderer,
 
     // Widget mapping by schema type or custom ID.
     widgets: {
-        ...typeWidgets,
-        ...bindingExtended,
+        ...widgetsDefault,
+        ...widgetsExtended,
 
         SelectChips: SelectChips,
         // Table: CustomTable,
@@ -90,10 +91,10 @@ export const getCustomBinding: () => MuiBinding = () => ({
 
         ValidityReporter, // keeps `valid`/`errors` in sync with `store`
     ],
-})
+}
 
 export const readWidgets: any = {
-    ...typeWidgets,
+    ...widgetsDefault,
     string: StringRendererRead,
     number: NumberRendererRead,
     integer: NumberRendererRead,
