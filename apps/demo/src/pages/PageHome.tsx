@@ -28,6 +28,7 @@ Last line in text.
 
 export const PageHome: React.ComponentType = () => {
     const {t} = useTranslation('translation')
+
     return <>
         <>
             <title>{t('brand')} · Content-UI</title>

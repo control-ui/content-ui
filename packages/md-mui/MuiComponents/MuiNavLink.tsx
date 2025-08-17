@@ -3,7 +3,7 @@ import { useMatch } from 'react-router'
 import MuiLink, { LinkProps as MuiLinkProps } from '@mui/material/Link'
 import { LinkProps, RouterLink } from '@content-ui/md-mui/MuiComponents/MuiLink'
 
-export type MuiNavLinkProps = Omit<MuiLinkProps, 'component' | 'underline' | 'ref'> & Pick<LinkProps, 'href'> & { exact?: boolean }
+export type MuiNavLinkProps = Omit<MuiLinkProps, 'component' | 'underline' | 'ref'> & LinkProps & { exact?: boolean }
 export const MuiNavLink = forwardRef<HTMLAnchorElement, MuiNavLinkProps>(function MuiNavLink(
     {
         children, exact,

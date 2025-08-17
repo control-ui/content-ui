@@ -7,7 +7,6 @@ import { customTheme } from './theme.js'
 import { Layout } from './components/Layout.js'
 import i18n from 'i18next'
 import { initReactI18next, useTranslation } from 'react-i18next'
-import { BrowserRouter } from 'react-router-dom'
 import resourcesToBackend from 'i18next-resources-to-backend'
 import CircularProgress from '@mui/material/CircularProgress'
 import { UIMetaProvider } from '@ui-schema/react/UIMeta'
@@ -107,23 +106,21 @@ export const App: React.ComponentType<{}> = () => {
         <ThemeProvider theme={t}>
             <CssBaseline/>
 
-            <BrowserRouter>
-                <React.Suspense fallback={<CircularProgress/>}>
-                    <SnackProvider>
-                        <LocalizationProvider dateAdapter={AdapterMoment}>
-                            <UIMetaProvider
-                                t={browserT}
-                                binding={customBinding}
-                                validate={validate}
-                            >
-                                <ContentLeafsProvider deco={contentUIDecorators} renderMap={contentUIMapping}>
-                                    <Layout/>
-                                </ContentLeafsProvider>
-                            </UIMetaProvider>
-                        </LocalizationProvider>
-                    </SnackProvider>
-                </React.Suspense>
-            </BrowserRouter>
+            <React.Suspense fallback={<CircularProgress/>}>
+                <SnackProvider>
+                    <LocalizationProvider dateAdapter={AdapterMoment}>
+                        <UIMetaProvider
+                            t={browserT}
+                            binding={customBinding}
+                            validate={validate}
+                        >
+                            <ContentLeafsProvider deco={contentUIDecorators} renderMap={contentUIMapping}>
+                                <Layout/>
+                            </ContentLeafsProvider>
+                        </UIMetaProvider>
+                    </LocalizationProvider>
+                </SnackProvider>
+            </React.Suspense>
         </ThemeProvider>
     </StyledEngineProvider>
 }
