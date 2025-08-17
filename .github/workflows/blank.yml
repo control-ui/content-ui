@@ -51,7 +51,7 @@ jobs:
 
             -   name: Install Deps
                 run: |
-                    npm ci --legacy-peer-deps
+                    npm ci
 
             -   name: Build
                 env:
