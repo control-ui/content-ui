@@ -17,6 +17,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
+                # locked version due to bug in jest https://github.com/nodejs/node/issues/59480
                 node-version: [ 24.2 ]
         steps:
             -   uses: actions/checkout@v4
