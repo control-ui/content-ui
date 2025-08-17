@@ -180,7 +180,7 @@ const LayoutContent = () => {
 
 const routesForRouter = [
     {
-        path: basePath.endsWith('/') ? basePath + '*' : basePath + '*',
+        path: basePath.endsWith('/') ? basePath + '*' : basePath ? basePath + '/*' : '*',
         element: <LayoutContent/>,
         children: [
             {
