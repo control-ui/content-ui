@@ -19,7 +19,7 @@ import { CodeMirrorOnChange } from '@ui-schema/kit-codemirror/useCodeMirror'
 import { useContentContext } from '@content-ui/react/ContentFileContext'
 import { WithContent } from '@content-ui/react/useContent'
 
-export interface ViewEditorProps extends Pick<WithContentEditor, 'autoProcess' | 'setAutoProcess'>, Omit<WithContent, 'file' | 'root'> {
+export interface ContentInputProps extends Pick<WithContentEditor, 'autoProcess' | 'setAutoProcess'>, Omit<WithContent, 'file' | 'root'> {
     preview?: boolean
     refWarningBox?: RefObject<HTMLDivElement | null>
     onChange?: CodeMirrorOnChange
@@ -65,7 +65,7 @@ export const ContentInput = <TCodeMirrorProps extends Omit<CodeMirrorComponentPr
     }: {
         CodeMirror: ComponentType<TCodeMirrorProps>
         codeMirrorProps?: TCodeMirrorProps
-    } & ViewEditorProps & Omit<ViewerBoxProps, 'needsProcessing' | 'editorSelection' | 'onChange'>,
+    } & ContentInputProps & Omit<ViewerBoxProps, 'needsProcessing' | 'editorSelection' | 'onChange'>,
 ) => {
     const {file} = useContentContext()
     const editorSelection = useContentSelection()
