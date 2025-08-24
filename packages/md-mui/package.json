@@ -2,16 +2,7 @@
     "name": "@content-ui/md-mui",
     "version": "0.1.13",
     "description": "",
-    "author": {
-        "name": "bemit",
-        "url": "https://bemit.codes"
-    },
-    "contributors": [
-        {
-            "name": "Michael Becker",
-            "url": "https://i-am-digital.eu"
-        }
-    ],
+    "author": "Michael Becker <michael@bemit.codes> (https://bemit.codes)",
     "license": "MIT",
     "repository": {
         "type": "git",

@@ -1,9 +1,7 @@
 # Content-UI: React
 
-...
+This package provides the core React engine for rendering Markdown content within the `@content-ui` library. It offers headless components and hooks to integrate Markdown display into any React application.
 
 ## License
 
-This project is distributed as **free software** under the **MIT License**, see [License](https://github.com/control-ui/content-ui/blob/main/LICENSE).
-
-© 2023 bemit UG (haftungsbeschränkt)
+Released under the [MIT License](https://github.com/control-ui/content-ui/blob/main/LICENSE).

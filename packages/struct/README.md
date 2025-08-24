@@ -1,9 +1,7 @@
 # Content-UI: Struct
 
-...
+This package provides structural utilities and extended Markdown AST typings for the `@content-ui` library.
 
 ## License
 
-This project is distributed as **free software** under the **MIT License**, see [License](https://github.com/control-ui/content-ui/blob/main/LICENSE).
-
-© 2024 bemit UG (haftungsbeschränkt)
+Released under the [MIT License](https://github.com/control-ui/content-ui/blob/main/LICENSE).
