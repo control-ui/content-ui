@@ -7,13 +7,12 @@ import { customTheme } from './theme.js'
 import { Layout } from './components/Layout.js'
 import i18n from 'i18next'
 import { initReactI18next, useTranslation } from 'react-i18next'
-import { BrowserRouter } from 'react-router-dom'
 import resourcesToBackend from 'i18next-resources-to-backend'
 import CircularProgress from '@mui/material/CircularProgress'
 import { UIMetaProvider } from '@ui-schema/react/UIMeta'
 import { SnackProvider } from 'react-use-snack/SnackProvider'
 import { browserT } from './t.js'
-import { getCustomBinding } from './components/UISchema.js'
+import { customBinding } from './components/UISchema.js'
 import { useViewSettings } from './lib/ViewSettings.js'
 import I18NextChainedBackend from 'i18next-chained-backend/dist/esm/i18nextChainedBackend.js'
 import I18NextLocalStorageBackend from 'i18next-localstorage-backend'
@@ -79,8 +78,6 @@ i18n
         },
     })
 
-const customBinding = getCustomBinding()
-
 export const App: React.ComponentType<{}> = () => {
     const {theme, lang} = useViewSettings()
     const {i18n} = useTranslation()
@@ -107,23 +104,21 @@ export const App: React.ComponentType<{}> = () => {
         <ThemeProvider theme={t}>
             <CssBaseline/>
 
-            <BrowserRouter>
-                <React.Suspense fallback={<CircularProgress/>}>
-                    <SnackProvider>
-                        <LocalizationProvider dateAdapter={AdapterMoment}>
-                            <UIMetaProvider
-                                t={browserT}
-                                binding={customBinding}
-                                validate={validate}
-                            >
-                                <ContentLeafsProvider deco={contentUIDecorators} renderMap={contentUIMapping}>
-                                    <Layout/>
-                                </ContentLeafsProvider>
-                            </UIMetaProvider>
-                        </LocalizationProvider>
-                    </SnackProvider>
-                </React.Suspense>
-            </BrowserRouter>
+            <React.Suspense fallback={<CircularProgress/>}>
+                <SnackProvider>
+                    <LocalizationProvider dateAdapter={AdapterMoment}>
+                        <UIMetaProvider
+                            t={browserT}
+                            binding={customBinding}
+                            validate={validate}
+                        >
+                            <ContentLeafsProvider deco={contentUIDecorators} renderMap={contentUIMapping}>
+                                <Layout/>
+                            </ContentLeafsProvider>
+                        </UIMetaProvider>
+                    </LocalizationProvider>
+                </SnackProvider>
+            </React.Suspense>
         </ThemeProvider>
     </StyledEngineProvider>
 }

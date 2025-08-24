@@ -1,9 +1,7 @@
-# Content-UI: React
+# Content-UI: MD-MUI
 
-...
+This package provides Material-UI components for rendering Markdown content. It integrates with `@content-ui/react` to display Markdown nicely styled.
 
 ## License
 
-This project is distributed as **free software** under the **MIT License**, see [License](https://github.com/control-ui/content-ui/blob/main/LICENSE).
-
-© 2024 bemit UG (haftungsbeschränkt)
+Released under the [MIT License](https://github.com/control-ui/content-ui/blob/main/LICENSE).

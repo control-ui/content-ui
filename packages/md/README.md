@@ -1,10 +1,10 @@
 # Content-UI: Markdown
 
-...
+This package provides core utilities for parsing and transforming Markdown content, including custom syntax extensions and AST manipulation.
 
 ## License
 
-This project is distributed as **free software** under the **MIT License**, see [License](https://github.com/control-ui/content-ui/blob/main/LICENSE).
+Released under the [MIT License](https://github.com/control-ui/content-ui/blob/main/LICENSE).
 
 Includes modified copies of [micromark/micromark-extension-gfm-strikethrough/1.0.4/dev/lib/syntax.js](https://github.com/micromark/micromark-extension-gfm-strikethrough/blob/1.0.4/dev/lib/syntax.js), see [(MIT) LICENSE_GFM](https://github.com/control-ui/content-ui/blob/main/packages/md/LICENSE_GFM).
 
@@ -15,4 +15,3 @@ Adjusted to Typescript and used as base for similar plugins:
 - `remarkUnderline` to support `__` `<u`
 - `remarkMark` to support `==` `<mark`
 
-© 2024 bemit UG (haftungsbeschränkt)

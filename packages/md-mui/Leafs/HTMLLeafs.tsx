@@ -36,7 +36,17 @@ export const LeafSuper: React.FC<ContentLeafPayload<Super>> = ({child}) =>
     <sup><LeafChildNodes childNodes={child.children}/></sup>
 
 export const LeafMark: React.FC<ContentLeafPayload<Mark>> = ({child}) =>
-    <Box component={'mark'} sx={{backgroundColor: 'info.light'}} px={0.25} py={0}><LeafChildNodes childNodes={child.children}/></Box>
+    <Box
+        component={'mark'}
+        sx={theme => {
+            const bgColor = theme.palette.mode === 'dark' ? theme.palette.info.light : theme.palette.info.dark
+            return {
+                backgroundColor: bgColor,
+                color: theme.palette.getContrastText(bgColor),
+            }
+        }}
+        px={0.25} py={0}
+    ><LeafChildNodes childNodes={child.children}/></Box>
 
 export const LeafThematicBreak: React.FC<ContentLeafProps<'thematicBreak'> & { dense?: boolean }> = ({dense}) =>
     <Box
