@@ -1,9 +1,8 @@
 import { MuiContentRenderComponentsLinks } from '@content-ui/md-mui/LeafsComponents'
 import { useContentSelection } from '@content-ui/react/ContentSelectionContext'
-import { ReactDeco } from '@content-ui/react/EngineDecorator'
 import Link from '@mui/material/Link'
 import { createContext, FC, PropsWithChildren, useContext, useMemo } from 'react'
-import type { Heading, ListItem, Root } from 'mdast'
+import type { Heading, ListItem, Root, RootContent } from 'mdast'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import { ContentLeaf } from '@content-ui/react/ContentLeaf'
@@ -20,10 +19,13 @@ import type { TocHNode, TocListItem } from '@content-ui/struct/Ast'
 export const LeafTocListItem: FC<ContentLeafPayload<TocListItem> & { textVariant?: 'body1' | 'body2' | 'caption' }> = ({child, textVariant}) => {
     const editorSelection = useContentSelection()
     const {smallList, showLines, onClick} = useToc()
-    // todo: is injected in `ContentRenderer`, move to props
-    const {headlineLinkable, linkAnchorToHref} = useSettings()
+    const {
+        headlineLinkable, linkAnchorToHref,
+        hideSelection,
+    } = useSettings()
     const {renderMap} = useContentLeafs<
-        ContentLeafsPropsMapping, MuiContentRenderComponentsLinks, ReactDeco<{}, {}>,
+        RootContent,
+        ContentLeafsPropsMapping, MuiContentRenderComponentsLinks,
         LeafsRenderMapping<ReactLeafsNodeSpec<ContentLeafsPropsMapping>, MuiContentRenderComponentsLinks, ContentLeafMatchParams>
     >()
     const {typography} = useTheme<Theme & { typography: TypographyWithExtras }>()
@@ -31,7 +33,7 @@ export const LeafTocListItem: FC<ContentLeafPayload<TocListItem> & { textVariant
         editorSelection?.startLine === child?.headline.headline.position?.start?.line ||
         editorSelection?.endLine === child?.headline.headline.position?.end?.line
     )
-    const MuiLink = renderMap.components.Link || Link
+    const MuiLink = renderMap.components?.Link || Link
 
     const id = headlineLinkable ? '#' + textToId(child?.headline.flatText.join('')) : undefined
     return child ? <Typography component={'li'} variant={textVariant || (smallList ? 'body2' : 'body1')} sx={{pl: 0.5}}>
@@ -39,7 +41,7 @@ export const LeafTocListItem: FC<ContentLeafPayload<TocListItem> & { textVariant
             {id ?
                 <MuiLink
                     href={linkAnchorToHref ? linkAnchorToHref(id) : id}
-                    color={selectedByLine ? 'primary' : 'inherit'}
+                    color={!hideSelection && selectedByLine ? 'primary' : 'inherit'}
                     underline={'hover'}
                     sx={{
                         border: 0, outline: 0, flexGrow: 1,
@@ -64,11 +66,11 @@ export const LeafTocListItem: FC<ContentLeafPayload<TocListItem> & { textVariant
                         fontSize: typography?.fontSizeCode,
                         whiteSpace: 'pre',
                         marginLeft: 8,
-                        opacity: selectedByLine ? 1 : 0.65,
+                        opacity: !hideSelection && selectedByLine ? 1 : 0.65,
                         transition: '0.26s ease-out opacity',
-                        fontWeight: selectedByLine ? 'bold' : undefined,
+                        fontWeight: !hideSelection && selectedByLine ? 'bold' : undefined,
                     }}
-                    color={selectedByLine ? 'primary' : 'inherit'}
+                    color={!hideSelection && selectedByLine ? 'primary' : 'inherit'}
                     title={'line in source document'}
                 >
                     {'L'}
@@ -108,7 +110,7 @@ export const LeafTocList: FC<{
             ),
         }
     })
-    return <ContentLeaf<ContentLeafsPropsMapping, ContentLeafsPropsMapping['list'] & { child: { dense?: boolean } }>
+    return <ContentLeaf<RootContent, ContentLeafsPropsMapping, 'list', ContentLeafsPropsMapping['list'] & { child: { dense?: boolean } }>
         elem={'list'}
         child={{
             type: 'list',

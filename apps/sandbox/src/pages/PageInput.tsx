@@ -62,7 +62,7 @@ export const PageInput: React.ComponentType = () => {
     const {
         textValue,
         handleOnChange,
-        editorSelection,
+        editorSelectionStore,
         bigSize,
         autoProcess,
         setAutoProcess,
@@ -99,7 +99,7 @@ export const PageInput: React.ComponentType = () => {
                     file={file}
                 >
                     <ContentSelectionProvider
-                        selection={editorSelection}
+                        selectionStore={editorSelectionStore}
                     >
                         <SettingsProvider
                             followEditor={isMediumScreen}

@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { ContentLeafsProvider, contentUIDecorators } from '@content-ui/react/ContentLeafsContext'
+import { ContentLeafsProvider, ContentRendererMemo } from '@content-ui/react/ContentLeafsContext'
 import { it, expect, describe } from '@jest/globals'
 import '@testing-library/jest-dom/jest-globals'
 import { render, screen } from '@testing-library/react'
@@ -57,7 +57,7 @@ describe('PageHome', () => {
     it('PageHome Content', async() => {
         render(
             <BrowserRouter>
-                <ContentLeafsProvider deco={contentUIDecorators} renderMap={contentUIMapping}>
+                <ContentLeafsProvider Renderer={ContentRendererMemo} renderMap={contentUIMapping}>
                     <Suspense>
                         <PageHome/>
                     </Suspense>

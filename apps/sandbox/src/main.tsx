@@ -1,9 +1,6 @@
 import { MuiLink } from '@content-ui/md-mui/MuiComponents/MuiLink'
 import React, { useState } from 'react'
-import {
-    contentUIDecorators,
-    ContentLeafsProvider,
-} from '@content-ui/react/ContentLeafsContext'
+import { ContentLeafsProvider, ContentRendererMemo } from '@content-ui/react/ContentLeafsContext'
 import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
 import { renderMapping } from '@content-ui/md-mui/LeafsMarkdown'
@@ -43,7 +40,7 @@ const Main = () => {
         <CssBaseline/>
         <BrowserRouter>
             <ContentLeafsProvider
-                deco={contentUIDecorators}
+                Renderer={ContentRendererMemo}
                 renderMap={contentUIMapping}
             >
                 <App toggleTheme={toggleTheme}/>

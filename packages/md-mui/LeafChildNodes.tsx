@@ -2,16 +2,14 @@ import { ReactNode } from 'react'
 import type { Parents } from 'mdast'
 import { ContentLeaf } from '@content-ui/react/ContentLeaf'
 
-export const LeafChildNodes = <P extends {} = {}, TChildNodes extends Parents['children'] = Parents['children']>(
-    props:
-        P &
-        {
-            /**
-             * A childs index is only passed down when `true`, for performance reasons.
-             */
-            addIndex?: boolean
-            childNodes: TChildNodes
-        },
+export const LeafChildNodes = <TChildNodes extends Parents['children'] = Parents['children']>(
+    props: {
+        /**
+         * A childs index is only passed down when `true`, for performance reasons.
+         */
+        addIndex?: boolean
+        childNodes: TChildNodes
+    },
 ): ReactNode => {
     const {childNodes, addIndex, ...p} = props
     const length = childNodes.length

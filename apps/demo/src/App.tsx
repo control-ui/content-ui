@@ -1,4 +1,4 @@
-import { contentUIDecorators, ContentLeafsProvider } from '@content-ui/react/ContentLeafsContext'
+import { ContentLeafsProvider, ContentRendererMemo } from '@content-ui/react/ContentLeafsContext'
 import { Validator } from '@ui-schema/json-schema'
 import React from 'react'
 import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles'
@@ -112,7 +112,10 @@ export const App: React.ComponentType<{}> = () => {
                             binding={customBinding}
                             validate={validate}
                         >
-                            <ContentLeafsProvider deco={contentUIDecorators} renderMap={contentUIMapping}>
+                            <ContentLeafsProvider
+                                Renderer={ContentRendererMemo}
+                                renderMap={contentUIMapping}
+                            >
                                 <Layout/>
                             </ContentLeafsProvider>
                         </UIMetaProvider>

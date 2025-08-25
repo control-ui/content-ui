@@ -1,5 +1,5 @@
 import { useMemoObject } from '@content-ui/react/useMemoObject'
-import { createContext, PropsWithChildren, useContext, useMemo } from 'react'
+import { createContext, ReactNode, useContext, useMemo } from 'react'
 
 /**
  * @todo split up "base" vs custom, like MUI specific and allow overwriting via generics
@@ -9,6 +9,13 @@ export type LeafsSettings = {
      * Follow the editor selection by scrolling the viewer to a selected leaf.
      */
     followEditor?: boolean
+    /**
+     * If the `selected` elements should not be highlighted.
+     *
+     * Note: before 0.2.x it was better to conditionally omit the `selection` from the provider,
+     * which can cause issues with integrations depending on selection or document state.
+     */
+    hideSelection?: boolean
     /**
      * Reference to the scroll container, used to calculate scroll behaviour when following editor selection.
      */
@@ -53,13 +60,15 @@ export type LeafsSettings = {
 
 export const LeafsSettingsContext = createContext<{ settings: LeafsSettings }>({settings: {}})
 
-export const useSettings = <TSettings extends LeafsSettings = LeafsSettings>(): TSettings => useContext(LeafsSettingsContext).settings as TSettings
+export const useSettings =
+    <TSettings extends object>(): LeafsSettings & Omit<NoInfer<TSettings>, keyof LeafsSettings> =>
+        useContext(LeafsSettingsContext).settings as LeafsSettings & Omit<NoInfer<TSettings>, keyof LeafsSettings>
 
-export const SettingsProvider = <TSettings extends LeafsSettings = LeafsSettings>(
+export const SettingsProvider = <TSettings extends object>(
     {
         children,
         ...props
-    }: PropsWithChildren<TSettings>,
+    }: LeafsSettings & Omit<NoInfer<TSettings>, keyof LeafsSettings | 'children'> & { children?: ReactNode | undefined },
 ) => {
     const settings = useMemoObject(props)
     const ctx = useMemo(() => {

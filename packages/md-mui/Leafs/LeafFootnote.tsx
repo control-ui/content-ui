@@ -1,7 +1,7 @@
 import { MuiContentRenderComponentsLinks } from '@content-ui/md-mui/LeafsComponents'
-import { ReactDeco } from '@content-ui/react/EngineDecorator'
 import { useSettings } from '@content-ui/react/LeafSettings'
 import Link from '@mui/material/Link'
+import type { RootContent } from 'mdast'
 import React from 'react'
 import { LeafChildNodes } from '@content-ui/md-mui/LeafChildNodes'
 import IcGoTo from '@mui/icons-material/SubdirectoryArrowLeft'
@@ -18,10 +18,11 @@ export const LeafFootnoteDefinition: React.FC<ContentLeafProps<'footnoteDefiniti
     const {typography} = useTheme<Theme & { typography: TypographyWithExtras }>()
     const {linkAnchorToHref} = useSettings()
     const {renderMap} = useContentLeafs<
-        ContentLeafsPropsMapping, MuiContentRenderComponentsLinks, ReactDeco<{}, {}>,
+        RootContent,
+        ContentLeafsPropsMapping, MuiContentRenderComponentsLinks,
         LeafsRenderMapping<ReactLeafsNodeSpec<ContentLeafsPropsMapping>, MuiContentRenderComponentsLinks, ContentLeafMatchParams>
     >()
-    const MuiLink = renderMap.components.Link || Link
+    const MuiLink = renderMap.components?.Link || Link
 
     const footnoteRef = '#' + userContentPrefix + 'fnref-' + child?.identifier
     return <Typography
@@ -59,10 +60,11 @@ export const LeafFootnoteDefinition: React.FC<ContentLeafProps<'footnoteDefiniti
 export const LeafFootnoteReference: React.FC<ContentLeafProps<'footnoteReference'>> = ({child}) => {
     const {linkAnchorToHref} = useSettings()
     const {renderMap} = useContentLeafs<
-        ContentLeafsPropsMapping, MuiContentRenderComponentsLinks, ReactDeco<{}, {}>,
+        RootContent,
+        ContentLeafsPropsMapping, MuiContentRenderComponentsLinks,
         LeafsRenderMapping<ReactLeafsNodeSpec<ContentLeafsPropsMapping>, MuiContentRenderComponentsLinks, ContentLeafMatchParams>
     >()
-    const MuiLink = renderMap.components.Link || Link
+    const MuiLink = renderMap.components?.Link || Link
     const footnoteRef = '#' + userContentPrefix + 'fn-' + child.identifier
     return <MuiLink
         href={linkAnchorToHref ? linkAnchorToHref(footnoteRef) : footnoteRef}

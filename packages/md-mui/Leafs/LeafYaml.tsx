@@ -1,4 +1,5 @@
 import { useSettings } from '@content-ui/react/LeafSettings'
+import type { RootContent } from 'mdast'
 import React, { FC, useState } from 'react'
 import Box from '@mui/material/Box'
 import YAML from 'yaml'
@@ -13,7 +14,7 @@ import type { MuiContentRenderComponents } from '@content-ui/md-mui/LeafsCompone
 export const LeafYaml: FC<ContentLeafProps<'yaml'> & { dense?: boolean }> = ({child, dense}) => {
     const [showData, setShowData] = useState(false)
     const {fmHide} = useSettings()
-    const {renderMap: {components}} = useContentLeafs<ContentLeafsPropsMapping, MuiContentRenderComponents>()
+    const {renderMap: {components}} = useContentLeafs<RootContent, ContentLeafsPropsMapping, MuiContentRenderComponents>()
 
     const parsedData = React.useMemo(() => {
         if(!child || ((child.value?.trim() || '') === '')) return undefined
@@ -36,9 +37,7 @@ export const LeafYaml: FC<ContentLeafProps<'yaml'> & { dense?: boolean }> = ({ch
         )
     ) return null
 
-    const Code = components.Code
-        // eslint-disable-next-line deprecation/deprecation
-        || components.CodeMirror
+    const Code = components?.Code
 
     return <Box mt={1} mb={2}>
         <Button

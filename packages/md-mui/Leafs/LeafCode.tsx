@@ -1,3 +1,4 @@
+import type { RootContent } from 'mdast'
 import React from 'react'
 import Box from '@mui/material/Box'
 import { ContentLeafProps, ContentLeafsPropsMapping, useContentLeafs } from '@content-ui/react/ContentLeafsContext'
@@ -9,11 +10,9 @@ import type { MuiContentRenderComponents } from '@content-ui/md-mui/LeafsCompone
 
 export const LeafCode: React.FC<ContentLeafProps<'code'> & { dense?: boolean }> = ({child, selected, dense}) => {
     const cRef = useLeafFollower<HTMLDivElement>(selected)
-    const {renderMap: {components}} = useContentLeafs<ContentLeafsPropsMapping, MuiContentRenderComponents>()
+    const {renderMap: {components}} = useContentLeafs<RootContent, ContentLeafsPropsMapping, MuiContentRenderComponents>()
 
-    const Code = components.Code
-        // eslint-disable-next-line deprecation/deprecation
-        || components.CodeMirror
+    const Code = components?.Code
 
     return <Box mt={1} mb={2} ref={cRef}>
         {Code ?
