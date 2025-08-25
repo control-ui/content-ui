@@ -4,7 +4,7 @@
 import { LeafHRouter } from '@content-ui/md-mui/Leafs/LeafHRouter'
 import { MuiLink } from '@content-ui/md-mui/MuiComponents/MuiLink'
 import { ContentParser } from '@content-ui/md/parser/ContentParser'
-import { ContentLeafsProvider, contentUIDecorators } from '@content-ui/react/ContentLeafsContext'
+import { ContentLeafsProvider, ContentRendererMemo } from '@content-ui/react/ContentLeafsContext'
 import { it, expect, describe } from '@jest/globals'
 import '@testing-library/jest-dom/jest-globals'
 import { render } from '@testing-library/react'
@@ -21,7 +21,7 @@ describe('ViewerFromText', () => {
     it('Headline', async() => {
         const mdHeadline = '# Headline 1'
         const {queryByText} = render(
-            <ContentLeafsProvider deco={contentUIDecorators} renderMap={renderMapping}>
+            <ContentLeafsProvider Renderer={ContentRendererMemo} renderMap={renderMapping}>
                 <ViewerFromText
                     Viewer={ViewerContent}
                     processor={ContentParser}
@@ -48,7 +48,7 @@ describe('ViewerFromText', () => {
         const mdHeadline = '# Headline 1'
         const {queryByText} = render(
             <BrowserRouter>
-                <ContentLeafsProvider deco={contentUIDecorators} renderMap={mappingsWithLink}>
+                <ContentLeafsProvider Renderer={ContentRendererMemo} renderMap={mappingsWithLink}>
                     <ViewerFromText
                         Viewer={ViewerContent}
                         processor={ContentParser}

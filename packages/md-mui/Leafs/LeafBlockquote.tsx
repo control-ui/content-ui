@@ -1,5 +1,5 @@
-import { useContentSelection } from '@content-ui/react/ContentSelectionContext'
-import { isLeafSelected } from '@content-ui/react/Utils/isLeafSelected'
+import { useIsLeafSelected } from '@content-ui/react/ContentSelectionContext'
+import { useSettings } from '@content-ui/react/LeafSettings'
 import { useTheme } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import React from 'react'
@@ -38,8 +38,8 @@ const alertTypeIcons = {
 }
 
 export const LeafBlockquoteAlert: React.FC<ContentLeafProps<'blockquote'> & { alertType: string }> = ({alertType, child, selected}) => {
+    const {hideSelection} = useSettings()
     const bRef = useLeafFollower<HTMLQuoteElement>(selected)
-    const editorSelection = useContentSelection()
     const {palette} = useTheme()
 
     // note: titleLine does not contain position
@@ -59,13 +59,11 @@ export const LeafBlockquoteAlert: React.FC<ContentLeafProps<'blockquote'> & { al
 
     const Icon = alertType in alertTypeIcons ? alertTypeIcons[alertType] : undefined
 
-    const titleLineSelected = child.position ? isLeafSelected({
-        start: child.position.start,
-        end: {
-            line: child.position.start.line,
-        },
-    }, editorSelection?.startLine, editorSelection?.endLine) : false
     // todo: if no blank lines between titleLine and contentLines, the first contentLine is incorrectly highlighted when editor selection is on titleLine
+    const titleLineSelected = useIsLeafSelected(
+        child.position?.start?.line,
+        child.position?.start?.line,
+    )
 
     return <Box
         component={'blockquote'}
@@ -95,8 +93,8 @@ export const LeafBlockquoteAlert: React.FC<ContentLeafProps<'blockquote'> & { al
             }
             sx={{
                 display: 'flex', alignItems: 'center', columnGap: 1,
-                backgroundColor: titleLineSelected ? palette.mode === 'dark' ? 'rgba(5, 115, 115, 0.11)' : 'rgba(206, 230, 228, 0.31)' : undefined,
-                boxShadow: titleLineSelected ? palette.mode === 'dark' ? '-8px 0px 0px 0px rgba(5, 115, 115, 0.11)' : '-8px 0px 0px 0px rgba(206, 230, 228, 0.31)' : undefined,
+                backgroundColor: !hideSelection && titleLineSelected ? palette.mode === 'dark' ? 'rgba(5, 115, 115, 0.11)' : 'rgba(206, 230, 228, 0.31)' : undefined,
+                boxShadow: !hideSelection && titleLineSelected ? palette.mode === 'dark' ? '-8px 0px 0px 0px rgba(5, 115, 115, 0.11)' : '-8px 0px 0px 0px rgba(206, 230, 228, 0.31)' : undefined,
             }}
         >
             {Icon ? <Icon fontSize={'small'}/> : null}

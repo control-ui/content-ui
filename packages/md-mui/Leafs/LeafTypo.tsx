@@ -1,8 +1,7 @@
 import { MuiContentRenderComponentsLinks } from '@content-ui/md-mui/LeafsComponents'
 import { LinkableHeadline } from '@content-ui/md-mui/MuiComponents/LinkableHeadline'
-import { ReactDeco } from '@content-ui/react/EngineDecorator'
 import Typography from '@mui/material/Typography'
-import type { Parent } from 'mdast'
+import type { Parent, RootContent } from 'mdast'
 import { LeafChildNodes } from '@content-ui/md-mui/LeafChildNodes'
 import Link from '@mui/material/Link'
 import IcOpenInNew from '@mui/icons-material/OpenInNew'
@@ -16,6 +15,7 @@ import { flattenText } from '@content-ui/struct/flattenText'
 import { textToId } from '@content-ui/struct/textToId'
 
 export const LeafP: FC<ContentLeafProps<'paragraph'> & { selected?: boolean, dense?: boolean }> = ({child, selected, dense, isLast}) => {
+    const {hideSelection} = useSettings()
     const {palette} = useTheme()
     const pRef = useLeafFollower<HTMLParagraphElement>(selected)
     return <Typography
@@ -23,8 +23,8 @@ export const LeafP: FC<ContentLeafProps<'paragraph'> & { selected?: boolean, den
         variant={dense ? 'body2' : 'body1'}
         component={'p'} ref={pRef}
         style={{
-            backgroundColor: selected ? palette.mode === 'dark' ? 'rgba(5, 115, 115, 0.11)' : 'rgba(206, 230, 228, 0.31)' : undefined,
-            boxShadow: selected ? palette.mode === 'dark' ? '-8px 0px 0px 0px rgba(5, 115, 115, 0.11)' : '-8px 0px 0px 0px rgba(206, 230, 228, 0.31)' : undefined,
+            backgroundColor: !hideSelection && selected ? palette.mode === 'dark' ? 'rgba(5, 115, 115, 0.11)' : 'rgba(206, 230, 228, 0.31)' : undefined,
+            boxShadow: !hideSelection && selected ? palette.mode === 'dark' ? '-8px 0px 0px 0px rgba(5, 115, 115, 0.11)' : '-8px 0px 0px 0px rgba(206, 230, 228, 0.31)' : undefined,
         }}
     >
         <LeafChildNodes childNodes={child.children}/>
@@ -62,10 +62,10 @@ const urlIsRelativeTo = (linkBase: string, url: string) => {
 }
 
 export const LeafLink: FC<ContentLeafProps<'link'>> = ({child}) => {
-    // todo: is injected in `ContentRenderer`, move to props
     const {linkBase, linkNotBlank, linkAnchorToHref} = useSettings()
     const {renderMap} = useContentLeafs<
-        ContentLeafsPropsMapping, MuiContentRenderComponentsLinks, ReactDeco<{}, {}>,
+        RootContent,
+        ContentLeafsPropsMapping, MuiContentRenderComponentsLinks,
         LeafsRenderMapping<ReactLeafsNodeSpec<ContentLeafsPropsMapping>, MuiContentRenderComponentsLinks, ContentLeafMatchParams>
     >()
 
@@ -100,7 +100,7 @@ export const LeafLink: FC<ContentLeafProps<'link'>> = ({child}) => {
         </Link>
     }
 
-    const MuiLink = renderMap.components.Link || Link
+    const MuiLink = renderMap.components?.Link || Link
 
     return <MuiLink href={linkAnchorToHref && child.url.startsWith('#') ? linkAnchorToHref(child.url) : child.url}>
         <LeafChildNodes childNodes={child.children}/>

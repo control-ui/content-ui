@@ -2,7 +2,7 @@ import { Express } from 'express'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { contentHandler } from './handler/ContentHandler.js'
-// import { reactHandler } from './handler/ReactHandler.js'
+import { reactHandler } from './handler/ReactHandler.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -19,7 +19,7 @@ export const routes = (app: Express) => {
     })
 
     contentHandler(app, path.join(__dirname, 'content'))
-    // reactHandler(app)
+    reactHandler(app)
 
     app.get('/*', (req, res) => {
         return res.status(404).send({error: '404 Not Found'})

@@ -1,11 +1,10 @@
 import { Transaction } from '@codemirror/state'
-import { ContentSelection } from '@content-ui/react/ContentSelectionContext'
+import { ContentSelection, createContentSelectionStore, ContentSelectionStore } from '@content-ui/react/ContentSelectionContext'
 import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react'
 import { CodeMirrorOnChange } from '@ui-schema/kit-codemirror/useCodeMirror'
 
 export type WithContentEditor = {
-    editorSelection: ContentSelection | undefined
-    setEditorSelection: Dispatch<SetStateAction<ContentSelection | undefined>>
+    editorSelectionStore: ContentSelectionStore
 
     lines: number
     textValue: string
@@ -19,7 +18,11 @@ export const useContentEditor = (
     textValue: string,
     onChange: (newValue: string) => void,
 ): WithContentEditor => {
-    const [editorSelection, setEditorSelection] = useState<ContentSelection | undefined>(undefined)
+    // note: this already must use/create the editor selection store, to not cause re-renders for every selection change, but support scheduling a re-render through that;
+    //       and the changes here should be rendered ASAP, while for follower + selection highlight lazy is better due to amount of nodes
+    const [editorSelectionStore] = useState<ContentSelectionStore>(
+        () => createContentSelectionStore(undefined),
+    )
 
     const bigSize = textValue.length > 50000
     const [autoProcess, setAutoProcess] = useState(bigSize ? 0 : -1)
@@ -43,6 +46,8 @@ export const useContentEditor = (
                 endLine: endLine.number,
                 endLineStart: endLine.from,
                 endLineEnd: endLine.to,
+                endDoc: v.state.doc.length,
+                endLineDoc: v.state.doc.lineAt(v.state.doc.length).number,
             }
 
             // find prev/next if either start or end are empty lines, to ensure a md-leaf will be selected,
@@ -92,9 +97,9 @@ export const useContentEditor = (
                 nextSelection.endLineEnd = tmpLine.to
             }
 
-            setEditorSelection(nextSelection)
+            editorSelectionStore?.setValue(nextSelection)
         } else {
-            setEditorSelection(undefined)
+            editorSelectionStore?.setValue(undefined)
         }
         if(!v.docChanged || typeof newValue !== 'string') {
             return
@@ -104,7 +109,7 @@ export const useContentEditor = (
             return
         }
         onChange(newValue)
-    }, [onChange, setEditorSelection])
+    }, [editorSelectionStore, onChange])
 
     return {
         lines: textValue.split('\n').length,
@@ -113,7 +118,6 @@ export const useContentEditor = (
         autoProcess: autoProcess,
         setAutoProcess: setAutoProcess,
         handleOnChange: handleOnChange,
-        editorSelection: editorSelection,
-        setEditorSelection: setEditorSelection,
+        editorSelectionStore: editorSelectionStore,
     }
 }

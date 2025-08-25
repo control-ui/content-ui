@@ -1,3 +1,4 @@
+import { useSettings } from '@content-ui/react/LeafSettings'
 import { DefListDescriptionNode, DefListNode, DefListTermNode } from 'mdast-util-definition-list'
 import React from 'react'
 import Box from '@mui/material/Box'
@@ -23,6 +24,7 @@ export const LeafDefList: React.FC<ContentLeafPayload<DefListNode> & { dense?: b
 
 export const LeafDefListTerm: React.FC<ContentLeafPayload<DefListTermNode>> = ({child, selected}) => {
     const {palette} = useTheme()
+    const {hideSelection} = useSettings()
     const dtRef = useLeafFollower<HTMLElement>(selected)
     return <Typography
         variant={'subtitle2'} component={'dt'}
@@ -37,8 +39,8 @@ export const LeafDefListTerm: React.FC<ContentLeafPayload<DefListTermNode>> = ({
             borderLeftStyle: 'dotted',
         }}
         style={{
-            backgroundColor: selected ? palette.mode === 'dark' ? 'rgba(5, 115, 115, 0.11)' : 'rgba(206, 230, 228, 0.31)' : undefined,
-            boxShadow: selected ? palette.mode === 'dark' ? '-8px 0px 0px 0px rgba(5, 115, 115, 0.11)' : '-8px 0px 0px 0px rgba(206, 230, 228, 0.31)' : undefined,
+            backgroundColor: !hideSelection && selected ? palette.mode === 'dark' ? 'rgba(5, 115, 115, 0.11)' : 'rgba(206, 230, 228, 0.31)' : undefined,
+            boxShadow: !hideSelection && selected ? palette.mode === 'dark' ? '-8px 0px 0px 0px rgba(5, 115, 115, 0.11)' : '-8px 0px 0px 0px rgba(206, 230, 228, 0.31)' : undefined,
         }}
     >
         <LeafChildNodes childNodes={child.children}/>

@@ -1,11 +1,12 @@
-import React from 'react'
+import { useContentSelection } from '@content-ui/react/ContentSelectionContext'
+import React, { useMemo } from 'react'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Tooltip from '@mui/material/Tooltip'
 import { WithContentEditor } from '@content-ui/input/useContentEditor'
 import { useTheme } from '@mui/material/styles'
 
-export type InputBottomBarProps = Pick<WithContentEditor, 'textValue' | 'editorSelection'> & {
+export type InputBottomBarProps = Pick<WithContentEditor, 'textValue'> & {
     py?: number
     px?: number
     pl?: number
@@ -14,6 +15,7 @@ export type InputBottomBarProps = Pick<WithContentEditor, 'textValue' | 'editorS
     mt?: number
     begin?: React.ReactElement
     end?: React.ReactElement
+    hideSelection?: boolean
 }
 
 export const InputBottomBar: React.ComponentType<InputBottomBarProps> = (
@@ -21,15 +23,35 @@ export const InputBottomBar: React.ComponentType<InputBottomBarProps> = (
         py, px, pr, pl, mb, mt,
         textValue,
         begin, end,
-        editorSelection: selection,
+        hideSelection,
     },
 ) => {
     const {palette} = useTheme()
+    // todo: add all extracted infos as separate listeners? is that heavier than this?
+    const editorSelection = useContentSelection(hideSelection)
+    const selection = hideSelection ? undefined : editorSelection
     const selectionInfo = selection?.selected ? {
         chars: selection.end - selection.start,
         lineBreaks: selection.endLine - selection.startLine,
     } : undefined
+
+    const lines = useMemo(() => {
+        // using the selection state if available, to skip additional counting
+        // todo: this may swap between branches on focus, when the selection is added conditionally to the provider
+        if(typeof selection?.endLineDoc === 'number') {
+            return selection?.endLineDoc
+        }
+        let lines = 0
+        for(let i = 0; i < textValue.length; ++i) {
+            if(textValue[i] === '\n') {
+                lines++
+            }
+        }
+        return lines + 1
+    }, [textValue, selection?.endLineDoc])
+
     const color = palette.mode === 'dark' ? 'info.light' : 'info.dark'
+
     return <Box
         py={py} px={px} pl={pl} pr={pr}
         mb={mb} mt={mt}
@@ -44,7 +66,7 @@ export const InputBottomBar: React.ComponentType<InputBottomBarProps> = (
         >
             <Typography variant={'caption'} sx={{mr: 1}} color={color}>
                 <Tooltip title={'lines'} disableInteractive>
-                    <span>{textValue.split('\n').length}L</span>
+                    <span>{lines}L</span>
                 </Tooltip>
             </Typography>
             <Typography variant={'caption'} sx={{mr: 1}} color={color}>

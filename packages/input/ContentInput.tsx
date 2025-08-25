@@ -1,6 +1,5 @@
 import { ViewerBox, ViewerBoxProps } from '@content-ui/md-mui/ViewerBox'
 import IcAutoFixNormal from '@mui/icons-material/AutoFixNormal'
-import { useContentSelection } from '@content-ui/react/ContentSelectionContext'
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
@@ -65,10 +64,9 @@ export const ContentInput = <TCodeMirrorProps extends Omit<CodeMirrorComponentPr
     }: {
         CodeMirror: ComponentType<TCodeMirrorProps>
         codeMirrorProps?: TCodeMirrorProps
-    } & ContentInputProps & Omit<ViewerBoxProps, 'needsProcessing' | 'editorSelection' | 'onChange'>,
+    } & ContentInputProps & Omit<ViewerBoxProps, 'onChange'>,
 ) => {
     const {file} = useContentContext()
-    const editorSelection = useContentSelection()
 
     const classNameContent = useMemo(() => (valid === false ? 'invalid' : undefined), [valid])
 
@@ -91,7 +89,7 @@ export const ContentInput = <TCodeMirrorProps extends Omit<CodeMirrorComponentPr
         <InputBottomBar
             pl={1} mb={0} mt={0}
             textValue={textValue}
-            editorSelection={preview ? undefined : editorSelection}
+            hideSelection={preview}
             end={<>
                 {noLint ? null :
                     <InputWarnings
@@ -160,7 +158,12 @@ export const ContentInput = <TCodeMirrorProps extends Omit<CodeMirrorComponentPr
             </Box> : null}
 
         <Box
-            style={{position: 'relative', display: noLint ? 'none' : undefined}}
+            style={{
+                position: 'relative',
+                display: noLint ? 'none' : undefined,
+                maxHeight: '40%',
+                overflow: 'auto',
+            }}
             ref={refWarningBox}
         >
             <InputWarningsDetails fileMessages={file?.messages} processing={processing === 'loading'}/>

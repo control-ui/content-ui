@@ -48,7 +48,7 @@ export const WidgetMarkdownEditor: React.ComponentType<WidgetProps & { readOnly?
     const {
         textValue,
         handleOnChange,
-        editorSelection,
+        editorSelectionStore,
         bigSize, autoProcess, setAutoProcess,
     } = useContentEditor(
         typeof value === 'string' ? value : '',
@@ -126,7 +126,9 @@ export const WidgetMarkdownEditor: React.ComponentType<WidgetProps & { readOnly?
                 root={root}
                 file={file}
             >
-                <ContentSelectionProvider selection={editorSelection}>
+                <ContentSelectionProvider
+                    selectionStore={editorSelectionStore}
+                >
                     <ContentInput
                         preview={preview}
                         refWarningBox={refWarningBox}

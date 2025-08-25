@@ -9,10 +9,6 @@ export interface MuiContentRenderComponentsLinks {
 
 export interface MuiContentRenderComponents extends ContentRenderComponents, MuiContentRenderComponentsLinks {
     /**
-     * @deprecated use `Code` instead
-     */
-    CodeMirror?: ComponentType<{ value?: string, lang?: string }>
-    /**
      * @todo support setting focus and retrieving e.g. selections
      */
     Code?: ComponentType<{ value?: string, lang?: string, dense?: boolean }>

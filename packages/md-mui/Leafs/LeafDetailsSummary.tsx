@@ -1,3 +1,4 @@
+import { useSettings } from '@content-ui/react/LeafSettings'
 import { useLeafFollower } from '@content-ui/react/useLeafFollower'
 import Typography from '@mui/material/Typography'
 import { RootContent } from 'mdast'
@@ -12,6 +13,7 @@ import { ContentLeafPayload } from '@content-ui/react/ContentLeafsContext'
  * @experimental basic implementation, Accordion isn't suitable for all positions
  */
 export const LeafDetailsSummary: React.FC<ContentLeafPayload<{ type: 'details', data?: { hProperties?: Record<string, any> }, children: RootContent[] }> & { dense?: boolean }> = ({selected, child}) => {
+    const {hideSelection} = useSettings()
     const summary = child.children[0]
     const cRef = useLeafFollower<HTMLDivElement>(selected)
     return <>
@@ -20,8 +22,8 @@ export const LeafDetailsSummary: React.FC<ContentLeafPayload<{ type: 'details', 
             slotProps={{heading: {component: 'p'}}}
             defaultExpanded={Boolean(child.data?.hProperties?.open)}
             sx={theme => ({
-                backgroundColor: selected ? theme.palette.mode === 'dark' ? 'rgba(5, 115, 115, 0.11)' : 'rgba(206, 230, 228, 0.31)' : undefined,
-                boxShadow: selected ? theme.palette.mode === 'dark' ? '-8px 0px 0px 0px rgba(5, 115, 115, 0.11)' : '-8px 0px 0px 0px rgba(206, 230, 228, 0.31)' : undefined,
+                backgroundColor: !hideSelection && selected ? theme.palette.mode === 'dark' ? 'rgba(5, 115, 115, 0.11)' : 'rgba(206, 230, 228, 0.31)' : undefined,
+                boxShadow: !hideSelection && selected ? theme.palette.mode === 'dark' ? '-8px 0px 0px 0px rgba(5, 115, 115, 0.11)' : '-8px 0px 0px 0px rgba(206, 230, 228, 0.31)' : undefined,
             })}
         >
             <AccordionSummary>

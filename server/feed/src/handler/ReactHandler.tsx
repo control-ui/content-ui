@@ -1,5 +1,5 @@
 import { ContentFileProvider } from '@content-ui/react/ContentFileContext'
-import { ContentLeafsProvider, contentUIDecorators } from '@content-ui/react/ContentLeafsContext'
+import { ContentLeafsProvider, ContentRendererMemo } from '@content-ui/react/ContentLeafsContext'
 import { ContentParser } from '@content-ui/md/parser/ContentParser'
 import { ViewerBoxRouter } from '@content-ui/md-mui/ViewerBoxRouter'
 import { renderMapping } from '@content-ui/md-mui/LeafsMarkdown'
@@ -31,7 +31,7 @@ This is **rendered static on server**.
 
         const html = renderToStaticMarkup(
             <StaticRouter location={req.url}>
-                <ContentLeafsProvider deco={contentUIDecorators} renderMap={renderMapping}>
+                <ContentLeafsProvider Renderer={ContentRendererMemo} renderMap={renderMapping}>
                     <ContentFileProvider
                         root={root}
                         file={file}

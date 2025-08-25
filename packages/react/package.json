@@ -1,6 +1,6 @@
 {
     "name": "@content-ui/react",
-    "version": "0.1.11",
+    "version": "0.2.0",
     "description": "",
     "author": "Michael Becker <michael@bemit.codes> (https://bemit.codes)",
     "license": "MIT",
@@ -46,10 +46,6 @@
         "./ContentSelectionContext": {
             "types": "./ContentSelectionContext.d.ts",
             "import": "./ContentSelectionContext.js"
-        },
-        "./EngineDecorator": {
-            "types": "./EngineDecorator.d.ts",
-            "import": "./EngineDecorator.js"
         },
         "./LeafSettings": {
             "types": "./LeafSettings.d.ts",

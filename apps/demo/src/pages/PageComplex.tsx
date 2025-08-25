@@ -123,18 +123,13 @@ export const PageComplex: React.ComponentType = () => {
 
                         {contentDetails?.file ?
                             <Grid size={12}>
-                                {/* todo: NoInfer works, if no generic is specified at all! but once added, it allows any prop
-                                  *       does not matter if:
-                                  *       - <TSettings = unknown>
-                                  *       - <TSettings extends object>
-                                  *       - <TSettings extends object = Record<string, unknown>>
-                                  */}
-                                <SettingsProvider/*<{ linkRefs?: object }>*/
+                                <SettingsProvider<{ linkRefs?: object }>
                                     headlineLinkable
                                     headlineSelectable
                                     headlineSelectableOnHover
-                                    //linkRefs={{}}
-                                    // xyz={{}}
+                                    linkRefs={undefined}
+                                    // @ts-expect-error next prop is not allowed
+                                    xyz={null}
                                 >
                                     <ViewerFromText
                                         Viewer={ViewerBoxRouter}

@@ -32,7 +32,7 @@ export const LinkableHeadline = forwardRef<HTMLHeadingElement, PropsWithChildren
         headlineLinkable,
         headlineSelectable, headlineSelectableOnHover,
         headlineOffset,
-        // todo: is injected in `ContentRenderer`, move to props
+        hideSelection,
     } = useSettings()
     const [copied, setCopied] = useState(false)
     const [showCopy, setShowCopy] = useState(false)
@@ -141,8 +141,8 @@ export const LinkableHeadline = forwardRef<HTMLHeadingElement, PropsWithChildren
             mt: marginTop ? '0.3625em' : undefined,
             mb: marginBottom ? '0.67215em' : undefined,
             // backgroundColor: selected ? 'info.light' : 'default',
-            backgroundColor: selected ? palette.mode === 'dark' ? 'rgba(5, 115, 115, 0.11)' : 'rgba(206, 230, 228, 0.31)' : undefined,
-            boxShadow: selected ? palette.mode === 'dark' ? '-8px 0px 0px 0px rgba(5, 115, 115, 0.11)' : '-8px 0px 0px 0px rgba(206, 230, 228, 0.31)' : undefined,
+            backgroundColor: !hideSelection && selected ? palette.mode === 'dark' ? 'rgba(5, 115, 115, 0.11)' : 'rgba(206, 230, 228, 0.31)' : undefined,
+            boxShadow: !hideSelection && selected ? palette.mode === 'dark' ? '-8px 0px 0px 0px rgba(5, 115, 115, 0.11)' : '-8px 0px 0px 0px rgba(206, 230, 228, 0.31)' : undefined,
             // backgroundColor: selected ? palette.mode === 'dark' ? 'rgba(5, 115, 115, 0.11)' : 'rgba(206, 230, 228, 0.31)' : undefined,
         }}
         // color={selected ? 'info.light' : 'default'}

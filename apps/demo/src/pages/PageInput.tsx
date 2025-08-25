@@ -64,7 +64,7 @@ export const PageInput: React.ComponentType = () => {
     const {
         textValue,
         handleOnChange,
-        editorSelection,
+        editorSelectionStore,
         bigSize, autoProcess, setAutoProcess,
     } = useContentEditor(
         typeof value === 'string' ? value : '',
@@ -98,13 +98,13 @@ export const PageInput: React.ComponentType = () => {
             <title>{t('brand')} · Content-UI</title>
         </>
 
-        <Box p={1} sx={{overflow: 'auto', display: 'flex', flexDirection: 'column'}}>
+        <Box p={1} sx={{overflow: 'auto', display: 'flex', flexDirection: 'column', flexGrow: 1}}>
             <ContentFileProvider
                 root={root}
                 file={file}
             >
                 <ContentSelectionProvider
-                    selection={editorSelection}
+                    selectionStore={editorSelectionStore}
                 >
                     <SettingsProvider
                         followEditor={isMediumScreen}
@@ -113,10 +113,11 @@ export const PageInput: React.ComponentType = () => {
                         headlineLinkable
                         headlineSelectable
                         headlineSelectableOnHover
+                        // hideSelection
                         // linkAnchorToHref={anchor => window.location.pathname + anchor}
                     >
-                        <Grid container spacing={2} sx={{overflow: 'auto', flexWrap: {xs: 'wrap', md: 'nowrap'}}}>
-                            <Grid size={{xs: 12, md: 6}} sx={{overflow: 'auto', scrollbarWidth: 'thin', maxHeight: {md: '100%'}}}>
+                        <Grid container spacing={2} sx={{overflow: 'auto', flexGrow: 1, flexWrap: {xs: 'wrap', md: 'nowrap'}}}>
+                            <Grid size={{xs: 12, md: 6}} sx={{display: 'flex', flexDirection: 'column', overflow: 'auto', maxHeight: {md: '100%'}}}>
                                 <ContentInput
                                     CodeMirror={CustomCodeMirror}
                                     ViewerBox={ViewerBoxRouter}
@@ -124,6 +125,11 @@ export const PageInput: React.ComponentType = () => {
                                     codeMirrorProps={{
                                         extensions: extensions,
                                         variant: 'embed',
+                                        style: {
+                                            overflow: 'auto',
+                                            display: 'flex',
+                                            flexGrow: 1,
+                                        },
                                     }}
                                     textValue={textValue}
                                     bigSize={bigSize}
@@ -139,7 +145,6 @@ export const PageInput: React.ComponentType = () => {
                                 size={{xs: 12, md: 6}}
                                 sx={{
                                     overflowY: 'auto',
-                                    scrollbarWidth: 'thin',
                                     maxHeight: {md: '100%'},
                                     py: 2,
                                     px: {
