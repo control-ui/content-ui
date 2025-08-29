@@ -1,6 +1,6 @@
 import { useSettings } from '@content-ui/react/LeafSettings'
 import type { RootContent } from 'mdast'
-import React, { FC, useState } from 'react'
+import { FC, useMemo, useState } from 'react'
 import Box from '@mui/material/Box'
 import YAML from 'yaml'
 import IcDataObject from '@mui/icons-material/DataObject'
@@ -16,7 +16,7 @@ export const LeafYaml: FC<ContentLeafProps<'yaml'> & { dense?: boolean }> = ({ch
     const {fmHide} = useSettings()
     const {renderMap: {components}} = useContentLeafs<RootContent, ContentLeafsPropsMapping, MuiContentRenderComponents>()
 
-    const parsedData = React.useMemo(() => {
+    const parsedData = useMemo(() => {
         if(!child || ((child.value?.trim() || '') === '')) return undefined
         try {
             return YAML.parse(child.value, {prettyErrors: true})

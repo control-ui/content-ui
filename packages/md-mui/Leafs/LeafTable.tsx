@@ -1,5 +1,6 @@
 import { LeafChildNodes } from '@content-ui/md-mui/LeafChildNodes'
-import { useSettings } from '@content-ui/react/LeafSettings'
+import { useIsLeafSelected } from '@content-ui/react/ContentSelectionContext'
+import { isSelectionShowFocus } from '@content-ui/react/Utils/isSelectionSetting'
 import type { Table as MdTable/* TableRow as MdTableRow, TableCell as MdTableCell*/ } from 'mdast'
 import Table from '@mui/material/Table'
 import TableHead from '@mui/material/TableHead'
@@ -65,8 +66,8 @@ export const LeafTable: FC<ContentLeafProps<'table'>> = ({child}) => {
     </Table>
 }
 
-export const LeafTableRow: FC<ContentLeafProps<'tableRow'>> = ({child, selected}) => {
-    const rRef = useLeafFollower<HTMLTableRowElement>(selected)
+export const LeafTableRow: FC<ContentLeafProps<'tableRow'>> = ({child}) => {
+    const rRef = useLeafFollower<HTMLTableRowElement>(child)
     return <TableRow ref={rRef}>
         <LeafChildNodes
             childNodes={child.children}
@@ -75,17 +76,20 @@ export const LeafTableRow: FC<ContentLeafProps<'tableRow'>> = ({child, selected}
     </TableRow>
 }
 
-export const LeafTableCell: FC<ContentLeafProps<'tableCell'>> = ({child, selected, index}) => {
+export const LeafTableCell: FC<ContentLeafProps<'tableCell'>> = ({child, index}) => {
     const {palette} = useTheme()
-    const {hideSelection} = useSettings()
     const {align} = useTableSettings()
     const cellAlign = typeof index === 'number' && align ? align[index] : undefined
+    const selected = useIsLeafSelected(
+        child.position?.start?.line, child.position?.end?.line,
+        isSelectionShowFocus,
+    )
     // todo: add gfm-advanced support
     return <TableCell
         align={cellAlign || undefined}
         style={{
-            backgroundColor: !hideSelection && selected ? palette.mode === 'dark' ? 'rgba(5, 115, 115, 0.11)' : 'rgba(206, 230, 228, 0.31)' : undefined,
-            boxShadow: !hideSelection && selected ? palette.mode === 'dark' ? '-8px 0px 0px 0px rgba(5, 115, 115, 0.11)' : '-8px 0px 0px 0px rgba(206, 230, 228, 0.31)' : undefined,
+            backgroundColor: selected ? palette.mode === 'dark' ? 'rgba(5, 115, 115, 0.11)' : 'rgba(206, 230, 228, 0.31)' : undefined,
+            boxShadow: selected ? palette.mode === 'dark' ? '-8px 0px 0px 0px rgba(5, 115, 115, 0.11)' : '-8px 0px 0px 0px rgba(206, 230, 228, 0.31)' : undefined,
         }}
     >
         <LeafChildNodes

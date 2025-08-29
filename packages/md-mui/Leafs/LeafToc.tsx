@@ -1,5 +1,6 @@
 import { MuiContentRenderComponentsLinks } from '@content-ui/md-mui/LeafsComponents'
-import { useContentSelection } from '@content-ui/react/ContentSelectionContext'
+import { ContentSelectionState, useIsLeafSelected } from '@content-ui/react/ContentSelectionContext'
+import { isSelectionShowFocus } from '@content-ui/react/Utils/isSelectionSetting'
 import Link from '@mui/material/Link'
 import { createContext, FC, PropsWithChildren, useContext, useMemo } from 'react'
 import type { Heading, ListItem, Root, RootContent } from 'mdast'
@@ -16,12 +17,29 @@ import type { Theme } from '@mui/material/styles'
 import type { TypographyWithExtras } from '@content-ui/md-mui/MuiComponents/Theme'
 import type { TocHNode, TocListItem } from '@content-ui/struct/Ast'
 
+/**
+ * If selection should be shown for the node, only highlights the ToC entry if the selection is only inside its position range.
+ */
+function isSelectionSingleLine(
+    state: ContentSelectionState,
+    position: { start: { line: number }, end: { line: number } },
+) {
+    if(!isSelectionShowFocus(state)) {
+        return false
+    }
+    const {selection} = state
+    return (
+        typeof selection.startLine === 'number' && typeof selection.endLine === 'number' &&
+        selection.startLine === selection.endLine &&
+        selection.startLine >= (position?.start?.line || 0) &&
+        selection.endLine <= (position?.end?.line || 0)
+    )
+}
+
 export const LeafTocListItem: FC<ContentLeafPayload<TocListItem> & { textVariant?: 'body1' | 'body2' | 'caption' }> = ({child, textVariant}) => {
-    const editorSelection = useContentSelection()
     const {smallList, showLines, onClick} = useToc()
     const {
         headlineLinkable, linkAnchorToHref,
-        hideSelection,
     } = useSettings()
     const {renderMap} = useContentLeafs<
         RootContent,
@@ -29,9 +47,10 @@ export const LeafTocListItem: FC<ContentLeafPayload<TocListItem> & { textVariant
         LeafsRenderMapping<ReactLeafsNodeSpec<ContentLeafsPropsMapping>, MuiContentRenderComponentsLinks, ContentLeafMatchParams>
     >()
     const {typography} = useTheme<Theme & { typography: TypographyWithExtras }>()
-    const selectedByLine = child && (
-        editorSelection?.startLine === child?.headline.headline.position?.start?.line ||
-        editorSelection?.endLine === child?.headline.headline.position?.end?.line
+    const selectedByLine = useIsLeafSelected(
+        child?.headline.headline.position?.start?.line,
+        child?.headline.headline.position?.end?.line,
+        isSelectionSingleLine,
     )
     const MuiLink = renderMap.components?.Link || Link
 
@@ -41,7 +60,7 @@ export const LeafTocListItem: FC<ContentLeafPayload<TocListItem> & { textVariant
             {id ?
                 <MuiLink
                     href={linkAnchorToHref ? linkAnchorToHref(id) : id}
-                    color={!hideSelection && selectedByLine ? 'primary' : 'inherit'}
+                    color={selectedByLine ? 'primary' : 'inherit'}
                     underline={'hover'}
                     sx={{
                         border: 0, outline: 0, flexGrow: 1,
@@ -66,11 +85,11 @@ export const LeafTocListItem: FC<ContentLeafPayload<TocListItem> & { textVariant
                         fontSize: typography?.fontSizeCode,
                         whiteSpace: 'pre',
                         marginLeft: 8,
-                        opacity: !hideSelection && selectedByLine ? 1 : 0.65,
+                        opacity: selectedByLine ? 1 : 0.65,
                         transition: '0.26s ease-out opacity',
-                        fontWeight: !hideSelection && selectedByLine ? 'bold' : undefined,
+                        fontWeight: selectedByLine ? 'bold' : undefined,
                     }}
-                    color={!hideSelection && selectedByLine ? 'primary' : 'inherit'}
+                    color={selectedByLine ? 'primary' : 'inherit'}
                     title={'line in source document'}
                 >
                     {'L'}

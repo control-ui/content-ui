@@ -1,6 +1,7 @@
-import { useSettings } from '@content-ui/react/LeafSettings'
+import { useIsLeafSelected } from '@content-ui/react/ContentSelectionContext'
+import { isSelectionShowFocus } from '@content-ui/react/Utils/isSelectionSetting'
 import { DefListDescriptionNode, DefListNode, DefListTermNode } from 'mdast-util-definition-list'
-import React from 'react'
+import type { FC } from 'react'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { useTheme } from '@mui/material/styles'
@@ -8,7 +9,7 @@ import { ContentLeafPayload } from '@content-ui/react/ContentLeafsContext'
 import { LeafChildNodes } from '@content-ui/md-mui/LeafChildNodes'
 import { useLeafFollower } from '@content-ui/react/useLeafFollower'
 
-export const LeafDefList: React.FC<ContentLeafPayload<DefListNode> & { dense?: boolean }> = ({dense, child}) => {
+export const LeafDefList: FC<ContentLeafPayload<DefListNode> & { dense?: boolean }> = ({dense, child}) => {
     // todo: check where the child.dense was used/injected or not all all anymore
     const denseApplied = dense || ('dense' in child && child.dense)
     return <Box
@@ -22,10 +23,13 @@ export const LeafDefList: React.FC<ContentLeafPayload<DefListNode> & { dense?: b
     </Box>
 }
 
-export const LeafDefListTerm: React.FC<ContentLeafPayload<DefListTermNode>> = ({child, selected}) => {
+export const LeafDefListTerm: FC<ContentLeafPayload<DefListTermNode>> = ({child}) => {
     const {palette} = useTheme()
-    const {hideSelection} = useSettings()
-    const dtRef = useLeafFollower<HTMLElement>(selected)
+    const selected = useIsLeafSelected(
+        child.position?.start?.line, child.position?.end?.line,
+        isSelectionShowFocus,
+    )
+    const dtRef = useLeafFollower<HTMLElement>(child)
     return <Typography
         variant={'subtitle2'} component={'dt'}
         ref={dtRef}
@@ -39,16 +43,16 @@ export const LeafDefListTerm: React.FC<ContentLeafPayload<DefListTermNode>> = ({
             borderLeftStyle: 'dotted',
         }}
         style={{
-            backgroundColor: !hideSelection && selected ? palette.mode === 'dark' ? 'rgba(5, 115, 115, 0.11)' : 'rgba(206, 230, 228, 0.31)' : undefined,
-            boxShadow: !hideSelection && selected ? palette.mode === 'dark' ? '-8px 0px 0px 0px rgba(5, 115, 115, 0.11)' : '-8px 0px 0px 0px rgba(206, 230, 228, 0.31)' : undefined,
+            backgroundColor: selected ? palette.mode === 'dark' ? 'rgba(5, 115, 115, 0.11)' : 'rgba(206, 230, 228, 0.31)' : undefined,
+            boxShadow: selected ? palette.mode === 'dark' ? '-8px 0px 0px 0px rgba(5, 115, 115, 0.11)' : '-8px 0px 0px 0px rgba(206, 230, 228, 0.31)' : undefined,
         }}
     >
         <LeafChildNodes childNodes={child.children}/>
     </Typography>
 }
 
-export const LeafDefListDescription: React.FC<ContentLeafPayload<DefListDescriptionNode>> = ({child, selected}) => {
-    const dtRef = useLeafFollower<HTMLElement>(selected)
+export const LeafDefListDescription: FC<ContentLeafPayload<DefListDescriptionNode>> = ({child}) => {
+    const dtRef = useLeafFollower<HTMLElement>(child)
     return <Box
         component={'dd'}
         sx={{

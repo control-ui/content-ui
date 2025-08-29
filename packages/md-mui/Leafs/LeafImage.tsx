@@ -1,8 +1,8 @@
-import React from 'react'
+import type { FC } from 'react'
 import Typography from '@mui/material/Typography'
 import { ContentLeafProps } from '@content-ui/react/ContentLeafsContext'
 
-export const LeafImage: React.FC<ContentLeafProps<'image'>> = ({child}) =>
+export const LeafImage: FC<ContentLeafProps<'image'>> = ({child}) =>
     <span
         style={{
             display: 'inline-flex',

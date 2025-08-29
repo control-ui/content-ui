@@ -1,36 +1,36 @@
 import { useContentSelection } from '@content-ui/react/ContentSelectionContext'
-import React, { useMemo } from 'react'
+import { ReactNode, useMemo } from 'react'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Tooltip from '@mui/material/Tooltip'
-import { WithContentEditor } from '@content-ui/input/useContentEditor'
 import { useTheme } from '@mui/material/styles'
 
-export type InputBottomBarProps = Pick<WithContentEditor, 'textValue'> & {
+export type InputBottomBarProps = {
     py?: number
     px?: number
     pl?: number
     pr?: number
     mb?: number
     mt?: number
-    begin?: React.ReactElement
-    end?: React.ReactElement
+    begin?: ReactNode
+    end?: ReactNode
     hideSelection?: boolean
+    textValue: string
 }
 
-export const InputBottomBar: React.ComponentType<InputBottomBarProps> = (
+export const InputBottomBar = (
     {
         py, px, pr, pl, mb, mt,
         textValue,
         begin, end,
         hideSelection,
-    },
+    }: InputBottomBarProps,
 ) => {
     const {palette} = useTheme()
     // todo: add all extracted infos as separate listeners? is that heavier than this?
     const editorSelection = useContentSelection(hideSelection)
     const selection = hideSelection ? undefined : editorSelection
-    const selectionInfo = selection?.selected ? {
+    const selectionInfo = selection ? {
         chars: selection.end - selection.start,
         lineBreaks: selection.endLine - selection.startLine,
     } : undefined
@@ -74,7 +74,7 @@ export const InputBottomBar: React.ComponentType<InputBottomBarProps> = (
                     <span>{textValue.length}C</span>
                 </Tooltip>
             </Typography>
-            {selectionInfo && selection?.selected ?
+            {selectionInfo && selection?.focused ?
                 <Typography variant={'caption'} sx={{mr: 1}} color={color}>
                     <Tooltip title={'active selection'} disableInteractive>
                         <span>

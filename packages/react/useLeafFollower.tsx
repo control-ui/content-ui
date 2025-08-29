@@ -1,20 +1,30 @@
-import { ContentSelectionContext } from '@content-ui/react/ContentSelectionContext'
+import { ContentSelectionContext, useIsLeafSelected } from '@content-ui/react/ContentSelectionContext'
+import { isSelectionFollowFocus } from '@content-ui/react/Utils/isSelectionSetting'
 import { scrollIntoViewSafe } from '@content-ui/react/Utils/scrollIntoViewSafe'
 import { useRef, useEffect, useContext } from 'react'
 import { useSettings } from '@content-ui/react/LeafSettings'
+import { Node } from 'unist'
 
-export const useLeafFollower = <E extends HTMLElement = HTMLElement>(selected: boolean | undefined) => {
+export const useLeafFollower = <E extends HTMLElement = HTMLElement, TNode extends Node = Node>(
+    node: TNode,
+) => {
     const store = useContext(ContentSelectionContext)
     const elemRef = useRef<E | null>(null)
     const {
+        // eslint-disable-next-line deprecation/deprecation
         followEditor,
         scrollContainer,
         onFollowElement = scrollIntoViewSafe,
     } = useSettings()
 
+    const selected = useIsLeafSelected(
+        node.position?.start?.line, node.position?.end?.line,
+        isSelectionFollowFocus,
+    )
+
     useEffect(() => {
         if(
-            !followEditor
+            !(followEditor ?? true) // fallback here is true since 0.2.1, to prefer the selection settings property
             || !selected
             || !elemRef.current
         ) return
@@ -26,6 +36,8 @@ export const useLeafFollower = <E extends HTMLElement = HTMLElement>(selected: b
         //      - [ ] after ending full document-selection it will not directly scroll to an still-focused-line!
         //            - it would need to focus the last remaining selected leaf afterward, but that wouldn't know if top or bottom and can't position reliable, min 1 line change is needed
         //            - with a has-selection-changed, and not just is-selected, it would be possible to dispatch here whenever really needing to scroll into view
+        //      - [ ] when unselecting lines, the focus stays where it was and does not go to the last available
+        //      ... could this require a ref+query selector based approach to reliable calculate the scroll target based on position? is that heaver or less? e.g. needs `data-line-start` and complex region/visible queries
 
         const previousSelection = store?.getPreviousSnapshot()
         const currentSelection = store?.getSnapshot()

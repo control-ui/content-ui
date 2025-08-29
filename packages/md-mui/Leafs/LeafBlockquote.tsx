@@ -1,8 +1,7 @@
 import { useIsLeafSelected } from '@content-ui/react/ContentSelectionContext'
-import { useSettings } from '@content-ui/react/LeafSettings'
 import { useTheme } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
-import React from 'react'
+import { FC } from 'react'
 import Box from '@mui/material/Box'
 import IcInfoOutlined from '@mui/icons-material/InfoOutlined'
 import IcLightbulbOutlined from '@mui/icons-material/LightbulbOutlined'
@@ -37,9 +36,8 @@ const alertTypeIcons = {
     caution: IcReportOutlined,
 }
 
-export const LeafBlockquoteAlert: React.FC<ContentLeafProps<'blockquote'> & { alertType: string }> = ({alertType, child, selected}) => {
-    const {hideSelection} = useSettings()
-    const bRef = useLeafFollower<HTMLQuoteElement>(selected)
+export const LeafBlockquoteAlert: FC<ContentLeafProps<'blockquote'> & { alertType: string }> = ({alertType, child}) => {
+    const bRef = useLeafFollower<HTMLQuoteElement>(child)
     const {palette} = useTheme()
 
     // note: titleLine does not contain position
@@ -93,8 +91,8 @@ export const LeafBlockquoteAlert: React.FC<ContentLeafProps<'blockquote'> & { al
             }
             sx={{
                 display: 'flex', alignItems: 'center', columnGap: 1,
-                backgroundColor: !hideSelection && titleLineSelected ? palette.mode === 'dark' ? 'rgba(5, 115, 115, 0.11)' : 'rgba(206, 230, 228, 0.31)' : undefined,
-                boxShadow: !hideSelection && titleLineSelected ? palette.mode === 'dark' ? '-8px 0px 0px 0px rgba(5, 115, 115, 0.11)' : '-8px 0px 0px 0px rgba(206, 230, 228, 0.31)' : undefined,
+                backgroundColor:  titleLineSelected ? palette.mode === 'dark' ? 'rgba(5, 115, 115, 0.11)' : 'rgba(206, 230, 228, 0.31)' : undefined,
+                boxShadow: titleLineSelected ? palette.mode === 'dark' ? '-8px 0px 0px 0px rgba(5, 115, 115, 0.11)' : '-8px 0px 0px 0px rgba(206, 230, 228, 0.31)' : undefined,
             }}
         >
             {Icon ? <Icon fontSize={'small'}/> : null}
@@ -107,7 +105,7 @@ export const LeafBlockquoteAlert: React.FC<ContentLeafProps<'blockquote'> & { al
     </Box>
 }
 
-export const LeafBlockquote: React.FC<ContentLeafProps<'blockquote'>> = ({child, ...props}) => {
+export const LeafBlockquote: FC<ContentLeafProps<'blockquote'>> = ({child, ...props}) => {
     const alertType =
         typeof child.data === 'object'
         && child.data
@@ -131,8 +129,8 @@ export const LeafBlockquote: React.FC<ContentLeafProps<'blockquote'>> = ({child,
     />
 }
 
-export const LeafBlockquoteStandard: React.FC<ContentLeafProps<'blockquote'>> = ({child, selected}) => {
-    const bRef = useLeafFollower<HTMLQuoteElement>(selected)
+export const LeafBlockquoteStandard: FC<ContentLeafProps<'blockquote'>> = ({child}) => {
+    const bRef = useLeafFollower<HTMLQuoteElement>(child)
 
     return <Box
         component={'blockquote'}
