@@ -66,7 +66,13 @@ export const PageInput: React.ComponentType = () => {
         bigSize,
         autoProcess,
         setAutoProcess,
-    } = useContentEditor(typeof value === 'string' ? value : '', setValue)
+    } = useContentEditor(typeof value === 'string' ? value : '', setValue,
+        {
+            selectionSettings: {
+                followFocus: isMediumScreen,
+                showOnFocus: true,
+            },
+        })
     const {processing, outdated, root, file, stringify} = useContent({
         textValue,
         // with adaptiveDelay: true, the parseDelay marks the maximum it should respect
@@ -102,7 +108,6 @@ export const PageInput: React.ComponentType = () => {
                         selectionStore={editorSelectionStore}
                     >
                         <SettingsProvider
-                            followEditor={isMediumScreen}
                             scrollContainer={scrollContainerRef}
                             onFollowElement={scrollIntoViewWithMargin}
                             headlineLinkable

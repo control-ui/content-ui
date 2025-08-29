@@ -1,7 +1,6 @@
 import type { RootContent } from 'mdast'
-import React, { useMemo, memo, createContext, useContext, ReactNode, FunctionComponent } from 'react'
+import { useMemo, memo, createContext, useContext, ReactNode, FunctionComponent, ComponentType, Context, PropsWithChildren } from 'react'
 import { useSettings } from '@content-ui/react/LeafSettings'
-import { useIsLeafSelected } from '@content-ui/react/ContentSelectionContext'
 
 export interface LeafsRenderMapping<
     TLeafsMapping extends {} = {},
@@ -30,7 +29,7 @@ export interface LeafsRenderMapping<
     /**
      * Responsible to match leafs of this mapping.
      */
-    matchLeaf: <P extends TMatchParams>(params: P, leafs: TLeafsMapping) => TMatchResult & React.ComponentType<P> | undefined
+    matchLeaf: <P extends TMatchParams>(params: P, leafs: TLeafsMapping) => TMatchResult & ComponentType<P> | undefined
     children?: never
     hooks?: THooks
 }
@@ -42,7 +41,7 @@ export type GenericLeafsDataSpec<D extends {} = {}> = {
 export type ReactLeafsNodeSpec<LDS extends GenericLeafsDataSpec> = {
     // - partial to not require all implementations
     // - null to support suppressing matching warning
-    [K in keyof LDS]?: React.ComponentType<NonNullable<LDS[K]>> | null
+    [K in keyof LDS]?: ComponentType<NonNullable<LDS[K]>> | null
 }
 
 export interface LeafsEngine<TRenderer, TRender extends {}> {
@@ -57,7 +56,6 @@ export interface ContentLeafPayload<TChild extends { type: string } = { type: st
      * A childs index, only passed down if specified by parent, for performance reasons.
      */
     index?: number
-    selected?: boolean
     // `true` when first Leaf inside the parent level
     isFirst?: boolean
     // `true` when last Leaf inside the parent level
@@ -102,7 +100,6 @@ export function ContentRenderer<P extends object>(
 ): ReactNode {
     const settings = useSettings()
     const Leaf = renderMap.matchLeaf(props, renderMap.leafs)
-    const selected = useIsLeafSelected(props.child.position?.start?.line, props.child.position?.end?.line)
 
     if(typeof Leaf === 'undefined') {
         console.error('No leaf component found for ' + props.elem, props)
@@ -117,13 +114,12 @@ export function ContentRenderer<P extends object>(
         // todo: `dense` is the last remaining prop-setting, refactor remaining usages, but must still support prop based overwrites
         dense={settings.dense}
         {...props}
-        selected={selected}
     />
 }
 
 export const ContentRendererMemo = memo(ContentRenderer) as typeof ContentRenderer
 
-export const contentLeafsContext: React.Context<
+export const contentLeafsContext: Context<
     LeafsEngine<
         any,
         LeafsRenderMapping<ReactLeafsNodeSpec<ContentLeafsPropsMapping>, ContentRenderComponents, ContentLeafMatchParams>
@@ -138,7 +134,7 @@ export const useContentLeafs = <
     TRenderer = RendererComponent<TAstNodes, TLeafsDataMapping>
 >() => {
     return useContext<LeafsEngine<TRenderer, TRender>>(
-        contentLeafsContext as unknown as React.Context<LeafsEngine<TRenderer, TRender>>,
+        contentLeafsContext as unknown as Context<LeafsEngine<TRenderer, TRender>>,
     )
 }
 
@@ -153,7 +149,7 @@ export function ContentLeafsProvider<
         children,
         Renderer,
         renderMap,
-    }: React.PropsWithChildren<LeafsEngine<TRenderer, TRender>>,
+    }: PropsWithChildren<LeafsEngine<TRenderer, TRender>>,
 ) {
     const ctx = useMemo((): LeafsEngine<TRenderer, TRender> => ({
         Renderer: Renderer,

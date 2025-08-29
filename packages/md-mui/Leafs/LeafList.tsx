@@ -1,4 +1,4 @@
-import React from 'react'
+import type { FC } from 'react'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import IcChecked from '@mui/icons-material/CheckBox'
@@ -6,7 +6,7 @@ import IcUnchecked from '@mui/icons-material/CheckBoxOutlineBlank'
 import { LeafChildNodes } from '@content-ui/md-mui/LeafChildNodes'
 import { ContentLeafProps } from '@content-ui/react/ContentLeafsContext'
 
-export const LeafList: React.FC<ContentLeafProps<'list'> & { dense?: boolean }> = ({dense, child}) => {
+export const LeafList: FC<ContentLeafProps<'list'> & { dense?: boolean }> = ({dense, child}) => {
     const component = child.ordered ? 'ol' : 'ul'
     const start = child.start
     // todo: check where the child.dense was used/injected or not all all anymore
@@ -31,7 +31,7 @@ export const LeafList: React.FC<ContentLeafProps<'list'> & { dense?: boolean }> 
     </Box>
 }
 
-export const LeafListItem: React.FC<ContentLeafProps<'listItem'>> = ({child}) => {
+export const LeafListItem: FC<ContentLeafProps<'listItem'>> = ({child}) => {
     const listItemContent = <LeafChildNodes childNodes={child.children.filter(c => c.type !== 'list')}/>
     return <Typography
         component={'li'} variant={'body1'}

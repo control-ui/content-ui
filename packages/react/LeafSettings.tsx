@@ -7,15 +7,10 @@ import { createContext, ReactNode, useContext, useMemo } from 'react'
 export type LeafsSettings = {
     /**
      * Follow the editor selection by scrolling the viewer to a selected leaf.
+     *
+     * @deprecated use selection store settings `.followFocus` instead
      */
     followEditor?: boolean
-    /**
-     * If the `selected` elements should not be highlighted.
-     *
-     * Note: before 0.2.x it was better to conditionally omit the `selection` from the provider,
-     * which can cause issues with integrations depending on selection or document state.
-     */
-    hideSelection?: boolean
     /**
      * Reference to the scroll container, used to calculate scroll behaviour when following editor selection.
      */

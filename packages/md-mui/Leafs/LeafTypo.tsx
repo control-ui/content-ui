@@ -1,11 +1,12 @@
 import { MuiContentRenderComponentsLinks } from '@content-ui/md-mui/LeafsComponents'
 import { LinkableHeadline } from '@content-ui/md-mui/MuiComponents/LinkableHeadline'
+import { useIsLeafSelected } from '@content-ui/react/ContentSelectionContext'
+import { isSelectionShowFocus } from '@content-ui/react/Utils/isSelectionSetting'
 import Typography from '@mui/material/Typography'
 import type { Parent, RootContent } from 'mdast'
 import { LeafChildNodes } from '@content-ui/md-mui/LeafChildNodes'
 import Link from '@mui/material/Link'
 import IcOpenInNew from '@mui/icons-material/OpenInNew'
-import { FC } from 'react'
 import Box from '@mui/material/Box'
 import { useTheme } from '@mui/material/styles'
 import { useSettings } from '@content-ui/react/LeafSettings'
@@ -13,18 +14,22 @@ import { ContentLeafMatchParams, ContentLeafProps, ContentLeafsPropsMapping, Lea
 import { useLeafFollower } from '@content-ui/react/useLeafFollower'
 import { flattenText } from '@content-ui/struct/flattenText'
 import { textToId } from '@content-ui/struct/textToId'
+import { FC } from 'react'
 
-export const LeafP: FC<ContentLeafProps<'paragraph'> & { selected?: boolean, dense?: boolean }> = ({child, selected, dense, isLast}) => {
-    const {hideSelection} = useSettings()
+export const LeafP: FC<ContentLeafProps<'paragraph'> & { dense?: boolean }> = ({child, dense, isLast}) => {
     const {palette} = useTheme()
-    const pRef = useLeafFollower<HTMLParagraphElement>(selected)
+    const selected = useIsLeafSelected(
+        child.position?.start?.line, child.position?.end?.line,
+        isSelectionShowFocus,
+    )
+    const pRef = useLeafFollower<HTMLParagraphElement>(child)
     return <Typography
         gutterBottom={!isLast}
         variant={dense ? 'body2' : 'body1'}
         component={'p'} ref={pRef}
         style={{
-            backgroundColor: !hideSelection && selected ? palette.mode === 'dark' ? 'rgba(5, 115, 115, 0.11)' : 'rgba(206, 230, 228, 0.31)' : undefined,
-            boxShadow: !hideSelection && selected ? palette.mode === 'dark' ? '-8px 0px 0px 0px rgba(5, 115, 115, 0.11)' : '-8px 0px 0px 0px rgba(206, 230, 228, 0.31)' : undefined,
+            backgroundColor: selected ? palette.mode === 'dark' ? 'rgba(5, 115, 115, 0.11)' : 'rgba(206, 230, 228, 0.31)' : undefined,
+            boxShadow: selected ? palette.mode === 'dark' ? '-8px 0px 0px 0px rgba(5, 115, 115, 0.11)' : '-8px 0px 0px 0px rgba(206, 230, 228, 0.31)' : undefined,
         }}
     >
         <LeafChildNodes childNodes={child.children}/>
@@ -35,8 +40,12 @@ export const LeafP: FC<ContentLeafProps<'paragraph'> & { selected?: boolean, den
  * Headline component with link support.
  * Only copies link, does not navigate the user to it on copy.
  */
-export const LeafH: FC<ContentLeafProps<'heading'> & { selected?: boolean }> = ({child, selected, isFirst, isLast}) => {
-    const hRef = useLeafFollower<HTMLHeadingElement>(selected)
+export const LeafH: FC<ContentLeafProps<'heading'>> = ({child, isFirst, isLast}) => {
+    const selected = useIsLeafSelected(
+        child.position?.start?.line, child.position?.end?.line,
+        isSelectionShowFocus,
+    )
+    const hRef = useLeafFollower<HTMLHeadingElement>(child)
     const id = textToId(flattenText(child as Parent).join(''))
     return <LinkableHeadline
         ref={hRef}

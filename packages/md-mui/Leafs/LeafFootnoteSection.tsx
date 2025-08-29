@@ -1,4 +1,4 @@
-import React from 'react'
+import { FC, useMemo } from 'react'
 import Box from '@mui/material/Box'
 import type { ListItem, Root } from 'mdast'
 import Typography from '@mui/material/Typography'
@@ -8,8 +8,8 @@ export interface FootnoteSectionProps {
     rootChildren: Root['children']
 }
 
-export const FootnoteSection: React.FC<FootnoteSectionProps> = ({rootChildren: footnoteDefinitions}) => {
-    const nextChild = React.useMemo(
+export const FootnoteSection: FC<FootnoteSectionProps> = ({rootChildren: footnoteDefinitions}) => {
+    const nextChild = useMemo(
         () => ({type: 'list' as const, children: footnoteDefinitions as ListItem[]}),
         [footnoteDefinitions],
     )

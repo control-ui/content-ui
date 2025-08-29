@@ -2,7 +2,7 @@ import { MuiContentRenderComponentsLinks } from '@content-ui/md-mui/LeafsCompone
 import { useSettings } from '@content-ui/react/LeafSettings'
 import Link from '@mui/material/Link'
 import type { RootContent } from 'mdast'
-import React from 'react'
+import type { FC } from 'react'
 import { LeafChildNodes } from '@content-ui/md-mui/LeafChildNodes'
 import IcGoTo from '@mui/icons-material/SubdirectoryArrowLeft'
 import Typography from '@mui/material/Typography'
@@ -14,7 +14,7 @@ import { TypographyWithExtras } from '@content-ui/md-mui/MuiComponents/Theme'
 const userContentPrefix = 'user-content-'
 export const footnoteContainerId = 'footnote-label'
 
-export const LeafFootnoteDefinition: React.FC<ContentLeafProps<'footnoteDefinition'>> = ({child}) => {
+export const LeafFootnoteDefinition: FC<ContentLeafProps<'footnoteDefinition'>> = ({child}) => {
     const {typography} = useTheme<Theme & { typography: TypographyWithExtras }>()
     const {linkAnchorToHref} = useSettings()
     const {renderMap} = useContentLeafs<
@@ -57,7 +57,7 @@ export const LeafFootnoteDefinition: React.FC<ContentLeafProps<'footnoteDefiniti
     </Typography>
 }
 
-export const LeafFootnoteReference: React.FC<ContentLeafProps<'footnoteReference'>> = ({child}) => {
+export const LeafFootnoteReference: FC<ContentLeafProps<'footnoteReference'>> = ({child}) => {
     const {linkAnchorToHref} = useSettings()
     const {renderMap} = useContentLeafs<
         RootContent,

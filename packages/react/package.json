@@ -1,6 +1,6 @@
 {
     "name": "@content-ui/react",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "description": "",
     "author": "Michael Becker <michael@bemit.codes> (https://bemit.codes)",
     "license": "MIT",
@@ -30,6 +30,10 @@
         "./Utils/scrollIntoViewWithMargin": {
             "types": "./Utils/scrollIntoViewWithMargin.d.ts",
             "import": "./Utils/scrollIntoViewWithMargin.js"
+        },
+        "./Utils/isSelectionSetting": {
+            "types": "./Utils/isSelectionSetting.d.ts",
+            "import": "./Utils/isSelectionSetting.js"
         },
         "./ContentFileContext": {
             "types": "./ContentFileContext.d.ts",

@@ -53,6 +53,11 @@ export const WidgetMarkdownEditor: React.ComponentType<WidgetProps & { readOnly?
     } = useContentEditor(
         typeof value === 'string' ? value : '',
         onChangeText,
+        {
+            selectionSettings: {
+                showOnFocus: true,
+            },
+        },
     )
     const {processing, outdated, root, file} = useContent({
         textValue,

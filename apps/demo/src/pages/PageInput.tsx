@@ -1,10 +1,12 @@
 import { ContentParserExtended } from '@content-ui/md/parser/ContentParserExtended'
-import { ContentSelectionProvider } from '@content-ui/react/ContentSelectionContext'
+import { ContentSelectionProvider, ContentSelectionSettings, defaultSelectionSettings } from '@content-ui/react/ContentSelectionContext'
 import { scrollIntoViewWithMargin } from '@content-ui/react/Utils/scrollIntoViewWithMargin'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import Button from '@mui/material/Button'
 import IcVisibility from '@mui/icons-material/Visibility'
 import IcVisibilityOff from '@mui/icons-material/VisibilityOff'
+import IcCheckBox from '@mui/icons-material/CheckBox'
+import IcCheckBoxOutlineBlank from '@mui/icons-material/CheckBoxOutlineBlank'
 import { useTheme } from '@mui/material/styles'
 import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -61,6 +63,7 @@ export const PageInput: React.ComponentType = () => {
 
     const [value, setValue] = useState(md)
 
+    const [selectionSettings, setSelectionSettings] = useState<ContentSelectionSettings>(defaultSelectionSettings)
     const {
         textValue,
         handleOnChange,
@@ -69,6 +72,9 @@ export const PageInput: React.ComponentType = () => {
     } = useContentEditor(
         typeof value === 'string' ? value : '',
         setValue,
+        {
+            selectionSettings: selectionSettings,
+        },
     )
     const {processing, outdated, root, file, stringify} = useContent({
         textValue,
@@ -105,15 +111,20 @@ export const PageInput: React.ComponentType = () => {
             >
                 <ContentSelectionProvider
                     selectionStore={editorSelectionStore}
+                    // showFocus={selectionSettings.showFocus} // controls visibility if showOnFocus is not set or false
+                    // showOnFocus={selectionSettings.showOnFocus} // makes visibility dependent to focus, if `true` then `showFocus` is ignored
+                    // // filterShowOnFocus
+                    // // styleOnFocus/focusStyle (or in theme?)
+                    // followFocus={selectionSettings.followFocus && isMediumScreen}
+                    // // filterFollowFocus
+                    // // onFollowElement
                 >
                     <SettingsProvider
-                        followEditor={isMediumScreen}
                         scrollContainer={scrollContainerRef}
                         onFollowElement={scrollIntoViewWithMargin}
                         headlineLinkable
                         headlineSelectable
                         headlineSelectableOnHover
-                        // hideSelection
                         // linkAnchorToHref={anchor => window.location.pathname + anchor}
                     >
                         <Grid container spacing={2} sx={{overflow: 'auto', flexGrow: 1, flexWrap: {xs: 'wrap', md: 'nowrap'}}}>
@@ -155,6 +166,44 @@ export const PageInput: React.ComponentType = () => {
                                     backgroundColor: 'background.paper',
                                 }}
                             >
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        flexWrap: 'wrap',
+                                        justifyContent: 'flex-end',
+                                        gap: 1,
+                                        mb: 2,
+                                    }}
+                                >
+                                    <Button
+                                        startIcon={selectionSettings.followFocus ? <IcCheckBox/> : <IcCheckBoxOutlineBlank/>}
+                                        disabled={!isMediumScreen}
+                                        size={'small'} color={'secondary'}
+                                        onClick={() => {
+                                            setSelectionSettings((s) => ({...s, followFocus: !s.followFocus}))
+                                        }}
+                                    >
+                                        {'follow focus'}
+                                    </Button>
+                                    <Button
+                                        startIcon={selectionSettings.showOnFocus ? <IcCheckBox/> : <IcCheckBoxOutlineBlank/>}
+                                        size={'small'} color={'secondary'}
+                                        onClick={() => {
+                                            setSelectionSettings((s) => ({...s, showOnFocus: !s.showOnFocus}))
+                                        }}
+                                    >
+                                        {'show selection on focus'}
+                                    </Button>
+                                    <Button
+                                        startIcon={selectionSettings.showFocus ? <IcCheckBox/> : <IcCheckBoxOutlineBlank/>}
+                                        size={'small'} color={'secondary'}
+                                        onClick={() => {
+                                            setSelectionSettings((s) => ({...s, showFocus: !s.showFocus}))
+                                        }}
+                                    >
+                                        {'show selection'}
+                                    </Button>
+                                </Box>
                                 <ViewerBoxRouter
                                     outdated={outdated}
                                     processing={processing}

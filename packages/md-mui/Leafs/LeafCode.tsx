@@ -1,5 +1,5 @@
 import type { RootContent } from 'mdast'
-import React from 'react'
+import type { FC } from 'react'
 import Box from '@mui/material/Box'
 import { ContentLeafProps, ContentLeafsPropsMapping, useContentLeafs } from '@content-ui/react/ContentLeafsContext'
 import { useLeafFollower } from '@content-ui/react/useLeafFollower'
@@ -8,13 +8,17 @@ import type { Theme } from '@mui/material/styles'
 import { TypographyWithExtras } from '@content-ui/md-mui/MuiComponents/Theme'
 import type { MuiContentRenderComponents } from '@content-ui/md-mui/LeafsComponents'
 
-export const LeafCode: React.FC<ContentLeafProps<'code'> & { dense?: boolean }> = ({child, selected, dense}) => {
-    const cRef = useLeafFollower<HTMLDivElement>(selected)
+export const LeafCode: FC<ContentLeafProps<'code'> & { dense?: boolean }> = ({child, dense}) => {
+    const cRef = useLeafFollower<HTMLDivElement>(child)
     const {renderMap: {components}} = useContentLeafs<RootContent, ContentLeafsPropsMapping, MuiContentRenderComponents>()
 
     const Code = components?.Code
 
-    return <Box mt={1} mb={2} ref={cRef}>
+    return <Box
+        mt={dense ? 1 : 1.5}
+        mb={dense ? 1.5 : 2}
+        ref={cRef}
+    >
         {Code ?
             <Code
                 value={child.value}
@@ -25,7 +29,7 @@ export const LeafCode: React.FC<ContentLeafProps<'code'> & { dense?: boolean }> 
     </Box>
 }
 
-export const LeafCodeInline: React.FC<ContentLeafProps<'inlineCode'>> = ({child}) => {
+export const LeafCodeInline: FC<ContentLeafProps<'inlineCode'>> = ({child}) => {
     const {typography} = useTheme<Theme & { typography: TypographyWithExtras }>()
     return <Box
         component={'code'}
