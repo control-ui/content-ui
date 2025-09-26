@@ -4,7 +4,7 @@ import Box from '@mui/material/Box'
 import { config } from '../config.js'
 import { useAppApi } from '../lib/useAppApi.js'
 import { ButtonProgress } from '@ui-controls/progress/ButtonProgress'
-import { ps, useProgress } from 'react-progress-state/useProgressNext'
+import { ps, useProgress } from 'react-progress-state/useProgress'
 import { CustomCodeMirror } from './CustomCodeMirror.js'
 import { json } from '@codemirror/lang-json'
 
