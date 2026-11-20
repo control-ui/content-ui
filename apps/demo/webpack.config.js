@@ -2,9 +2,7 @@ import path from 'path'
 import {fileURLToPath} from 'url'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import TerserPlugin from 'terser-webpack-plugin'
-import ESLintPlugin from 'eslint-webpack-plugin'
-import InlineChunkHtmlPlugin from 'react-dev-utils/InlineChunkHtmlPlugin.js'
-import eslintFormatter from 'react-dev-utils/eslintFormatter.js'
+import DiagnosticsPlugin from 'diagnostics-webpack-plugin'
 import CopyPlugin from 'copy-webpack-plugin'
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin'
 import reactRefreshBabel from 'react-refresh/babel'
@@ -66,17 +64,6 @@ export default {
                         plugins: isProd ? [] : [reactRefreshBabel],
                     },
                 }],
-            },
-            {
-                test: /\.css$/,
-                use: [
-                    {
-                        loader: 'style-loader',
-                    },
-                    {
-                        loader: 'css-loader',
-                    },
-                ],
             },
         ],
     },
@@ -184,15 +171,12 @@ export default {
                 },
             } : {},
         }),
-        new ESLintPlugin({
-            extensions: ['js', 'jsx', 'ts', 'tsx'],
-            formatter: eslintFormatter,
-            eslintPath: 'eslint',
-            emitWarning: !isProd,
-            failOnError: isProd,
-            failOnWarning: isProd,
+        new DiagnosticsPlugin({
+            checks: [
+                { use: 'eslint', extensions: ['js', 'jsx', 'ts', 'tsx'] },
+            ],
         }),
-        ...isProd ? [new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/runtime-.+[.]js/])] : [],
+        // ...isProd ? [new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/runtime-.+[.]js/])] : [],
         ...isProd ? [new CopyPlugin({
             patterns: [
                 {

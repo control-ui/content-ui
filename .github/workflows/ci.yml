@@ -12,6 +12,10 @@ on:
     # Allows you to run this workflow manually from the Actions tab
     workflow_dispatch:
 
+permissions:
+    contents: read
+    id-token: write
+
 jobs:
     build_publish:
         runs-on: ubuntu-latest
@@ -40,6 +44,7 @@ jobs:
                 uses: actions/setup-node@v4
                 with:
                     node-version: ${{ matrix.node-version }}
+                    registry-url: 'https://registry.npmjs.org'
 
             -   name: Cache CI node_modules
                 uses: actions/cache@v4
@@ -63,29 +68,10 @@ jobs:
                 run: |
                     npm run build
 
-            -   name: CP License files
-                run: |
-                    cp LICENSE dist/struct
-                    cp LICENSE dist/md
-                    cp LICENSE dist/react
-                    cp LICENSE dist/md-mui
-                    cp LICENSE dist/input
-
             -   name: Publish to NPM
                 if: github.ref == 'refs/heads/main'
-                #if: startsWith(github.ref, 'refs/tags/')
                 run: |
-                    echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' > ~/.npmrc
-
-                    node publish.js dist/struct
-                    node publish.js dist/md
-                    node publish.js dist/react
-                    node publish.js dist/md-mui
-                    node publish.js dist/input
-
-                    rm ~/.npmrc
-                env:
-                    NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+                    node publish.mjs
 
             -   name: Upload Artifact APP
                 uses: actions/upload-artifact@v4

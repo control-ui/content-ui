@@ -21,7 +21,7 @@ export const routes = (app: Express) => {
     contentHandler(app, path.join(__dirname, 'content'))
     reactHandler(app)
 
-    app.get('/*', (req, res) => {
+    app.get('/*splat', (req, res) => {
         return res.status(404).send({error: '404 Not Found'})
     })
 }

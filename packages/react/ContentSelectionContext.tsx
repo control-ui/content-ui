@@ -152,6 +152,7 @@ export function createSelectionStore<T extends ContentSelection = ContentSelecti
         getSnapshot: getSnapshot,
         getPreviousSnapshot: getPreviousSnapshot,
         subscribe: subscribe,
+        // eslint-disable-next-line @typescript-eslint/no-deprecated
         setValue: setSelection,
         setSelection: setSelection,
         getSettings: getSettings,
@@ -222,6 +223,7 @@ const fallbackStore: SelectionStore = {
     subscribe: () => () => {
         // noop
     },
+    // eslint-disable-next-line @typescript-eslint/no-deprecated
     setValue: () => {
         // noop
     },

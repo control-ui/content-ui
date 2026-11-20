@@ -1,8 +1,7 @@
 import path from 'path'
 import {fileURLToPath} from 'url'
 import TerserPlugin from 'terser-webpack-plugin'
-import ESLintPlugin from 'eslint-webpack-plugin'
-import eslintFormatter from 'react-dev-utils/eslintFormatter.js'
+import DiagnosticsPlugin from 'diagnostics-webpack-plugin'
 import webpack from 'webpack'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -67,17 +66,6 @@ export default {
                     },
                 }],
             },
-            {
-                test: /\.css$/,
-                use: [
-                    {
-                        loader: 'style-loader',
-                    },
-                    {
-                        loader: 'css-loader',
-                    },
-                ],
-            },
         ],
     },
     optimization: {
@@ -128,13 +116,10 @@ export default {
                 return safeEnv
             })(),
         }),
-        new ESLintPlugin({
-            extensions: ['js', 'jsx', 'ts', 'tsx'],
-            formatter: eslintFormatter,
-            eslintPath: 'eslint',
-            emitWarning: !isProd,
-            failOnError: isProd,
-            failOnWarning: isProd,
+        new DiagnosticsPlugin({
+            checks: [
+                { use: 'eslint', extensions: ['js', 'jsx', 'ts', 'tsx'] },
+            ],
         }),
     ],
 }

@@ -51,7 +51,7 @@ export const ContentInput = <TCodeMirrorProps extends Omit<CodeMirrorComponentPr
         preview,
         textValue, onChange,
         refWarningBox,
-        // eslint-disable-next-line deprecation/deprecation
+        // eslint-disable-next-line @typescript-eslint/no-deprecated
         extensions, editorStyle,
         CodeMirror,
         codeMirrorProps,

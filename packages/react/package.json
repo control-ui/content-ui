@@ -6,7 +6,7 @@
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": "https://github.com/control-ui/content-ui.git",
+        "url": "git+https://github.com/control-ui/content-ui.git",
         "directory": "packages/react"
     },
     "type": "module",

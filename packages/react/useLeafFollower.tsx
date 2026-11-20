@@ -11,7 +11,7 @@ export const useLeafFollower = <E extends HTMLElement = HTMLElement, TNode exten
     const store = useContext(ContentSelectionContext)
     const elemRef = useRef<E | null>(null)
     const {
-        // eslint-disable-next-line deprecation/deprecation
+        // eslint-disable-next-line @typescript-eslint/no-deprecated
         followEditor,
         scrollContainer,
         onFollowElement = scrollIntoViewSafe,

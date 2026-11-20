@@ -6,7 +6,7 @@
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": "https://github.com/control-ui/content-ui.git",
+        "url": "git+https://github.com/control-ui/content-ui.git",
         "directory": "packages/md"
     },
     "type": "module",
@@ -18,6 +18,10 @@
         "./parser/ContentParserExtended": {
             "types": "./parser/ContentParserExtended.d.ts",
             "import": "./parser/ContentParserExtended.js"
+        },
+        "./plugins/remarkDetails": {
+            "types": "./plugins/remarkDetails.d.ts",
+            "import": "./plugins/remarkDetails.js"
         },
         "./plugins/remarkGithubAlert": {
             "types": "./plugins/remarkGithubAlert.d.ts",

@@ -56,6 +56,7 @@ export const WidgetMarkdownEditor: React.ComponentType<WidgetProps & { readOnly?
         {
             selectionSettings: {
                 showOnFocus: true,
+                followFocus: true,
             },
         },
     )
@@ -89,7 +90,6 @@ export const WidgetMarkdownEditor: React.ComponentType<WidgetProps & { readOnly?
 
     return <>
         <SettingsProvider
-            followEditor
             headlineLinkable
             headlineSelectable headlineSelectableOnHover
             headlineOffset={1}
